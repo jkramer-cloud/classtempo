@@ -1,47 +1,37 @@
-CLASSTEMPO — CLASSROOM TIMER STUDIO
+ClassTempo v2.1 — Wide + Narrow + Animated Edition
+=======================================
+A single-file classroom timer and studio for teachers.
 
-START HERE
-1. Open index.html in Chrome, Edge, or another modern web browser.
-2. Choose a preset on the left, or use a Quick Start duration.
-3. Click Start. Use Fullscreen to project the timer for students.
+GITHUB REPOSITORY
+Repository: classtempo
+Upload index.html to the ROOT of the existing repository, replacing its older index.html.
+Keep the GitHub Pages address: https://jkramer-cloud.github.io/classtempo/
+The Learning Hub link does not need an update.
 
-MAKE A START-OF-CLASS SCENE
-1. Choose "Start of Class" on the left.
-2. Under Setup, change title, directions, and duration.
-3. Under Design, pick a theme, timer style, and font.
-4. Under Extras, choose the ending sound and warning.
-5. Click "Update loaded scene" to save changes to the preset, or
-   "Save as a scene" for a separate version such as 1st Period.
-6. In Extras, choose "Make loaded scene the opening scene."
+VIEW SWITCH
+The header has Auto, Wide, and Narrow buttons.
+- Auto: full studio for big screens, tall timer for windows 790px or narrower.
+- Wide: teacher studio with scene list and customization panels.
+- Narrow: tall, projector-friendly split-screen display. Scenes and Customize open side drawers.
+Your layout choice is saved in the browser separately from saved timer scenes.
 
-OTHER FEATURES
-- Four modes: countdown, countdown to a clock time, stopwatch, routines.
-- Custom multiple-stage routines (manual or automatic advancement).
-- Ring, progress bar, digits, and visual blocks.
-- Seven design themes and five font styles.
-- Configurable end messages, chimes, visual warnings and silent mode.
-- Quick time adjustments, fullscreen display, presentation view.
-- Export/Import your scenes through Extras, for backup or another device.
+All previous ClassTempo timer scene data is preserved (localStorage key classtempo.v1).
+The browser timer remains on schedule while changing views or adjusting the browser window.
+The visual ring, progress bar, blocks, and digital countdown all continue to work.
 
-SAVED DATA
-Scenes are saved in the local browser storage for the site/file you open.
-They are NOT automatically synchronized between devices or browsers.
-Save an Export backup before clearing browser data, moving computers,
-or switching from the downloaded HTML file to a hosted web address.
+INSTALLATION
+1. Extract the ZIP.
+2. Replace your repository's index.html with this index.html.
+3. Commit and push with GitHub Desktop (or directly through GitHub).
+4. Refresh the existing ClassTempo website (Ctrl + Shift + R) after GitHub Pages publishes.
 
-SHORTCUTS
-Space = start/pause    R = reset    F = fullscreen
-+ / - = add or remove 1 minute (for countdowns)
-Escape = close fullscreen or dialog
+NOTES
+Your saved scenes and preferences remain on the same browser/device when
+updating the site at its existing URL. Export saved scenes to transfer computers.
+No external libraries, subscriptions, installation, or internet connection required after loading.
 
-FOR YOUR OWN SITE
-The entire app is in index.html with no required external files,
-no third-party libraries, no logins, and no analytics.
-It can be hosted as a standalone GitHub Pages repository or hosted
-on another school-approved static web host. You can also use it offline.
-
-NOTE
-This is a teacher-made style of utility, not associated with Google
-or any of the classroom timer services referenced during design.
-Timers depend on the local device clock. For important transitions,
-keep normal school timekeeping and announcements available as backup.
+ANIMATIONS (NEW)
+Open Customize → Design → Timer animation to select Calm glow, Floating sparkles, Arcade energy, or None.
+The animation choice is saved with each classroom scene and works in both Wide and Narrow mode.
+Animated glow while counting, gentle low-time warning, and a brief celebration when time expires.
+The Reduce motion toggle and your system reduced-motion preference disable these effects.
