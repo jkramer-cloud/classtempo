@@ -170,101 +170,21 @@ body.compact-layout .end-at-start{flex:0 0 auto;font-size:12px;min-height:36px;p
 @media(max-width:480px){body:not(.compact-layout) .end-at-widget{flex-wrap:wrap}body:not(.compact-layout) .end-at-actions{flex:1 1 100%;width:100%}body:not(.compact-layout) .end-at-actions input{flex:1 1 auto}}
 
 
-/* ClassTempo v2.3 — responsive stage geometry.
-   Avoid fixed-height flex shrink colliding with timer text, caption, or controls.
-   Make the center stage content-sized and let the workspace scroll when needed. */
-body:not(.compact-layout) .stage {
-  flex: 0 0 auto;
-  height: auto;
-  min-height: 515px;
-  padding: 22px 20px 20px;
-  gap: 12px;
-  justify-content: space-between;
-}
-body:not(.compact-layout) .stage-top,
-body:not(.compact-layout) .stage-titles,
-body:not(.compact-layout) .stage-bottom {
-  flex: 0 0 auto;
-}
-body:not(.compact-layout) .stage-titles {
-  margin-top: 0;
-}
-body:not(.compact-layout) .timer-area {
-  flex: 1 0 auto;
-  min-height: 0;
-  padding: 8px 0;
-  gap: 12px;
-  justify-content: center;
-}
-body:not(.compact-layout) .ring {
-  flex: 0 0 auto;
-  width: clamp(190px, min(25vw, 30dvh), 282px);
-  height: clamp(190px, min(25vw, 30dvh), 282px);
-  max-width: 100%;
-  aspect-ratio: 1;
-}
-body:not(.compact-layout) .ring .digits {
-  font-size: clamp(42px, 5vw, 66px);
-}
-body:not(.compact-layout) .ring .digits.long {
-  font-size: clamp(32px, 4vw, 52px);
-}
-body:not(.compact-layout) .stage-bottom {
-  margin-top: 0;
-}
-/* In presentation/fullscreen, keep a large ring but still reserve room for captions/buttons. */
-body.presenter:not(.compact-layout) .stage {
-  min-height: calc(100dvh - 95px);
-}
-body.presenter:not(.compact-layout) .ring {
-  width: min(40dvh, 42vw, 400px);
-  height: min(40dvh, 42vw, 400px);
-}
-body:not(.compact-layout) .stage:fullscreen {
-  width: 100vw;
-  height: 100dvh;
-  min-height: 100dvh;
-  max-height: 100dvh;
-  overflow-y: auto;
-  padding: 3dvh 4vw;
-}
-body:not(.compact-layout) .stage:fullscreen .ring {
-  width: min(40dvh, 45vw, 440px);
-  height: min(40dvh, 45vw, 440px);
-}
-/* A very short split-screen still needs room for a title and both controls. */
-@media(max-height:620px) {
-  body:not(.compact-layout) .stage {
-    min-height: 0;
-  }
-  body:not(.compact-layout) .ring {
-    width: clamp(175px, min(23vw, 34dvh), 250px);
-    height: clamp(175px, min(23vw, 34dvh), 250px);
-  }
-  body:not(.compact-layout) .stage:fullscreen .ring {
-    width: min(32dvh, 43vw, 250px);
-    height: min(32dvh, 43vw, 250px);
-  }
-}
-/* For a very narrow forced-Wide window, prefer clean wrapping to clipping. */
-@media(max-width:460px) {
-  body:not(.compact-layout) .stage {
-    min-height: 0;
-    padding: 16px 10px;
-    gap: 11px;
-  }
-  body:not(.compact-layout) .stage-top {
-    gap: 8px;
-  }
-  body:not(.compact-layout) .ring {
-    width: min(58vw, 220px);
-    height: min(58vw, 220px);
-  }
-  body:not(.compact-layout) .stage-bottom {
-    gap: 7px;
-  }
-}
-
+/* School Bell Mode additions */
+.school-settings{padding:13px;border-radius:13px;border:1px solid rgba(120,180,195,.27);background:rgba(100,150,170,.07);margin-bottom:14px}
+.school-settings .field{margin:9px 0}.school-settings select{width:100%;max-width:100%;padding:10px;border-radius:9px}
+.school-check{display:flex!important;gap:9px;align-items:center;margin:10px 0;font-size:13px;line-height:1.4}.school-check input{width:17px;height:17px;flex-shrink:0}
+.stage.school-light{--school-signal:#1fb978;--accent:var(--school-signal)!important;box-shadow:inset 0 0 0 3px var(--school-signal),0 0 28px color-mix(in srgb,var(--school-signal) 28%,transparent)!important;transition:box-shadow .4s ease}
+.stage.school-light .digits{color:var(--school-signal)!important;text-shadow:0 0 20px color-mix(in srgb,var(--school-signal) 35%,transparent)}
+.stage.school-light .ring{--ringcolor:var(--school-signal)!important}
+.stage.school-light .status-message{border:1px solid var(--school-signal);color:var(--school-signal)!important}
+.stage.school-light .big-bar #barFill{background:var(--school-signal)!important}
+.stage.school-light[data-light='red']:not([data-reduced='true']) .digits{animation:schoolPulse 1.15s ease-in-out infinite}
+@keyframes schoolPulse{50%{opacity:.75;filter:brightness(1.3)}}
+.school-status{font-size:clamp(12px,1.4vw,17px);font-weight:700;letter-spacing:.04em;text-align:center;color:var(--school-signal,#7de5bd);margin:6px auto;padding:5px 10px}
+.stage:not(.school-light) .school-status{display:none}
+.stage.school-light .stage-kicker{color:var(--school-signal)!important}
+body.compact-layout .school-settings{padding:10px}
 </style>
 </head>
 <body>
@@ -319,8 +239,21 @@ body:not(.compact-layout) .stage:fullscreen .ring {
     <h2>Make it yours</h2><div class="right-intro">Personalize a timer, then save the whole setup as a reusable classroom scene.</div>
     <div class="tabs" role="tablist" aria-label="Timer settings"><button class="tab active" data-tab="setup">Setup</button><button class="tab" data-tab="look">Design</button><button class="tab" data-tab="routine">Routine</button><button class="tab" data-tab="extras">Extras</button></div>
     <section class="tab-panel active" data-panel="setup">
-      <div class="field"><div class="label">Timer type</div><div class="mode-grid" id="modeChoices"><button class="choice selected" data-mode="countdown">◴ Countdown</button><button class="choice" data-mode="clock">◷ Until a time</button><button class="choice" data-mode="stopwatch">↗ Stopwatch</button><button class="choice" data-mode="routine">☷ Routine</button></div></div>
-      <div class="field"><label for="titleInput">Activity title</label><input id="titleInput" type="text" maxlength="80" placeholder="Welcome to class"></div>
+      <div class="field"><div class="label">Timer type</div><div class="mode-grid" id="modeChoices"><button class="choice selected" data-mode="countdown">◴ Countdown</button><button class="choice" data-mode="clock">◷ Until a time</button><button class="choice" data-mode="stopwatch">↗ Stopwatch</button><button class="choice" data-mode="routine">☷ Routine</button><button class="choice" data-mode="school">▣ School bells</button></div></div>
+      <div class="field school-settings hidden" id="schoolSettings">
+ <div class="label">Naches Valley Middle School · 2026–27</div>
+ <div class="field"><label for="schoolGrade">Grade you teach</label><select id="schoolGrade"><option value="5">5th grade</option><option value="6">6th grade</option><option value="7">7th grade</option><option value="8">8th grade</option></select></div>
+ <div class="field"><label for="schoolOverride">Bell schedule</label><select id="schoolOverride"><option value="auto">Automatic (Monday late start)</option><option value="monday">Monday late start</option><option value="regular">Tuesday–Friday regular</option></select><div class="field-help">Automatic selects by weekday; weekends show no school. Use an override for unusual days.</div></div>
+ <label class="school-check"><input type="checkbox" id="schoolPassing" checked> Show passing time countdowns</label>
+ <label class="school-check"><input type="checkbox" id="schoolStoplight" checked> Stoplight display: green → yellow → red</label>
+ <div class="field"><label for="schoolYellow">Turn yellow with this much time left</label><select id="schoolYellow"><option value="60">1 minute</option><option value="120" selected>2 minutes</option><option value="180">3 minutes</option><option value="300">5 minutes</option></select></div>
+ <div class="field"><label for="schoolRed">Turn red at</label><select id="schoolRed"><option value="15">15 seconds</option><option value="25" selected>25 seconds (school intercom song)</option><option value="30">30 seconds</option><option value="45">45 seconds</option></select></div>
+ <label class="school-check"><input type="checkbox" id="schoolNextBell" checked> Show next bell information</label>
+ <label class="school-check"><input type="checkbox" id="schoolSound"> Play an optional short bell sound at transitions</label>
+ <label class="school-check"><input type="checkbox" id="schoolManualLight"> Also apply stoplight colors to ordinary countdown timers</label>
+ <div class="field-help">Bell times are based on your saved NVMS schedule. Clock time comes from this computer; intercom music is not detected. No additional audio plays by default.</div>
+ </div>
+ <div class="field"><label for="titleInput">Activity title</label><input id="titleInput" type="text" maxlength="80" placeholder="Welcome to class"></div>
       <div class="field"><label for="subtitleInput">Instructions for students</label><textarea id="subtitleInput" maxlength="240" rows="3" placeholder="What should students do?"></textarea></div>
       <div class="field" id="durationFields"><div class="label">Countdown duration</div><div class="field-grid"><div><label class="eyebrow" for="minutesInput">Minutes</label><input type="number" id="minutesInput" min="0" max="999" step="1" value="5"></div><div><label class="eyebrow" for="secondsInput">Seconds</label><input type="number" id="secondsInput" min="0" max="59" step="1" value="0"></div></div></div>
       <div class="field hidden" id="targetFields"><label for="targetInput">Countdown until this clock time</label><input type="time" id="targetInput"><div class="field-help">Uses this computer's local time. Starting a timer for a time already passed today requires changing the target.</div></div>
@@ -377,7 +310,7 @@ function chooseLayout(mode){if(!['auto','wide','narrow'].includes(mode))return;l
 function toggleDrawer(which){if(!isCompact()||document.body.classList.contains('presenter'))return;const wanted=drawerOpen===which?null:which;closeDrawer();if(wanted){drawerOpen=wanted;document.body.classList.add('drawer-'+wanted);$(wanted==='scenes'?'scenesDrawerBtn':'settingsDrawerBtn').setAttribute('aria-expanded','true');$(wanted==='scenes'?'closeScenesBtn':'closeSettingsBtn').focus()}}
 
 const DEFAULT_STEPS=[{title:'Get ready',sec:300},{title:'Independent work',sec:900},{title:'Clean up',sec:180}];
-const BASE={mode:'countdown',title:'Welcome to Class',subtitle:'Find your seat, open today’s assignment, and begin your warm-up.',durationSec:300,targetTime:'08:00',endMessage:'Time to begin!',visual:'ring',theme:'sunrise',font:'rounded',accent:'#ffcf8a',bg:'#182b43',sound:'chime',warningSec:60,warningSound:false,showClock:true,reduceMotion:false,animation:'sparkles',largeText:false,autoNext:false,steps:DEFAULT_STEPS};
+const BASE={mode:'countdown',title:'Welcome to Class',subtitle:'Find your seat, open today’s assignment, and begin your warm-up.',durationSec:300,targetTime:'08:00',endMessage:'Time to begin!',visual:'ring',theme:'sunrise',font:'rounded',accent:'#ffcf8a',bg:'#182b43',sound:'chime',warningSec:60,warningSound:false,showClock:true,reduceMotion:false,animation:'sparkles',largeText:false,autoNext:false,schoolGrade:'6',schoolOverride:'auto',schoolPassing:true,schoolStoplight:true,schoolYellow:120,schoolRed:25,schoolNextBell:true,schoolSound:false,schoolManualLight:false,steps:DEFAULT_STEPS};
 const starter=[
 {id:'start-class',name:'Start of Class',icon:'☀',config:{...BASE,mode:'countdown',title:'Welcome to Class',subtitle:'Find your seat, open today’s assignment, and begin the warm-up.',durationSec:300,theme:'sunrise',accent:'#ffcf8a',endMessage:'Let’s get started!'}},
 {id:'bell-ringer',name:'Bell Ringer',icon:'✎',config:{...BASE,title:'Bell Ringer',subtitle:'Read the prompt and get started independently.',durationSec:420,theme:'chalk',accent:'#d8f6a5',endMessage:'Let’s review your thinking.'}},
@@ -391,7 +324,7 @@ const clamp=(x,a,b)=>Math.min(b,Math.max(a,x));
 const safeText=(x,max=240)=>String(x??'').slice(0,max);
 const defaults=()=>JSON.parse(JSON.stringify(BASE));
 function sanitizeStep(s){return {title:safeText(s?.title||'Activity',80),sec:clamp(Math.round(Number(s?.sec)||60),1,59999)}}
-function safeConfig(raw){const r={...defaults(),...(raw&&typeof raw==='object'?raw:{})}; const allow=(k,set,def)=>set.includes(r[k])?r[k]:def; r.mode=allow('mode',['countdown','clock','stopwatch','routine'],'countdown');r.visual=allow('visual',['ring','bar','digits','blocks'],'ring');r.theme=allow('theme',['midnight','sunrise','ocean','chalk','arcade','paper','custom'],'sunrise');r.font=allow('font',['rounded','clean','classic','mono','bold'],'rounded');r.sound=allow('sound',['chime','school','arcade','gentle','silent'],'chime');r.animation=allow('animation',['calm','sparkles','arcade','off'],'sparkles');r.title=safeText(r.title,80);r.subtitle=safeText(r.subtitle,240);r.endMessage=safeText(r.endMessage,100);r.durationSec=clamp(Math.round(Number(r.durationSec)||300),1,59999);r.targetTime=/^([01]\d|2[0-3]):[0-5]\d$/.test(r.targetTime)?r.targetTime:'08:00';r.warningSec=[0,30,60,120,300].includes(Number(r.warningSec))?Number(r.warningSec):60;r.accent=/^#[a-f\d]{6}$/i.test(r.accent)?r.accent:'#7de5bd';r.bg=/^#[a-f\d]{6}$/i.test(r.bg)?r.bg:'#182b43';for(const k of ['warningSound','showClock','reduceMotion','largeText','autoNext'])r[k]=!!r[k];r.steps=(Array.isArray(r.steps)?r.steps:DEFAULT_STEPS).slice(0,20).map(sanitizeStep);if(!r.steps.length)r.steps=[sanitizeStep(DEFAULT_STEPS[0])];return r}
+function safeConfig(raw){const r={...defaults(),...(raw&&typeof raw==='object'?raw:{})}; const allow=(k,set,def)=>set.includes(r[k])?r[k]:def; r.mode=allow('mode',['countdown','clock','stopwatch','routine','school'],'countdown');r.visual=allow('visual',['ring','bar','digits','blocks'],'ring');r.theme=allow('theme',['midnight','sunrise','ocean','chalk','arcade','paper','custom'],'sunrise');r.font=allow('font',['rounded','clean','classic','mono','bold'],'rounded');r.sound=allow('sound',['chime','school','arcade','gentle','silent'],'chime');r.animation=allow('animation',['calm','sparkles','arcade','off'],'sparkles');r.title=safeText(r.title,80);r.subtitle=safeText(r.subtitle,240);r.endMessage=safeText(r.endMessage,100);r.durationSec=clamp(Math.round(Number(r.durationSec)||300),1,59999);r.targetTime=/^([01]\d|2[0-3]):[0-5]\d$/.test(r.targetTime)?r.targetTime:'08:00';r.warningSec=[0,30,60,120,300].includes(Number(r.warningSec))?Number(r.warningSec):60;r.accent=/^#[a-f\d]{6}$/i.test(r.accent)?r.accent:'#7de5bd';r.bg=/^#[a-f\d]{6}$/i.test(r.bg)?r.bg:'#182b43';for(const k of ['warningSound','showClock','reduceMotion','largeText','autoNext'])r[k]=!!r[k];r.schoolGrade=['5','6','7','8'].includes(String(r.schoolGrade))?String(r.schoolGrade):'6';r.schoolOverride=['auto','monday','regular'].includes(r.schoolOverride)?r.schoolOverride:'auto';r.schoolYellow=[60,120,180,300].includes(+r.schoolYellow)?+r.schoolYellow:120;r.schoolRed=[15,25,30,45].includes(+r.schoolRed)?+r.schoolRed:25;for(const key of ['schoolPassing','schoolStoplight','schoolNextBell','schoolSound','schoolManualLight'])r[key]=!!r[key];r.steps=(Array.isArray(r.steps)?r.steps:DEFAULT_STEPS).slice(0,20).map(sanitizeStep);if(!r.steps.length)r.steps=[sanitizeStep(DEFAULT_STEPS[0])];return r}
 function newEngine(){return {status:'idle',remainingMs:0,elapsedMs:0,deadlineMs:null,startedAt:null,stepIndex:0,phaseTotalMs:0,warningDone:false,laps:[],lastTick:Date.now()}}
 let scenes=starter.map(s=>({id:s.id,name:s.name,icon:s.icon,config:safeConfig(s.config)}));let selectedId='start-class',openingId='start-class',config=safeConfig(scenes[0].config),engine=newEngine(),dirty=false;
 let modalAction=null,toastHandle=null,audioCtx=null,wakeLock=null;
@@ -427,17 +360,56 @@ function startAtClockTime(){
  updateConfig({mode:'clock',targetTime:value});
  startTimer();
 }
-function renderInputs(){for(const [id,key] of [['titleInput','title'],['subtitleInput','subtitle'],['endMessageInput','endMessage'],['targetInput','targetTime'],['fontInput','font'],['soundInput','sound'],['animationInput','animation'],['warningInput','warningSec']]){const n=$(id);if(n && n.value!==String(config[key]))n.value=config[key]};$('quickTargetInput').value=quickTargetValue();$('endAtWidget').classList.toggle('active',config.mode==='clock');$('endAtHint').textContent=config.mode==='clock'?'Current finish time · change it here anytime':'Choose the clock time when class should finish';$('minutesInput').value=Math.floor(config.durationSec/60);$('secondsInput').value=config.durationSec%60;for(const [id,key] of [['showClockInput','showClock'],['reduceMotionInput','reduceMotion'],['largeTextInput','largeText'],['autoNextInput','autoNext'],['warningSoundInput','warningSound']])$(id).checked=config[key];$('accentInput').value=config.accent;$('bgInput').value=config.bg;for(const button of document.querySelectorAll('[data-mode]'))button.classList.toggle('selected',button.dataset.mode===config.mode);for(const button of document.querySelectorAll('[data-theme]'))button.classList.toggle('selected',button.dataset.theme===config.theme);for(const button of document.querySelectorAll('[data-visual]'))button.classList.toggle('selected',button.dataset.visual===config.visual);$('durationFields').classList.toggle('hidden',config.mode!=='countdown');$('targetFields').classList.toggle('hidden',config.mode!=='clock');$('stopwatchHelp').classList.toggle('hidden',config.mode!=='stopwatch');$('routineHelp').classList.toggle('hidden',config.mode!=='routine');$('endMessageInput').closest('.field').classList.toggle('hidden',config.mode==='stopwatch');$('nextStep').classList.toggle('hidden',config.mode!=='routine');$('prevStep').classList.toggle('hidden',config.mode!=='routine');$('plusOne').classList.toggle('hidden',config.mode==='stopwatch'||config.mode==='clock');$('plusFive').classList.toggle('hidden',config.mode==='stopwatch'||config.mode==='clock');$('minusOne').classList.toggle('hidden',config.mode==='stopwatch'||config.mode==='clock');$('lapBtn').classList.toggle('hidden',config.mode!=='stopwatch');$('lapPanel').classList.toggle('hidden',config.mode!=='stopwatch');$('quickButtons').closest('.quick-panel').classList.toggle('hidden',config.mode==='routine');$('updateSceneBtn').disabled=!scenes.some(s=>s.id===selectedId);$('setDefaultBtn').textContent=selectedId===openingId?'★ Loaded scene opens by default':'☆ Make loaded scene the opening scene'}
+function renderInputs(){if(config.mode!=='school'){$('startBtn').title='';$('resetBtn').textContent='↺ Reset';$('resetBtn').title=''}for(const [id,key] of [['titleInput','title'],['subtitleInput','subtitle'],['endMessageInput','endMessage'],['targetInput','targetTime'],['fontInput','font'],['soundInput','sound'],['animationInput','animation'],['warningInput','warningSec']]){const n=$(id);if(n && n.value!==String(config[key]))n.value=config[key]};$('quickTargetInput').value=quickTargetValue();$('endAtWidget').classList.toggle('active',config.mode==='clock');$('endAtHint').textContent=config.mode==='clock'?'Current finish time · change it here anytime':'Choose the clock time when class should finish';$('minutesInput').value=Math.floor(config.durationSec/60);$('secondsInput').value=config.durationSec%60;for(const [id,key] of [['showClockInput','showClock'],['reduceMotionInput','reduceMotion'],['largeTextInput','largeText'],['autoNextInput','autoNext'],['warningSoundInput','warningSound']])$(id).checked=config[key];$('accentInput').value=config.accent;$('bgInput').value=config.bg;for(const button of document.querySelectorAll('[data-mode]'))button.classList.toggle('selected',button.dataset.mode===config.mode);for(const button of document.querySelectorAll('[data-theme]'))button.classList.toggle('selected',button.dataset.theme===config.theme);for(const button of document.querySelectorAll('[data-visual]'))button.classList.toggle('selected',button.dataset.visual===config.visual);$('schoolSettings').classList.toggle('hidden',config.mode!=='school');for(const [id,key] of [['schoolGrade','schoolGrade'],['schoolOverride','schoolOverride'],['schoolYellow','schoolYellow'],['schoolRed','schoolRed']])$(id).value=String(config[key]);for(const [id,key] of [['schoolPassing','schoolPassing'],['schoolStoplight','schoolStoplight'],['schoolNextBell','schoolNextBell'],['schoolSound','schoolSound'],['schoolManualLight','schoolManualLight']])$(id).checked=config[key];$('durationFields').classList.toggle('hidden',config.mode!=='countdown');$('targetFields').classList.toggle('hidden',config.mode!=='clock');$('stopwatchHelp').classList.toggle('hidden',config.mode!=='stopwatch');$('routineHelp').classList.toggle('hidden',config.mode!=='routine');$('endMessageInput').closest('.field').classList.toggle('hidden',config.mode==='stopwatch');$('nextStep').classList.toggle('hidden',config.mode!=='routine');$('prevStep').classList.toggle('hidden',config.mode!=='routine');$('plusOne').classList.toggle('hidden',config.mode==='stopwatch'||config.mode==='clock');$('plusFive').classList.toggle('hidden',config.mode==='stopwatch'||config.mode==='clock');$('minusOne').classList.toggle('hidden',config.mode==='stopwatch'||config.mode==='clock');$('lapBtn').classList.toggle('hidden',config.mode!=='stopwatch');$('lapPanel').classList.toggle('hidden',config.mode!=='stopwatch');$('quickButtons').closest('.quick-panel').classList.toggle('hidden',config.mode==='routine'||config.mode==='school');$('updateSceneBtn').disabled=!scenes.some(s=>s.id===selectedId);$('setDefaultBtn').textContent=selectedId===openingId?'★ Loaded scene opens by default':'☆ Make loaded scene the opening scene'}
 function renderRoutineEditor(){const editor=$('routineEditor');editor.replaceChildren();config.steps.forEach((step,i)=>{const card=document.createElement('div');card.className='routine-step';const head=document.createElement('div');head.className='routine-head';const title=document.createElement('span');title.textContent=`STEP ${i+1}`;const acts=document.createElement('span');acts.className='step-actions';for(const [symbol,titleText,diff] of [['↑','Move earlier',-1],['↓','Move later',1]]){const b=document.createElement('button');b.className='btn tiny';b.textContent=symbol;b.title=titleText;b.disabled=i+diff<0||i+diff>=config.steps.length;b.onclick=()=>{let steps=config.steps.map(s=>({...s}));[steps[i],steps[i+diff]]=[steps[i+diff],steps[i]];updateConfig({steps});renderRoutineEditor()};acts.append(b)}const del=document.createElement('button');del.className='btn tiny danger';del.textContent='×';del.title='Remove step';del.disabled=config.steps.length===1;del.onclick=()=>{if(config.steps.length===1){notify('Keep at least one step');return}updateConfig({steps:config.steps.filter((_,j)=>j!==i)});renderRoutineEditor()};acts.append(del);head.append(title,acts);const row=document.createElement('div');row.className='step-row';const name=document.createElement('input');name.value=step.title;name.maxLength=80;name.setAttribute('aria-label',`Step ${i+1} title`);const min=document.createElement('input');min.type='number';min.min=0;min.max=999;min.value=Math.floor(step.sec/60);min.title='Minutes';min.setAttribute('aria-label',`Step ${i+1} minutes`);const sec=document.createElement('input');sec.type='number';sec.min=0;sec.max=59;sec.value=step.sec%60;sec.title='Seconds';sec.setAttribute('aria-label',`Step ${i+1} seconds`);name.addEventListener('input',()=>{config.steps[i].title=safeText(name.value,80);if(config.mode==='routine'){resetEngine(false);renderTimer()}saveDirty()});for(const [el,unit] of [[min,60],[sec,1]])el.addEventListener('change',()=>{const mn=clamp(parseInt(min.value,10)||0,0,999),ss=clamp(parseInt(sec.value,10)||0,0,59);config.steps[i].sec=Math.max(1,mn*60+ss);resetEngine(false);renderTimer();saveDirty();min.value=Math.floor(config.steps[i].sec/60);sec.value=config.steps[i].sec%60});row.append(name,min,sec);card.append(head,row);editor.append(card)});$('addStepBtn').disabled=config.steps.length>=20}
 function renderLapList(){const list=$('lapList');list.replaceChildren();if(engine.laps.length===0){list.textContent='No laps recorded yet.';return}engine.laps.slice().reverse().forEach((ms,j)=>{const r=document.createElement('div');const n=document.createElement('span');n.textContent=`Lap ${engine.laps.length-j}`;const t=document.createElement('strong');t.textContent=stopwatchString(ms);r.append(n,t);list.append(r)})}
 function warningColor(rem){return config.warningSec>0 && rem<=config.warningSec*1000?'#ffbf6f':null}
 function currentRemaining(now=Date.now()){if(config.mode==='stopwatch')return 0;if(config.mode==='clock'){if(engine.status==='running')return Math.max(0,engine.deadlineMs-now);if(engine.status==='idle')return Math.max(0,todayDeadline()-now)}if(engine.status==='running')return Math.max(0,engine.deadlineMs-now);return engine.remainingMs}
 function renderTimer(){const now=Date.now(),clockMode=config.mode==='clock',sw=config.mode==='stopwatch',routine=config.mode==='routine';let time=sw?(engine.status==='running'?now-engine.startedAt:engine.elapsedMs):currentRemaining(now);let total=clockMode?(engine.status==='idle'?Math.max(1,todayDeadline()-now):engine.phaseTotalMs):sw?60000:engine.phaseTotalMs||durationForPhase();let pct=sw?((time%60000)/60000)*100:clamp(100*(time/Math.max(1,total)),0,100);const stage=$('stage');stage.dataset.theme=config.theme;stage.dataset.visual=config.visual;stage.dataset.stageFont=config.font;stage.dataset.reduced=String(config.reduceMotion);stage.dataset.motion=config.animation;stage.dataset.state=engine.status;stage.dataset.warning=String(engine.status==='running'&&!sw&&config.warningSec>0&&time>0&&time<=config.warningSec*1000);stage.style.setProperty('--custom-bg',config.bg);if(config.theme==='custom')stage.style.setProperty('--accent',config.accent);else if(config.accent && config.accent!==BASE.accent){/* Accent overrides saved per scene */stage.style.setProperty('--accent',config.accent)}else stage.style.removeProperty('--accent');if(config.theme==='paper'){stage.style.setProperty('--stagetxt','#183049')}else stage.style.removeProperty('--stagetxt');stage.classList.toggle('large-text',config.largeText);
- const shown=sw?stopwatchString(time):clockString(time);$('ringDigits').textContent=shown;$('bigDigits').textContent=shown;for(const el of [$('ringDigits'),$('bigDigits')]){el.classList.toggle('long',shown.length>5);el.style.fontSize=config.largeText?(el.id==='ringDigits'?'clamp(55px,6vw,83px)':'clamp(94px,11vw,184px)'):''}const label=sw?'ELAPSED':clockMode?`UNTIL ${config.targetTime}`:routine?`STEP ${engine.stepIndex+1} OF ${config.steps.length}`:'REMAINING';$('ringCaption').textContent=label;$('bigCaption').textContent=label;$('ring').style.setProperty('--pct',pct.toFixed(3));$('ring').style.setProperty('--ringcolor',warningColor(time)||'var(--accent)');$('ring').setAttribute('aria-valuenow',String(Math.round(pct)));$('ring').setAttribute('aria-valuetext',shown+' remaining');$('barFill').style.width=pct.toFixed(2)+'%';$('barFill').style.background=warningColor(time)||'';let blocks=$('blocks');blocks.replaceChildren();for(let i=0;i<20;i++){const b=document.createElement('div');if(i/20<pct/100)b.className='filled';blocks.appendChild(b)}
+ const shown=sw?stopwatchString(time):clockString(time);$('ringDigits').textContent=shown;$('bigDigits').textContent=shown;for(const el of [$('ringDigits'),$('bigDigits')]){el.classList.toggle('long',shown.length>5);el.style.fontSize=config.largeText?(el.id==='ringDigits'?'clamp(55px,6vw,83px)':'clamp(94px,11vw,184px)'):''}const label=sw?'ELAPSED':clockMode?`UNTIL ${config.targetTime}`:routine?`STEP ${engine.stepIndex+1} OF ${config.steps.length}`:'REMAINING';$('ringCaption').textContent=label;$('bigCaption').textContent=label;$('stage').classList.remove('school-light');$('stage').removeAttribute('data-light');$('stage').style.removeProperty('--school-signal');if(config.mode!=='school'&&config.schoolManualLight&&!sw&&time>=0){let light=time<=config.schoolRed*1000?'red':time<=config.schoolYellow*1000?'yellow':'green';$('stage').classList.add('school-light');$('stage').dataset.light=light;$('stage').style.setProperty('--school-signal',light==='red'?'#ff5268':light==='yellow'?'#f7bc46':'#39d894')}$('ring').style.setProperty('--pct',pct.toFixed(3));$('ring').style.setProperty('--ringcolor',warningColor(time)||'var(--accent)');$('ring').setAttribute('aria-valuenow',String(Math.round(pct)));$('ring').setAttribute('aria-valuetext',shown+' remaining');$('barFill').style.width=pct.toFixed(2)+'%';$('barFill').style.background=warningColor(time)||'';let blocks=$('blocks');blocks.replaceChildren();for(let i=0;i<20;i++){const b=document.createElement('div');if(i/20<pct/100)b.className='filled';blocks.appendChild(b)}
  $('activity').textContent=engine.status==='done'&&!sw?(config.endMessage||'Time is up!'):(routine?(activeStep()?.title||config.title):config.title);$('subtitle').textContent=engine.status==='done'&&!sw?config.title:config.subtitle;$('stageKicker').textContent=routine?`TODAY’S ROUTINE · ${engine.stepIndex+1}/${config.steps.length}`:sw?'STOPWATCH':clockMode?'BELL-TIME COUNTDOWN':'CLASSROOM TIMER';$('stageClock').hidden=!config.showClock;$('stageClock').textContent=new Date(now).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
  const msg=$('timerMessage');msg.className='status-message';let pill='READY TO START',txt='Ready when you are';if(engine.status==='done'){pill='FINISHED';txt=config.endMessage||'Time is up!';msg.classList.add('done')}else if(engine.status==='paused'){pill='PAUSED';txt='Paused — press Resume to continue'}else if(engine.status==='running'){pill='RUNNING';txt='Timer is running';if(!sw&&config.warningSec>0&&time>0&&time<=config.warningSec*1000){txt='Wrap up — almost time!';msg.classList.add('warning')}}else if(clockMode&&todayDeadline()<=now){txt='Target time has passed today';pill='SET A FUTURE TIME'}else if(routine&&engine.stepIndex>0){txt='Ready for the next step'}msg.textContent=txt;$('statePill').textContent=pill;
  $('startBtn').textContent=engine.status==='running'?'Ⅱ Pause':engine.status==='paused'?'▶ Resume':engine.status==='done'?'↺ Restart':'▶ Start';$('startBtn').classList.toggle('primary',engine.status!=='running');$('workspaceCrumb').textContent=routine?`${config.title} · Step ${engine.stepIndex+1} of ${config.steps.length}`:config.title;
  $('routineMini').classList.toggle('hidden',!routine);if(routine){$('routineMini').replaceChildren();config.steps.forEach((step,i)=>{const b=document.createElement('span');b.textContent=(i<engine.stepIndex?'✓ ':i===engine.stepIndex?'● ':'')+step.title;if(i===engine.stepIndex)b.className='current';$('routineMini').append(b)})}$('prevStep').disabled=engine.stepIndex===0;$('nextStep').disabled=engine.stepIndex===config.steps.length-1;
+ if(config.mode==='school')renderSchoolStage(now);
+}
+// NVMS 2026–27 bell-time schedule. Minute offsets are local wall-clock minutes.
+const SCHOOL_BELLS={
+ monday:{common:[['1st Period','09:05','09:35'],['2nd Period','09:40','10:10'],['3rd Period','10:15','10:45'],['4th Period','10:50','11:20']],lower:[['Lunch','11:20','12:10'],['5th Period','12:15','12:50']],upper:[['5th Period','11:25','12:10'],['Lunch','12:10','12:50']],end:[['6th Period','12:55','13:30'],['7th Period','13:35','14:35']]},
+ regular:{common:[['1st Period','08:05','09:00'],['2nd Period','09:05','09:52'],['3rd Period','09:57','10:44'],['4th Period','10:49','11:36']],lower:[['Lunch','11:36','12:20'],['5th Period','12:24','12:50']],upper:[['5th Period','11:40','12:20'],['Lunch','12:20','12:50']],end:[['6th Period','12:55','13:42'],['7th Period','13:47','14:35']]}
+};
+const schoolMinutes=t=>{const [h,m]=t.split(':').map(Number);return h*60+m};
+const schoolClock=t=>new Date(2000,0,1,Math.floor(t/60),t%60).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+let lastSchoolBoundary='';
+function schoolPlan(date){const dow=date.getDay(),day=config.schoolOverride==='auto'?(dow===1?'monday':'regular'):config.schoolOverride;
+ if(config.schoolOverride==='auto'&&(dow===0||dow===6))return {entries:[],day:'weekend'};
+ const sch=SCHOOL_BELLS[day],entries=[...sch.common,...(+config.schoolGrade<=6?sch.lower:sch.upper),...sch.end].map(([name,start,end])=>({name,start:schoolMinutes(start),end:schoolMinutes(end)}));entries.sort((a,b)=>a.start-b.start);return {entries,day};}
+function schoolPosition(date){const {entries,day}=schoolPlan(date),nowSec=date.getHours()*3600+date.getMinutes()*60+date.getSeconds()+date.getMilliseconds()/1000;
+ if(!entries.length)return {name:'No school today',details:'Weekend · manual timers are still available',remain:0,total:1,type:'closed',next:null,day};
+ for(let i=0;i<entries.length;i++){
+ const x=entries[i],start=x.start*60,end=x.end*60;
+ if(nowSec<start){const prev=entries[i-1],isPassing=!!prev&&nowSec>=prev.end*60;
+ return {name:isPassing?'Passing Period':'Before School',details:`Next: ${x.name} at ${schoolClock(x.start)}`,remain:start-nowSec,total:Math.max(1,start-(isPassing?prev.end*60:Math.floor(nowSec))),type:isPassing?'passing':'waiting',next:x,day};}
+ if(nowSec<end){const next=entries[i+1]||null;return {name:x.name,details:x.name==='Lunch'?'Lunch break':next?`Next: ${next.name} at ${schoolClock(next.start)}`:'Last period of the day',remain:end-nowSec,total:end-start,type:x.name==='Lunch'?'lunch':'class',next,day};}
+ }
+ return {name:'School Day Complete',details:'All scheduled bells have finished',remain:0,total:1,type:'closed',next:null,day};
+}
+function renderSchoolStage(now){const stage=$('stage'),item=schoolPosition(new Date(now)),left=Math.max(0,Math.ceil(item.remain)),shown=clockString(left*1000),pct=clamp(100*item.remain/item.total,0,100);
+ const canStoplight=config.schoolStoplight&&item.type!=='closed'&&item.type!=='waiting';const light=left<=config.schoolRed?'red':left<=config.schoolYellow?'yellow':'green';
+ stage.classList.toggle('school-light',canStoplight);stage.dataset.light=canStoplight?light:'off';stage.style.setProperty('--school-signal',!canStoplight?'#7de5bd':light==='red'?'#ff5268':light==='yellow'?'#f7bc46':'#39d894');stage.dataset.warning=String(canStoplight&&light!=='green');
+ if(item.type==='passing'&&!config.schoolPassing){item.name='Next Class Starts Soon';item.details=item.next?`${item.next.name} begins at ${schoolClock(item.next.start)}`:item.details;}$('activity').textContent=item.name;$('subtitle').textContent=item.details;$('stageKicker').textContent=`NVMS · GRADE ${config.schoolGrade} · ${item.day==='monday'?'MONDAY LATE START':item.day==='weekend'?'WEEKEND':'REGULAR BELLS'}`;
+ $('ringDigits').textContent=shown;$('bigDigits').textContent=shown;
+ for(const el of [$('ringDigits'),$('bigDigits')])el.classList.toggle('long',shown.length>5);
+ $('ringCaption').textContent='UNTIL NEXT BELL';$('bigCaption').textContent='UNTIL NEXT BELL';$('ring').style.setProperty('--pct',pct.toFixed(3));$('ring').style.setProperty('--ringcolor',canStoplight?'var(--school-signal)':'var(--accent)');$('barFill').style.width=pct.toFixed(2)+'%';$('ring').setAttribute('aria-valuenow',String(Math.round(pct)));$('ring').setAttribute('aria-valuetext',shown+' until next bell');
+ const msg=$('timerMessage');msg.className='status-message';const final=canStoplight&&light==='red';msg.textContent=final?'FINAL 25-SECOND WARNING'.replace('25',String(config.schoolRed)):canStoplight&&light==='yellow'?'FINISH UP · BELL APPROACHING':item.type==='passing'?'HEAD TO YOUR NEXT CLASS':item.type==='class'?'CLASS IN PROGRESS':item.type==='lunch'?'LUNCH BREAK':item.details;
+ $('statePill').textContent=item.type==='closed'?'NO ACTIVE BELL':item.type==='waiting'?'BEFORE SCHOOL':item.type==='passing'?'PASSING TIME':item.type==='lunch'?'LUNCH':'AUTO BELL MODE';$('workspaceCrumb').textContent='School bell schedule · '+(item.day==='monday'?'Monday':item.day==='weekend'?'Weekend':'Tuesday–Friday');
+ $('startBtn').textContent='◴ Use manual timer';$('startBtn').title='Switch to a manual countdown timer';$('resetBtn').textContent='↻ Sync clock';$('resetBtn').title='Recheck computer clock';
+ for(const id of ['plusOne','plusFive','prevStep','nextStep','lapBtn'])$(id).classList.add('hidden');
+ $('routineMini').classList.toggle('hidden',!config.schoolNextBell);$('routineMini').replaceChildren();if(config.schoolNextBell){const line=document.createElement('span');line.textContent=item.next?`NEXT: ${item.next.name} · ${schoolClock(item.next.start)}`:item.type==='closed'?'SCHOOL SCHEDULE INACTIVE':'FINAL PERIOD';$('routineMini').append(line)}
+ if(config.schoolSound){const key=[new Date(now).toDateString(),item.name,Math.floor(now/1000)].join('|'); // Trigger only on actual transitions, not when loading the page.
+ const boundaryTime=item.type==='class'||item.type==='lunch'||item.type==='passing'?left:0;
+ const identity=[new Date(now).toDateString(),item.name,item.type].join('|');if(lastSchoolBoundary&&lastSchoolBoundary!==identity&&item.type!=='closed')soundPlay('warning');lastSchoolBoundary=identity;
+ }else lastSchoolBoundary=[new Date(now).toDateString(),item.name,item.type].join('|');
 }
 function render(){renderScenes();renderInputs();renderRoutineEditor();renderLapList();renderTimer()}
 function warmAudio(){if(audioCtx)return audioCtx;try{audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume().catch(()=>{});return audioCtx}catch(e){return null}}
@@ -493,7 +465,7 @@ function saveScene(name,makeDefault=false,overwriteId=null){name=safeText(name.t
 function modalOpen({title,description,value,confirm,defaultChecked=false,showDefault=true,onConfirm}){modalAction=onConfirm;$('modalTitle').textContent=title;$('modalDesc').textContent=description;$('modalName').value=value||'';$('modalConfirm').textContent=confirm;$('modalDefault').checked=defaultChecked;$('modalDefault').closest('label').classList.toggle('hidden',!showDefault);$('modalShell').classList.add('open');setTimeout(()=>$('modalName').focus(),50)}
 function modalClose(){$('modalShell').classList.remove('open');modalAction=null}
 function saveModal(overwrite=null){const selected=scenes.find(s=>s.id===selectedId);modalOpen({title:overwrite?'Update saved scene':'Save a classroom scene',description:'This saves the entire setup: title, instructions, time, theme, font, alert, and routine steps.',value:overwrite?selected?.name:config.title,confirm:overwrite?'Update scene':'Save scene',defaultChecked:overwrite&&selectedId===openingId,showDefault:true,onConfirm:(name,flag)=>saveScene(name,flag,overwrite)})}
-function updateMode(mode){if(!['countdown','clock','stopwatch','routine'].includes(mode))return;updateConfig({mode});if(mode==='routine')selectTab('routine')}
+function updateMode(mode){if(!['countdown','clock','stopwatch','routine','school'].includes(mode))return;updateConfig({mode});if(mode==='routine')selectTab('routine')}
 function addQuickTime(min){updateConfig({mode:'countdown',durationSec:min*60,title:`${min}-Minute Timer`,subtitle:'Stay focused. You have this much time to finish.',endMessage:'Time is up!'},{});notify(`${min}-minute timer is ready`)}
 function themeCustomPick(key,value){const patch={[key]:value,theme:'custom'};updateConfig(patch,{reset:false})}
 function hook(){
@@ -506,7 +478,7 @@ function hook(){
  window.addEventListener('resize',()=>{const before=document.body.classList.contains('compact-layout');updateLayout();if(before!==isCompact())closeDrawer()});
  updateLayout();
  for(const min of [1,2,3,5,10,15,20,30,45,60]){const b=document.createElement('button');b.className='btn small';b.textContent=`${min}m`;b.title=`Set a ${min}-minute timer`;b.addEventListener('click',()=>addQuickTime(min));$('quickButtons').append(b)}
- $('endAtStart').onclick=startAtClockTime;$('quickTargetInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();startAtClockTime()}}); $('startBtn').onclick=()=>{if(engine.status==='running')pauseTimer();else startTimer()};$('resetBtn').onclick=()=>{resetEngine();notify('Timer reset')};$('plusOne').onclick=()=>adjustTime(60);$('plusFive').onclick=()=>adjustTime(300);$('minusOne').onclick=()=>adjustTime(-60);$('prevStep').onclick=()=>advanceStep(-1);$('nextStep').onclick=()=>advanceStep(1);$('lapBtn').onclick=()=>{if(config.mode!=='stopwatch')return;const tm=engine.status==='running'?Date.now()-engine.startedAt:engine.elapsedMs;engine.laps.push(tm);renderLapList();storage();notify(`Lap ${engine.laps.length}: ${stopwatchString(tm)}`)};
+ $('endAtStart').onclick=startAtClockTime;$('quickTargetInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();startAtClockTime()}}); $('startBtn').onclick=()=>{if(config.mode==='school'){updateMode('countdown');notify('Manual countdown ready');return}if(engine.status==='running')pauseTimer();else startTimer()};$('resetBtn').onclick=()=>{if(config.mode==='school'){renderTimer();notify('Synchronized with your computer clock');return}resetEngine();notify('Timer reset')};$('plusOne').onclick=()=>adjustTime(60);$('plusFive').onclick=()=>adjustTime(300);$('minusOne').onclick=()=>adjustTime(-60);$('prevStep').onclick=()=>advanceStep(-1);$('nextStep').onclick=()=>advanceStep(1);$('lapBtn').onclick=()=>{if(config.mode!=='stopwatch')return;const tm=engine.status==='running'?Date.now()-engine.startedAt:engine.elapsedMs;engine.laps.push(tm);renderLapList();storage();notify(`Lap ${engine.laps.length}: ${stopwatchString(tm)}`)};
  $('helpBtn').onclick=()=>{modalOpen({title:'Shortcuts & teacher tips',description:'Use End at a specific time below the timer to start a countdown to an exact clock time. Press Space to start or pause. R resets. F opens fullscreen. + and − add or remove one minute. Esc leaves fullscreen. Save a scene to remember the entire setup.',value:'',confirm:'Got it',showDefault:false,onConfirm:()=>{}});$('modalName').closest('label').classList.add('hidden');$('modalName').classList.add('hidden')};
  $('newSceneBtn').onclick=()=>{selectedId='';config=defaults();config.title='New Classroom Timer';config.subtitle='';resetEngine(false);dirty=true;render();storage();selectTab('setup');notify('New timer ready to customize')};
  $('saveSceneBtn').onclick=()=>saveModal();$('saveSceneSide').onclick=()=>saveModal();$('quickSave').onclick=()=>saveModal();$('updateSceneBtn').onclick=()=>{if(selectedId)saveModal(selectedId);else saveModal()};$('duplicateScene').onclick=()=>saveModal();
@@ -516,7 +488,7 @@ function hook(){
  const durChanged=()=>{const m=clamp(parseInt($('minutesInput').value,10)||0,0,999),s=clamp(parseInt($('secondsInput').value,10)||0,0,59);updateConfig({durationSec:Math.max(1,m*60+s)})};$('minutesInput').onchange=durChanged;$('secondsInput').onchange=durChanged;$('targetInput').addEventListener('change',e=>updateConfig({targetTime:e.target.value}));
  for(const [id,key] of [['fontInput','font'],['soundInput','sound'],['animationInput','animation']])$(id).addEventListener('change',e=>updateConfig({[key]:e.target.value},{reset:false}));$('warningInput').addEventListener('change',e=>updateConfig({warningSec:Number(e.target.value)},{reset:false}));
  for(const [id,key] of [['showClockInput','showClock'],['reduceMotionInput','reduceMotion'],['largeTextInput','largeText'],['autoNextInput','autoNext'],['warningSoundInput','warningSound']])$(id).addEventListener('change',e=>updateConfig({[key]:e.target.checked},{reset:false}));
- $('accentInput').addEventListener('input',e=>themeCustomPick('accent',e.target.value));$('bgInput').addEventListener('input',e=>themeCustomPick('bg',e.target.value));
+ for(const [id,key] of [['schoolGrade','schoolGrade'],['schoolOverride','schoolOverride'],['schoolYellow','schoolYellow'],['schoolRed','schoolRed']])$(id).addEventListener('change',e=>updateConfig({[key]:e.target.value},{reset:false}));for(const [id,key] of [['schoolPassing','schoolPassing'],['schoolStoplight','schoolStoplight'],['schoolNextBell','schoolNextBell'],['schoolSound','schoolSound'],['schoolManualLight','schoolManualLight']])$(id).addEventListener('change',e=>updateConfig({[key]:e.target.checked},{reset:false}));$('accentInput').addEventListener('input',e=>themeCustomPick('accent',e.target.value));$('bgInput').addEventListener('input',e=>themeCustomPick('bg',e.target.value));
  $('addStepBtn').onclick=()=>{updateConfig({steps:[...config.steps,{title:'Next activity',sec:300}]});renderRoutineEditor()};$('startRoutineBtn').onclick=()=>{updateMode('routine');selectTab('setup');notify('Routine loaded. Press Start when ready.')};$('testSoundBtn').onclick=()=>{if(config.sound==='silent'){notify('Silent alert is selected');return}soundPlay('finish')};
  $('setDefaultBtn').onclick=()=>{if(!scenes.some(s=>s.id===selectedId)){notify('Save this timer as a scene first.');saveModal();return}openingId=selectedId;render();storage();notify('Opening scene updated')};
  $('renameBtn').onclick=()=>{const s=scenes.find(s=>s.id===selectedId);if(!s){notify('Save a scene first');return}modalOpen({title:'Rename saved scene',description:'Changes only its name in your saved scenes.',value:s.name,confirm:'Rename',showDefault:false,onConfirm:(name)=>{s.name=safeText(name,65);s.icon=iconFor(name);renderScenes();storage();notify('Scene renamed')}})};
@@ -525,7 +497,7 @@ function hook(){
  $('presentBtn').onclick=()=>{closeDrawer();document.body.classList.toggle('presenter');$('presentBtn').textContent=document.body.classList.contains('presenter')?'✎ Edit view':'◫ Present';$('presentBtn').title='Toggle teacher editing panels'};
  $('fullscreenBtn').onclick=toggleFullscreen;
  document.addEventListener('fullscreenchange',()=>{const yes=!!document.fullscreenElement;$('fullscreenBtn').textContent=yes?'⛶ Exit':'⛶ Fullscreen';if(yes)screenAwake();else releaseAwake()});
- document.addEventListener('keydown',e=>{if(e.key==='Escape'&&drawerOpen){closeDrawer();return}if($('modalShell').classList.contains('open')){if(e.key==='Escape')modalClose();return}const tag=e.target?.tagName;if(['INPUT','TEXTAREA','SELECT','BUTTON'].includes(tag)||e.metaKey||e.ctrlKey||e.altKey)return;if(e.code==='Space'){e.preventDefault();if(engine.status==='running')pauseTimer();else startTimer()}else if(e.key==='r'||e.key==='R'){resetEngine()}else if(e.key==='f'||e.key==='F'){toggleFullscreen()}else if(e.key==='+ '||e.key==='+'||e.key==='='){adjustTime(60)}else if(e.key==='-'){adjustTime(-60)}});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&drawerOpen){closeDrawer();return}if($('modalShell').classList.contains('open')){if(e.key==='Escape')modalClose();return}const tag=e.target?.tagName;if(['INPUT','TEXTAREA','SELECT','BUTTON'].includes(tag)||e.metaKey||e.ctrlKey||e.altKey)return;if(e.code==='Space'){e.preventDefault();if(config.mode==='school')return;if(engine.status==='running')pauseTimer();else startTimer()}else if(e.key==='r'||e.key==='R'){if(config.mode!=='school')resetEngine()}else if(e.key==='f'||e.key==='F'){toggleFullscreen()}else if(e.key==='+ '||e.key==='+'||e.key==='='){adjustTime(60)}else if(e.key==='-'){adjustTime(-60)}});
  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&document.fullscreenElement&&engine.status==='running')screenAwake()});
 }
 async function toggleFullscreen(){if(document.fullscreenElement){await document.exitFullscreen().catch(()=>{});return}const target=$('stage');if(target.requestFullscreen){try{await target.requestFullscreen()}catch(e){notify('Fullscreen is not available in this browser')}}else notify('Fullscreen is unavailable')}

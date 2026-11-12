@@ -1,38 +1,26 @@
-# ClassTempo — Classroom Timer Studio
+# Class Tempo — School Bells Edition
 
-**Version 2.3 — Layout overlap correction**
+An offline-friendly classroom timer, built from the existing Class Tempo CT3 release and extended with an automatic Naches Valley Middle School bell schedule.
 
-A browser-based classroom timer with saved scenes, countdown to a chosen clock time, visual countdowns, routines, alerts, and animated themes. Use **Auto**, **Wide**, or **Narrow** at the top of the timer to switch layouts.
+## Installation
 
-## What's fixed in v2.3
+Upload **index.html** to the root of the existing Class Tempo GitHub Pages repository, replacing the previous index.html. No additional files or build steps are needed. Existing browser-saved scenes are retained on the same site/origin. As a precaution, export a backup of your current saved scenes first.
 
-- Corrected overlap between activity instructions and the countdown ring in Wide mode.
-- Corrected overlap between the timer status label and the Start/Pause controls.
-- Timer display now reserves enough vertical space for its contents and scrolls when needed instead of overlapping elements.
-- Improved sizing for short browser windows and narrow split-screen windows.
-- Preserved animations, saved scenes, themes, routine timer, exact finish-time shortcut, and all existing controls.
-- Renamed the repository instructions to `README.md` for GitHub.
+## School bell timer
 
-## Update your existing GitHub repository
+Open **Customize → Setup → Timer type → School bells**. Pick your teaching grade (5, 6, 7, or 8). By default, Class Tempo reads the device's local date and time, uses Monday late-start bells on Mondays and the regular schedule Tuesday–Friday, and shows weekends as no school. You can manually override the weekday schedule.
 
-1. Extract this ZIP file.
-2. Open your existing **classtempo** repository.
-3. Replace its root `index.html` with the included `index.html`.
-4. You can also upload this `README.md` to the repository root to replace the previous readme.
-5. Commit and push. Refresh the website afterward (Ctrl + Shift + R if necessary).
+The timer shows the current period or passing interval, the countdown to the next bell, and a next-up label. The stoplight color is green, changes to yellow at 2 minutes, then red at 25 seconds before the bell. Warning thresholds can be adjusted. Bell sounds are off by default, so this will not compete with school announcements. Stoplight colors can optionally be enabled on ordinary countdown timers.
 
-**No Learning Hub update is necessary.** The Hub launches the ClassTempo website in its separate repository.
+All previous countdown, target-time, stopwatch, routine, saved scene, narrow/wide and visual animation options remain present.
 
-## Using ClassTempo
+## Important timing notes
 
-- Use **Wide** for the full classroom timer studio.
-- Use **Narrow** for a tall split-screen sidebar view.
-- Use **Auto** to switch based on window width.
-- Use **End at a specific time** below the main timer for a countdown to the computer's local clock time.
-- Select **Customize** to set an activity title, instructions, themes, animation, warning, and alert preferences, then save the entire setup as a scene.
+- Bell times are from the 2026–2027 Naches Valley Middle School schedule. Monday has late start; Tuesday–Friday follow regular bells. Lunch time varies between grades 5–6 and grades 7–8.
+- The countdown follows the **computer clock**, not the actual school intercom. If the intercom bells run a little early or late, the screens may not match perfectly.
+- Special schedules and unexpected closures are not automatically detected. On special schedule days, use a manual timer or update the schedule.
+- Music recognition is not performed; the 25-second warning is based on bell time.
 
-## Saving data
+## Current scope
 
-Saved scenes are stored in your browser for this site. Replacing `index.html` does not normally erase them, but scenes are specific to the browser and site address. Export a backup before switching computers or clearing browser storage.
-
-No account, build tools, third-party services, or paid subscriptions are required.
+Only the school schedule and stoplight mode have been added to the existing application; the Learning Hub itself has not been modified.
