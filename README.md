@@ -1,6 +1,6 @@
-# ClassTempo — Snake Arcade & Teaching Day (v2.8)
+# ClassTempo — Roaming Snake Fruit Hunt & Teaching Day (v2.9)
 
-A single-file classroom timer for teachers, with an optional Snake-and-apples background animation, saved NVMS teaching-day profile, arrival and upcoming bells, adjustable text colors, wall-clock/duration routines, and responsive wide/narrow layouts.
+A single-file classroom timer for teachers, with an optional roaming Snake fruit-hunt background animation, saved NVMS teaching-day profile, arrival and upcoming bells, adjustable text colors, wall-clock/duration routines, and responsive wide/narrow layouts.
 
 ## Installation
 
@@ -10,17 +10,21 @@ A single-file classroom timer for teachers, with an optional Snake-and-apples ba
 4. Reload ClassTempo, click **School day**, assign the grade taught in each of the seven periods, choose the relevant lunch schedule, and click **Save my day**.
 5. If **Open Class Tempo in School Day mode next time** is checked, the app will return to the automatic school-day view when opened again in this browser.
 
-## New in v2.8 — Snake game background
+## New in v2.9 — Roaming Snake & five fruits
 
-To enable the new animation, open **Customize → Design → Timer animation** and choose **🐍 Snake & apples · grows with time**.
+Choose **Customize → Design → Timer animation → 🐍 Snake fruit hunt · free roaming**. If Snake was already selected in v2.8, the upgraded movement works automatically; the setting name changes but the saved value is still `snake`.
 
-- A small pixel-art snake travels around the edges of the timer display, chasing and eating apples. It plays silently and cannot interfere with classroom timer controls.
-- As the **current school period advances**, its tail grows steadily. The tail resets when the next period or passing/lunch segment begins. This follows the actual computer-clock time rather than the number of apples eaten.
-- It also works with manual countdowns, clock-time timers, routines and stopwatches. Manual countdowns grow while running and stop moving while paused.
-- Stays behind the timer, date, and bell schedule cards. Runs in wide, narrow, and fullscreen layouts.
-- Optional: existing Calm, Floating Sparkles, Arcade Energy and None animations remain available.
-- **Reduce transitions and visual effects** and the operating system's reduced-motion preference disable the snake. It does not play additional sounds.
-- The choice saves with each timer scene; save or update the scene if you want Snake to load with it next time. For School Day, saved current settings persist in the same browser.
+- The snake now moves across the **whole timer background**, not just around its outside border. It chooses paths toward fruit and sometimes takes short scenic detours; it may pass *behind* the opaque countdown ring. The timer itself remains legible, visible and clickable.
+- Five rotating, locally drawn fruit sprites: **red apple, orange, pear, purple grapes and strawberry**. A new fruit appears after each catch.
+- Its tail grows based on elapsed time in the current period, including when the app is opened partway through class. It restarts with a short tail when the next school period begins.
+- The animation adapts its grid to wide, narrow and fullscreen views; resizing may reposition the decorative snake, but it does not affect the actual timer or bell schedule.
+- It remains silent, consumes no external assets, and respects both Class Tempo's reduced-motion setting and the operating system's reduced-motion setting.
+- Stopwatch, manual countdown, clock-target and mixed routine modes keep their existing functionality. Scene storage, teaching-day grade assignments and bell timings are unchanged.
+
+## Previously added in v2.8 — Snake animation
+
+- The optional Snake animation was introduced to Class Tempo under the **Timer animation** selection in Design. It is a background-only decoration whose length follows timer progress and resets at period transitions.
+- Existing Calm, Floating Sparkles, Arcade Energy, and None animations remain available.
 
 ## Previously added in v2.7
 
