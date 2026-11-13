@@ -282,6 +282,32 @@ body:not(.compact-layout) .stage:fullscreen .stage-bottom{margin-top:auto}
 .stage[data-motion="snake"] .ambient-field{display:none}
 .stage[data-reduced="true"] .snake-canvas{display:none!important}
 @media(prefers-reduced-motion:reduce){.snake-canvas{display:none!important}}
+
+/* v3.0 - Scene manager: visible grip and delete action, responsive drop targets. */
+.scene-reorder-tip{color:#96abc2;font-size:10px;line-height:1.45;margin:0 6px 10px}
+.scene-row{position:relative;display:flex;align-items:center;min-width:0;gap:0;border:1px solid transparent;border-radius:12px;transition:background .14s,border-color .14s}
+.scene-row:hover{background:#1b2940}
+.scene-row.active{background:#1d3442;border-color:rgba(120,225,188,.35)}
+.scene-row .scene{flex:1 1 auto;min-width:0;width:auto;min-height:59px;padding:7px 3px 7px 5px;border:0;background:transparent;border-radius:10px;gap:6px}
+.scene-row .scene:hover,.scene-row .scene.active{background:transparent;border-color:transparent}
+.scene-row .scene-icon{width:29px;height:31px;font-size:17px}
+.scene-row .scene-info{min-width:0}
+.scene-row .scene-title{font-size:12px}
+.scene-row .scene-star{font-size:13px;padding:0 1px}
+.scene-actions{display:flex;align-items:center;gap:0;flex:0 0 auto;padding-right:3px}
+.scene-action{display:grid;place-items:center;flex:none;width:28px;height:33px;padding:0;border:0;border-radius:7px;background:transparent;color:#a7bdd4;font-size:16px;line-height:1}
+.scene-action:hover,.scene-action:focus-visible{color:#fff;background:#334760}
+.scene-drag{cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.scene-drag:active{cursor:grabbing}
+.scene-delete{font-size:15px;color:#d6aeb2}
+.scene-delete:hover,.scene-delete:focus-visible{background:#56303b;color:#ffe4e8}
+.scene-row.scene-dragging{opacity:.48}
+.scene-row.scene-drop-before::before,.scene-row.scene-drop-after::after{content:"";position:absolute;left:4px;right:4px;height:3px;border-radius:2px;background:#79e7bc;box-shadow:0 0 7px #79e7bc99;pointer-events:none;z-index:2}
+.scene-row.scene-drop-before::before{top:-4px}
+.scene-row.scene-drop-after::after{bottom:-4px}
+@media(max-width:650px){body:not(.compact-layout) .scene-row{flex:0 0 196px;min-width:196px}body:not(.compact-layout) .scene{flex:1 1 auto;min-width:0}}
+body.compact-layout .scene-row{width:100%;flex:0 0 auto}
+body.compact-layout .scene-row .scene{width:auto;min-width:0;flex:1 1 auto}
 </style>
 </head>
 <body>
@@ -304,7 +330,8 @@ body:not(.compact-layout) .stage:fullscreen .stage-bottom{margin-top:auto}
   </header>
   <aside class="side" id="scenePanel" aria-label="Saved timer scenes"><button type="button" class="drawer-close btn small" id="closeScenesBtn" aria-label="Close scenes panel">✕ Close</button>
     <div class="sidebar-head"><span class="eyebrow">Your timer scenes</span><button class="btn tiny" id="newSceneBtn" title="Make a new scene">＋ New</button></div>
-    <div id="sceneList" class="scene-list"></div>
+    <p class="scene-reorder-tip">Drag the grip to rearrange scenes. Use ↑/↓ keys on the grip, or tap the trash to delete.</p>
+    <div id="sceneList" class="scene-list" aria-label="Saved scenes in custom order"></div>
     <div class="section-line"></div>
     <button class="btn ghost sidelink" id="saveSceneSide">＋ Save current setup</button>
     <button class="btn ghost sidelink" id="duplicateScene">▣ Duplicate loaded scene</button>
@@ -483,7 +510,7 @@ function newEngine(){return {status:'idle',remainingMs:0,elapsedMs:0,deadlineMs:
 let scenes=starter.map(s=>({id:s.id,name:s.name,icon:s.icon,config:safeConfig(s.config)}));let selectedId='start-class',openingId='start-class',config=safeConfig(scenes[0].config),engine=newEngine(),dirty=false;
 let modalAction=null,toastHandle=null,audioCtx=null,wakeLock=null;
 function storage(){try{localStorage.setItem(KEY,JSON.stringify({scenes,selectedId,openingId,config,engine,dirty}))}catch(e){/* Browser might block local storage. Export remains available. */}}
-function hydrate(){try{const data=JSON.parse(localStorage.getItem(KEY)||'null');if(!data||!Array.isArray(data.scenes))return;const loaded=data.scenes.slice(0,150).filter(s=>s&&typeof s==='object').map(s=>({id:safeText(s.id,80)||'scene-'+crypto.randomUUID(),name:safeText(s.name,65)||'Unnamed scene',icon:safeText(s.icon,3)||'◴',config:safeConfig(s.config)}));if(loaded.length)scenes=loaded;openingId=scenes.some(s=>s.id===data.openingId)?data.openingId:scenes[0].id;selectedId=scenes.some(s=>s.id===data.selectedId)?data.selectedId:openingId;const openScene=scenes.find(s=>s.id===openingId)||scenes[0];config=safeConfig(openScene.config);selectedId=openScene.id;engine=newEngine();dirty=false}catch(e){console.warn('Unable to restore stored timers',e)}}
+function hydrate(){try{const data=JSON.parse(localStorage.getItem(KEY)||'null');if(!data||!Array.isArray(data.scenes))return;const loaded=data.scenes.slice(0,150).filter(s=>s&&typeof s==='object').map(s=>({id:safeText(s.id,80)||'scene-'+crypto.randomUUID(),name:safeText(s.name,65)||'Unnamed scene',icon:safeText(s.icon,3)||'◴',config:safeConfig(s.config)}));scenes=loaded;openingId=scenes.some(s=>s.id===data.openingId)?data.openingId:(scenes[0]?.id||'');selectedId=scenes.some(s=>s.id===data.selectedId)?data.selectedId:openingId;const openScene=scenes.find(s=>s.id===openingId)||scenes[0];config=safeConfig(openScene?.config||data.config||defaults());selectedId=openScene?.id||'';engine=newEngine();dirty=!openScene}catch(e){console.warn('Unable to restore stored timers',e)}}
 hydrate();
 if(schoolProfile.completed&&schoolProfile.openSchool){config.mode='school'}
 function durationForPhase(){return config.mode==='routine'?routineTimeRemaining(engine.stepIndex):config.durationSec*1000}
@@ -496,7 +523,83 @@ function activeStep(){return config.steps[engine.stepIndex]||config.steps[0]}
 function clockString(ms){let total=Math.max(0,Math.ceil(ms/1000));const hh=Math.floor(total/3600),mm=Math.floor((total%3600)/60),ss=total%60;return hh>0?`${hh}:${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`:`${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`}
 function stopwatchString(ms){const total=Math.max(0,Math.floor(ms/1000));const hh=Math.floor(total/3600),mm=Math.floor(total%3600/60),ss=total%60;return hh>0?`${hh}:${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`:`${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`}
 function durationLabel(c){if(c.mode==='stopwatch')return 'Count up';if(c.mode==='clock'){const [h,m]=c.targetTime.split(':').map(Number);return `Until ${new Date(2026,1,1,h,m).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})}`};if(c.mode==='routine')return `${c.steps.length} steps · ${c.steps.filter(x=>x.kind==='until').length} clock times`;return c.durationSec%60===0?`${c.durationSec/60} min`:`${Math.floor(c.durationSec/60)}m ${c.durationSec%60}s`}
-function renderScenes(){const list=$('sceneList');list.replaceChildren();scenes.forEach(s=>{const btn=document.createElement('button');btn.className='scene'+(s.id===selectedId?' active':'');btn.title=`Load ${s.name}`;const ic=document.createElement('span');ic.className='scene-icon';ic.textContent=s.icon||'◴';const details=document.createElement('span');details.className='scene-info';const a=document.createElement('span');a.className='scene-title';a.textContent=s.name+(selectedId===s.id&&dirty?' •':'');const b=document.createElement('span');b.className='scene-meta';b.textContent=durationLabel(s.config);details.append(a,b);btn.append(ic,details);if(s.id===openingId){const star=document.createElement('span');star.className='scene-star';star.textContent='★';star.title='Opens by default';btn.append(star)}btn.addEventListener('click',()=>{loadScene(s.id);closeDrawer()});list.append(btn)})}
+let scenePointerDrag=null;
+function moveScene(fromId,targetId,place='before'){
+ if(!fromId||!targetId||fromId===targetId)return false;
+ const from=scenes.findIndex(s=>s.id===fromId);
+ if(from<0||!scenes.some(s=>s.id===targetId))return false;
+ const [moved]=scenes.splice(from,1);
+ const target=scenes.findIndex(s=>s.id===targetId);
+ scenes.splice(target+(place==='after'?1:0),0,moved);
+ renderScenes();storage();notify('Scene order saved');return true;
+}
+function deleteScene(id){
+ const target=scenes.find(s=>s.id===id);
+ if(!target)return;
+ if(!confirm(`Delete the saved scene “${target.name}”? This cannot be undone unless you have exported a backup.`))return;
+ scenes=scenes.filter(s=>s.id!==id);
+ if(openingId===id)openingId=scenes[0]?.id||'';
+ if(selectedId===id){selectedId='';dirty=true;} // Keep the live timer running, but treat it as unsaved.
+ renderScenes();renderInputs();storage();
+ notify(`Deleted “${target.name}”`);
+}
+function clearSceneDragMarkers(){
+ $('sceneList').querySelectorAll('.scene-row').forEach(row=>row.classList.remove('scene-dragging','scene-drop-before','scene-drop-after'));
+}
+function renderScenes(){
+ const list=$('sceneList');list.replaceChildren();
+ if(!scenes.length){const empty=document.createElement('p');empty.className='scene-reorder-tip';empty.textContent='No saved scenes. Use “Save current setup” to add one.';list.append(empty);return;}
+ scenes.forEach(s=>{
+  const row=document.createElement('div');row.className='scene-row'+(s.id===selectedId?' active':'');row.dataset.sceneId=s.id;
+  const btn=document.createElement('button');btn.type='button';btn.className='scene'+(s.id===selectedId?' active':'');btn.title=`Load ${s.name}`;btn.setAttribute('aria-label',`Load scene: ${s.name}`);
+  const ic=document.createElement('span');ic.className='scene-icon';ic.textContent=s.icon||'◴';
+  const details=document.createElement('span');details.className='scene-info';const a=document.createElement('span');a.className='scene-title';a.textContent=s.name+(selectedId===s.id&&dirty?' •':'');
+  const b=document.createElement('span');b.className='scene-meta';b.textContent=durationLabel(s.config);details.append(a,b);btn.append(ic,details);
+  if(s.id===openingId){const star=document.createElement('span');star.className='scene-star';star.textContent='★';star.title='Opens by default';btn.append(star)}
+  btn.addEventListener('click',()=>{loadScene(s.id);closeDrawer()});
+  const actions=document.createElement('div');actions.className='scene-actions';
+  const handle=document.createElement('button');handle.type='button';handle.className='scene-action scene-drag';handle.textContent='⠿';handle.title=`Drag to reorder ${s.name}; arrow keys also move it`;handle.setAttribute('aria-label',`Reorder ${s.name}: drag or press up/down arrows`);handle.dataset.sceneId=s.id;
+  handle.addEventListener('keydown',e=>{
+   if(e.key!=='ArrowUp'&&e.key!=='ArrowDown')return;
+   e.preventDefault();const at=scenes.findIndex(x=>x.id===s.id),to=at+(e.key==='ArrowUp'?-1:1);
+   if(to<0||to>=scenes.length)return;
+   if(moveScene(s.id,scenes[to].id,e.key==='ArrowUp'?'before':'after')){
+    Array.from($('sceneList').querySelectorAll('.scene-drag')).find(el=>el.dataset.sceneId===s.id)?.focus();
+   }
+  });
+  // Pointer Events work with mouse, pen and touch; no HTML5 desktop-only drag restriction.
+  handle.addEventListener('pointerdown',e=>{
+   if(e.button!==0||scenePointerDrag)return;
+   e.preventDefault();scenePointerDrag={id:s.id,pointerId:e.pointerId,startX:e.clientX,startY:e.clientY,targetId:null,place:null,moved:false};
+   handle.setPointerCapture(e.pointerId);row.classList.add('scene-dragging');
+  });
+  handle.addEventListener('pointermove',e=>{
+   const drag=scenePointerDrag;if(!drag||drag.pointerId!==e.pointerId)return;
+   if(!drag.moved&&Math.hypot(e.clientX-drag.startX,e.clientY-drag.startY)<5)return;
+   drag.moved=true;clearSceneDragMarkers();row.classList.add('scene-dragging');
+   const hit=document.elementFromPoint(e.clientX,e.clientY)?.closest('.scene-row');
+   if(!hit||!list.contains(hit)||hit.dataset.sceneId===drag.id){drag.targetId=null;return;}
+   const rect=hit.getBoundingClientRect();const horizontal=getComputedStyle(list).flexDirection==='row';
+   drag.place=(horizontal?e.clientX<rect.left+rect.width/2:e.clientY<rect.top+rect.height/2)?'before':'after';
+   drag.targetId=hit.dataset.sceneId;hit.classList.add(drag.place==='before'?'scene-drop-before':'scene-drop-after');
+   const side=$('scenePanel');const sideRect=side.getBoundingClientRect();
+   if(e.clientY<sideRect.top+50)side.scrollTop-=10;
+   else if(e.clientY>sideRect.bottom-50)side.scrollTop+=10;
+  });
+  const finishDrag=e=>{
+   const drag=scenePointerDrag;if(!drag||drag.pointerId!==e.pointerId)return;
+   scenePointerDrag=null;clearSceneDragMarkers();
+   if(handle.hasPointerCapture(e.pointerId))handle.releasePointerCapture(e.pointerId);
+   if(drag.moved&&drag.targetId)moveScene(drag.id,drag.targetId,drag.place);
+  };
+  handle.addEventListener('pointerup',finishDrag);
+  handle.addEventListener('pointercancel',finishDrag);
+  const del=document.createElement('button');del.type='button';del.className='scene-action scene-delete';del.innerHTML='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 10v7"/><path d="M14 10v7"/></svg>';del.title=`Delete saved scene: ${s.name}`;del.setAttribute('aria-label',`Delete saved scene: ${s.name}`);
+  del.addEventListener('click',()=>deleteScene(s.id));
+  actions.append(handle,del);row.append(btn,actions);list.append(row);
+ });
+}
+
 function loadScene(id){const found=scenes.find(s=>s.id===id);if(!found)return;selectedId=id;config=safeConfig(found.config);dirty=false;resetEngine(false);render();storage();notify(`Loaded “${found.name}”`)}
 function quickTargetValue(){
  // Don't offer an expired target as the default on a new countdown scene.
@@ -529,7 +632,7 @@ function renderRoutineEditor(){
    const b=document.createElement('button');b.className='btn tiny';b.textContent=symbol;b.title=titleText;b.disabled=i+diff<0||i+diff>=config.steps.length;
    b.onclick=()=>{let steps=config.steps.map(s=>({...s}));[steps[i],steps[i+diff]]=[steps[i+diff],steps[i]];updateConfig({steps})};acts.append(b)
   }
-  const del=document.createElement('button');del.className='btn tiny danger';del.textContent='×';del.title='Remove step';del.disabled=config.steps.length===1;
+  const del=document.createElement('button');del.className='btn tiny danger';del.innerHTML='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 10v7"/><path d="M14 10v7"/></svg>';del.title='Remove step';del.disabled=config.steps.length===1;
   del.onclick=()=>{if(config.steps.length===1){notify('Keep at least one step');return}updateConfig({steps:config.steps.filter((_,j)=>j!==i)})};acts.append(del);
   head.append(title,acts);
   const row=document.createElement('div');row.className='step-row';
@@ -962,7 +1065,7 @@ function hook(){
  $('addStepBtn').onclick=()=>updateConfig({steps:[...config.steps,{title:'Next activity',sec:300,kind:'duration'}]});$('addClockStepBtn').onclick=()=>{const d=new Date(Date.now()+15*60000),endTime=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');updateConfig({steps:[...config.steps,{title:'Clock checkpoint',sec:300,kind:'until',endTime}]})};$('startRoutineBtn').onclick=()=>{updateMode('routine');selectTab('setup');notify('Routine ready. Enable auto-advance for unattended transitions, then press Start.')};$('testSoundBtn').onclick=()=>{if(config.sound==='silent'){notify('Silent alert is selected');return}soundPlay('finish')};
  $('setDefaultBtn').onclick=()=>{if(!scenes.some(s=>s.id===selectedId)){notify('Save this timer as a scene first.');saveModal();return}openingId=selectedId;render();storage();notify('Opening scene updated')};
  $('renameBtn').onclick=()=>{const s=scenes.find(s=>s.id===selectedId);if(!s){notify('Save a scene first');return}modalOpen({title:'Rename saved scene',description:'Changes only its name in your saved scenes.',value:s.name,confirm:'Rename',showDefault:false,onConfirm:(name)=>{s.name=safeText(name,65);s.icon=iconFor(name);renderScenes();storage();notify('Scene renamed')}})};
- $('deleteBtn').onclick=()=>{const s=scenes.find(s=>s.id===selectedId);if(!s){notify('Select a saved scene to delete');return}if(!confirm(`Delete the saved scene “${s.name}”? This cannot be undone unless you have a backup.`))return;scenes=scenes.filter(x=>x.id!==s.id);if(!scenes.length){scenes=[{id:'start-class',name:'Start of Class',icon:'☀',config:safeConfig(starter[0].config)}]}const next=scenes[0];if(openingId===s.id)openingId=next.id;loadScene(next.id);notify('Deleted saved scene')};
+ $('deleteBtn').onclick=()=>{if(!selectedId){notify('Select a saved scene to delete');return}deleteScene(selectedId)};
  $('exportBtn').onclick=()=>{const payload={app:'ClassTempo',version:2,exportedAt:new Date().toISOString(),scenes,openingId,schoolProfile};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='classtempo-scenes-'+new Date().toISOString().slice(0,10)+'.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);notify('Scene backup exported')};$('importBtn').onclick=()=>$('fileImport').click();$('fileImport').onchange=async e=>{const file=e.target.files?.[0];if(!file)return;try{if(file.size>2e6)throw new Error('File too large');const d=JSON.parse(await file.text());if(d.app!=='ClassTempo'||!Array.isArray(d.scenes))throw new Error('Not a ClassTempo backup');const imported=d.scenes.slice(0,150).map(x=>({id:`import-${Date.now()}-${Math.random().toString(36).slice(2,9)}`,name:safeText(x.name,65)||'Imported scene',icon:safeText(x.icon,3)||'◴',config:safeConfig(x.config)}));if(!imported.length)throw new Error('No scenes in file');if(!confirm(`Import ${imported.length} scenes? They will be added to your current saved scenes.`))return;scenes.push(...imported);if(d.schoolProfile?.completed&&confirm('This backup includes a teaching-day profile. Restore its grade assignments and opening tasks too?')){schoolProfile=cleanSchoolProfile(d.schoolProfile);saveSchoolProfile()}loadScene(imported[0].id);notify(`Imported ${imported.length} scenes`)}catch(err){notify(`Could not import: ${err.message}`)}finally{e.target.value=''}};
  $('presentBtn').onclick=()=>{closeDrawer();document.body.classList.toggle('presenter');$('presentBtn').textContent=document.body.classList.contains('presenter')?'✎ Edit view':'◫ Present';$('presentBtn').title='Toggle teacher editing panels'};
  $('fullscreenBtn').onclick=toggleFullscreen;

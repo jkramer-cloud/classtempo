@@ -1,6 +1,6 @@
-# ClassTempo — Roaming Snake Fruit Hunt & Teaching Day (v2.9)
+# ClassTempo — Scene Manager, Snake Fruit Hunt & Teaching Day (v3.0)
 
-A single-file classroom timer for teachers, with an optional roaming Snake fruit-hunt background animation, saved NVMS teaching-day profile, arrival and upcoming bells, adjustable text colors, wall-clock/duration routines, and responsive wide/narrow layouts.
+A single-file classroom timer for teachers, with drag-and-drop scene management, an optional roaming Snake fruit-hunt animation, saved NVMS teaching-day profile, arrival and upcoming bells, adjustable text colors, wall-clock/duration routines, and responsive wide/narrow layouts.
 
 ## Installation
 
@@ -10,7 +10,20 @@ A single-file classroom timer for teachers, with an optional roaming Snake fruit
 4. Reload ClassTempo, click **School day**, assign the grade taught in each of the seven periods, choose the relevant lunch schedule, and click **Save my day**.
 5. If **Open Class Tempo in School Day mode next time** is checked, the app will return to the automatic school-day view when opened again in this browser.
 
-## New in v2.9 — Roaming Snake & five fruits
+## New in v3.0 — Organize and delete saved scenes
+
+The saved scene list now has two controls directly on each scene:
+
+- **Grip (⠿):** Drag the handle up or down and release it where you want the scene. The order saves immediately in the current browser and is preserved when the page is reopened. Works with mouse and touch; the handle also supports **Up/Down arrow keys** for keyboard reordering.
+- **Trash icon:** Delete that individual scene without loading it first. A confirmation dialog appears before deletion.
+
+The existing **Customize → Extras → Delete loaded scene** action still works. Deleting a saved scene **does not interrupt the countdown already on screen**; if that scene was selected, the current timer becomes unsaved until you explicitly save it again. You can delete every saved scene and start a fresh scene list later.
+
+Scene order is preserved in **Extras → Export backup**, and imported scenes are appended after the existing scenes. The startup (★) scene is still tracked separately by its scene ID; moving it does **not** change which scene opens by default.
+
+**Safety:** Back up your scenes before replacing the repository's `index.html`. Scenes continue to be stored in each browser's local storage; changing browsers or resetting browser storage may remove local saved scenes unless you import a backup.
+
+## Previously added in v2.9 — Roaming Snake & five fruits
 
 Choose **Customize → Design → Timer animation → 🐍 Snake fruit hunt · free roaming**. If Snake was already selected in v2.8, the upgraded movement works automatically; the setting name changes but the saved value is still `snake`.
 
