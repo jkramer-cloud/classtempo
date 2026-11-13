@@ -275,6 +275,13 @@ body:not(.compact-layout) .stage:fullscreen .school-bell-preview{padding:8px 9px
 body:not(.compact-layout) .stage:fullscreen .school-bell-event{padding:6px 8px;gap:3px}
 body:not(.compact-layout) .stage:fullscreen .stage-bottom{margin-top:auto}
 
+
+/* The snake game is an optional, quiet canvas layer BEHIND all timer controls. */
+.snake-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.94;display:none}
+.stage[data-motion="snake"] .snake-canvas{display:block}
+.stage[data-motion="snake"] .ambient-field{display:none}
+.stage[data-reduced="true"] .snake-canvas{display:none!important}
+@media(prefers-reduced-motion:reduce){.snake-canvas{display:none!important}}
 </style>
 </head>
 <body>
@@ -310,7 +317,7 @@ body:not(.compact-layout) .stage:fullscreen .stage-bottom{margin-top:auto}
        <div class="day-bar-info hidden" id="dayBarInfo"><span id="dayBarSummary">Daily schedule</span><button class="btn tiny" id="editDayQuick" type="button">⚙ Edit my day</button></div>
     </div>
     <section class="stage" id="stage" data-theme="midnight" data-visual="ring" data-stage-font="rounded" aria-label="Classroom timer display">
-<div class="ambient-field" id="ambientField" aria-hidden="true"></div><div class="celebration-field" id="celebrationField" aria-hidden="true"></div>
+<div class="ambient-field" id="ambientField" aria-hidden="true"></div><canvas class="snake-canvas" id="snakeCanvas" aria-hidden="true"></canvas><div class="celebration-field" id="celebrationField" aria-hidden="true"></div>
       <div class="stage-top"><span class="stage-kicker" id="stageKicker">CLASSROOM TIMER</span><div class="stage-datetime" id="stageDateTime"><span class="stage-date" id="stageDate">11/13/2026</span><span class="stage-clock" id="stageClock">00:00 AM</span></div></div>
       <div class="stage-titles"><div class="activity" id="activity">Welcome to Class</div><div class="subtitle" id="subtitle">Find your seat and open today's assignment.</div></div>
       <div class="warmup-card hidden" id="schoolWarmup" aria-label="Opening classroom routine">
@@ -375,8 +382,8 @@ body:not(.compact-layout) .stage:fullscreen .stage-bottom{margin-top:auto}
       <div class="field"><div class="label">Text and countdown color</div><div class="field-row"><label style="font-size:12px;flex:1" for="fontColorInput">Text color</label><input type="color" id="fontColorInput" value="#f5fcff"><button type="button" class="btn small" id="resetFontColor">Use theme color</button></div><div class="field-help" id="fontColorHint">Uses your theme text color by default. In School Bells mode, the countdown digits still follow the green/yellow/red stoplight.</div></div>
       <label class="toggle"><input type="checkbox" id="showClockInput" checked><span>Show a clock in the corner</span></label>
       <div class="field"><label for="animationInput">Timer animation</label>
-<select id="animationInput"><option value="calm">Calm glow · subtle</option><option value="sparkles">Floating sparkles · playful</option><option value="arcade">Arcade energy · lively</option><option value="off">None · no effects</option></select>
-<div class="field-help">Works in Wide and Narrow. Effects stay inside the timer display; finished-timer celebrations are brief. Saved with each scene.</div></div>
+<select id="animationInput"><option value="calm">Calm glow · subtle</option><option value="sparkles">Floating sparkles · playful</option><option value="arcade">Arcade energy · lively</option><option value="snake">🐍 Snake & apples · grows with time</option><option value="off">None · no effects</option></select>
+<div class="field-help">Works in Wide and Narrow. Snake chases apples around the display; its tail grows as the class or timer progresses and starts over at the next period. Saved with each scene. Works in Wide and Narrow.</div></div>
 <label class="toggle"><input type="checkbox" id="reduceMotionInput"><span>Reduce transitions and visual effects</span></label>
       <label class="toggle"><input type="checkbox" id="largeTextInput"><span>Extra-large countdown text</span></label>
     </section>
@@ -457,7 +464,7 @@ function formatRoutineClock(hhmm){const [h,m]=hhmm.split(':').map(Number);return
 function routineClockStep(i=engine.stepIndex){return config.mode==='routine'&&config.steps[i]?.kind==='until'}
 function routineOrderOk(){let last=-1;for(const st of config.steps){if(st.kind!=='until')continue;const [h,m]=st.endTime.split(':').map(Number),v=h*60+m;if(v<=last)return false;last=v}return true}
 function routineTimeRemaining(i,now=Date.now()){const st=config.steps[i];return st?.kind==='until'?Math.max(0,wallClockStamp(st.endTime,now)-now):st?.sec*1000||60000} 
-function safeConfig(raw){const r={...defaults(),...(raw&&typeof raw==='object'?raw:{})}; const allow=(k,set,def)=>set.includes(r[k])?r[k]:def; r.mode=allow('mode',['countdown','clock','stopwatch','routine','school'],'countdown');r.visual=allow('visual',['ring','bar','digits','blocks'],'ring');r.theme=allow('theme',['midnight','sunrise','ocean','chalk','arcade','paper','custom'],'sunrise');r.font=allow('font',['rounded','clean','classic','mono','bold'],'rounded');r.sound=allow('sound',['chime','school','arcade','gentle','silent'],'chime');r.animation=allow('animation',['calm','sparkles','arcade','off'],'sparkles');r.title=safeText(r.title,80);r.subtitle=safeText(r.subtitle,240);r.endMessage=safeText(r.endMessage,100);r.durationSec=clamp(Math.round(Number(r.durationSec)||300),1,59999);r.targetTime=/^([01]\d|2[0-3]):[0-5]\d$/.test(r.targetTime)?r.targetTime:'08:00';r.warningSec=[0,30,60,120,300].includes(Number(r.warningSec))?Number(r.warningSec):60;r.accent=/^#[a-f\d]{6}$/i.test(r.accent)?r.accent:'#7de5bd';r.bg=/^#[a-f\d]{6}$/i.test(r.bg)?r.bg:'#182b43';r.textColor=/^#[a-f\d]{6}$/i.test(r.textColor||'')?r.textColor:'';r.schoolUpcomingCount=[3,4,6].includes(+r.schoolUpcomingCount)?+r.schoolUpcomingCount:4;for(const k of ['warningSound','showClock','reduceMotion','largeText','autoNext'])r[k]=!!r[k];r.schoolGrade=['5','6','7','8'].includes(String(r.schoolGrade))?String(r.schoolGrade):'6';r.schoolOverride=['auto','monday','regular'].includes(r.schoolOverride)?r.schoolOverride:'auto';r.schoolYellow=[60,120,180,300].includes(+r.schoolYellow)?+r.schoolYellow:120;r.schoolRed=[15,25,30,45].includes(+r.schoolRed)?+r.schoolRed:25;for(const key of ['schoolPassing','schoolStoplight','schoolNextBell','schoolSound','schoolManualLight'])r[key]=!!r[key];r.steps=(Array.isArray(r.steps)?r.steps:DEFAULT_STEPS).slice(0,20).map(sanitizeStep);if(!r.steps.length)r.steps=[sanitizeStep(DEFAULT_STEPS[0])];return r}
+function safeConfig(raw){const r={...defaults(),...(raw&&typeof raw==='object'?raw:{})}; const allow=(k,set,def)=>set.includes(r[k])?r[k]:def; r.mode=allow('mode',['countdown','clock','stopwatch','routine','school'],'countdown');r.visual=allow('visual',['ring','bar','digits','blocks'],'ring');r.theme=allow('theme',['midnight','sunrise','ocean','chalk','arcade','paper','custom'],'sunrise');r.font=allow('font',['rounded','clean','classic','mono','bold'],'rounded');r.sound=allow('sound',['chime','school','arcade','gentle','silent'],'chime');r.animation=allow('animation',['calm','sparkles','arcade','snake','off'],'sparkles');r.title=safeText(r.title,80);r.subtitle=safeText(r.subtitle,240);r.endMessage=safeText(r.endMessage,100);r.durationSec=clamp(Math.round(Number(r.durationSec)||300),1,59999);r.targetTime=/^([01]\d|2[0-3]):[0-5]\d$/.test(r.targetTime)?r.targetTime:'08:00';r.warningSec=[0,30,60,120,300].includes(Number(r.warningSec))?Number(r.warningSec):60;r.accent=/^#[a-f\d]{6}$/i.test(r.accent)?r.accent:'#7de5bd';r.bg=/^#[a-f\d]{6}$/i.test(r.bg)?r.bg:'#182b43';r.textColor=/^#[a-f\d]{6}$/i.test(r.textColor||'')?r.textColor:'';r.schoolUpcomingCount=[3,4,6].includes(+r.schoolUpcomingCount)?+r.schoolUpcomingCount:4;for(const k of ['warningSound','showClock','reduceMotion','largeText','autoNext'])r[k]=!!r[k];r.schoolGrade=['5','6','7','8'].includes(String(r.schoolGrade))?String(r.schoolGrade):'6';r.schoolOverride=['auto','monday','regular'].includes(r.schoolOverride)?r.schoolOverride:'auto';r.schoolYellow=[60,120,180,300].includes(+r.schoolYellow)?+r.schoolYellow:120;r.schoolRed=[15,25,30,45].includes(+r.schoolRed)?+r.schoolRed:25;for(const key of ['schoolPassing','schoolStoplight','schoolNextBell','schoolSound','schoolManualLight'])r[key]=!!r[key];r.steps=(Array.isArray(r.steps)?r.steps:DEFAULT_STEPS).slice(0,20).map(sanitizeStep);if(!r.steps.length)r.steps=[sanitizeStep(DEFAULT_STEPS[0])];return r}
 const DEFAULT_SCHOOL_PROFILE={completed:false,periods:['','','','','','',''],lunchGroup:'lower',warmupEnabled:true,tasks:['Check in on Closegap','Check email','Check grades'],openSchool:true};
 function cleanSchoolProfile(p){const s=p&&typeof p==='object'?p:{};return {completed:s.completed===true,periods:Array.from({length:7},(_,i)=>['5','6','7','8','prep',''].includes(String(s.periods?.[i]??''))?String(s.periods[i]):''),lunchGroup:s.lunchGroup==='upper'?'upper':'lower',warmupEnabled:s.warmupEnabled!==false,tasks:Array.from({length:3},(_,i)=>safeText(s.tasks?.[i]??DEFAULT_SCHOOL_PROFILE.tasks[i],80).trim()),openSchool:s.openSchool!==false};}
 let schoolProfile=cleanSchoolProfile(DEFAULT_SCHOOL_PROFILE),setupDismissed=false;
@@ -639,6 +646,155 @@ function note(freq,at,dur=.16,type='sine',volume=.075){const ctx=warmAudio();if(
 function soundPlay(which='finish'){if(config.sound==='silent')return;const ctx=warmAudio();if(!ctx)return;const t=ctx.currentTime+.01;const sf=(f,dt=.0,dur=.17,type='sine',vol=.06)=>note(f,t+dt,dur,type,vol);if(which==='warning'){sf(630,0,.12);sf(790,.15,.15);return}switch(config.sound){case 'school':sf(659,0,.5,'triangle',.10);sf(830,.1,.6,'triangle',.06);sf(659,.7,.5,'triangle',.10);sf(830,.8,.6,'triangle',.06);break;case 'arcade':sf(520,0,.12,'square',.035);sf(660,.15,.12,'square',.035);sf(880,.30,.23,'square',.035);break;case 'gentle':sf(523,0,.32);sf(659,.22,.32);sf(784,.44,.5);break;default:sf(660,0,.31);sf(880,.28,.48);break}}
 async function screenAwake(){if(!document.fullscreenElement||!('wakeLock'in navigator)||wakeLock)return;try{wakeLock=await navigator.wakeLock.request('screen');wakeLock.addEventListener('release',()=>{wakeLock=null})}catch(e){}}
 function releaseAwake(){if(wakeLock){wakeLock.release().catch(()=>{});wakeLock=null}}
+
+// Optional decorative Snake: no controls, no sounds, no external assets.
+// A canvas ensures the existing title, timer, bell list and controls remain interactive.
+const snakeState={phase:'',progress:0,cols:0,rows:0,cell:0,w:0,h:0,dpr:1,
+ body:[],apple:null,route:[],headIndex:0,appleIndex:0,eaten:0,lastStep:0,ctx:null};
+function snakeProgress(now){
+ if(config.mode==='school'){
+  const date=new Date(now),item=schoolPosition(date);
+  return {key:date.toDateString()+'|'+item.day+'|'+item.type+'|'+item.period+'|'+item.name,
+   pct:item.type==='closed'||item.type==='waiting'?0:clamp(1-item.remain/Math.max(1,item.total),0,1),
+   moving:item.type!=='closed'};
+ }
+ if(config.mode==='stopwatch'){
+  const elapsed=engine.status==='running'?now-engine.startedAt:engine.elapsedMs;
+  return {key:'stopwatch',pct:clamp(elapsed/(45*60000),0,1),moving:engine.status==='running'};
+ }
+ const remainder=Math.max(0,currentRemaining(now)),total=Math.max(1,engine.phaseTotalMs||durationForPhase());
+ return {key:config.mode+'|'+(config.mode==='routine'?engine.stepIndex:config.targetTime),
+  pct:engine.status==='done'?1:engine.status==='idle'?0:clamp(1-remainder/total,0,1),
+  moving:engine.status==='running'};
+}
+function snakeBlocked(x,y){
+ const st=snakeState;if(x<1||x>=st.cols-1||y<1||y>=st.rows-1)return true;
+ const nx=(x+.5)/st.cols,ny=(y+.5)/st.rows;
+ return Math.abs(nx-.5)<.265 && Math.abs(ny-.53)<.29;
+}
+// A closed path near the edges ensures the snake can grow throughout a lesson
+// without ever colliding with itself. Apples always appear farther along its path.
+function snakeBuildRoute(){
+ const st=snakeState,left=1,right=st.cols-2;
+ const top=1; // above the large activity heading, never through the title
+ const bottom=Math.max(top+5,st.rows-4); // below the ring, clear of the main countdown
+ const route=[];
+ for(let x=left;x<=right;x++)route.push({x,y:top});
+ for(let y=top+1;y<=bottom;y++)route.push({x:right,y});
+ for(let x=right-1;x>=left;x--)route.push({x,y:bottom});
+ for(let y=bottom-1;y>top;y--)route.push({x:left,y});
+ st.route=route;
+}
+function snakeUpdateBody(pct){
+ const st=snakeState,route=st.route;
+ if(!route||!route.length)return;
+ const maxLen=Math.max(4,Math.floor(route.length*.73));
+ const len=Math.max(4,Math.round(4+clamp(pct,0,1)*(maxLen-4)));
+ st.body=Array.from({length:len},(_,i)=>route[(st.headIndex-i+route.length)%route.length]);
+}
+function snakeNewApple(){
+ const st=snakeState;if(!st.route?.length)return;
+ // The apple remains ahead of the head, never hidden in the snake's tail.
+ const gap=7+Math.floor(Math.random()*9);
+ st.appleIndex=(st.headIndex+Math.min(gap,Math.floor(st.route.length*.23)))%st.route.length;
+ st.apple=st.route[st.appleIndex];
+}
+function snakeNewPhase(key,pct){
+ const st=snakeState;st.phase=key;st.progress=pct;st.eaten=0;
+ snakeBuildRoute();st.headIndex=Math.floor(Math.random()*st.route.length);
+ snakeUpdateBody(pct);st.lastStep=0;snakeNewApple();
+}
+function snakeStep(pct){
+ const st=snakeState;if(!st.route?.length)return;
+ st.headIndex=(st.headIndex+1)%st.route.length;
+ snakeUpdateBody(pct);
+ if(st.headIndex===st.appleIndex){st.eaten++;snakeNewApple();}
+}
+function snakeCanvasSize(canvas){
+ const st=snakeState,rect=$('stage').getBoundingClientRect();
+ const w=Math.round(rect.width),h=Math.round(rect.height);
+ if(w<150||h<180)return false;
+ const cell=Math.max(16,Math.min(27,Math.floor(Math.min(w/17,h/19))));
+ const cols=Math.max(10,Math.floor(w/cell)),rows=Math.max(12,Math.floor(h/cell));
+ const dpr=Math.min(2,window.devicePixelRatio||1);
+ if(st.w!==w||st.h!==h||st.dpr!==dpr){
+  st.w=w;st.h=h;st.cols=cols;st.rows=rows;st.cell=cell;st.dpr=dpr;
+  canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);
+  st.ctx=canvas.getContext('2d');if(!st.ctx)return false;
+  st.ctx.setTransform(dpr,0,0,dpr,0,0);st.phase='';
+ }
+ return true;
+}
+function snakePaint(now){
+ const st=snakeState,ctx=st.ctx;if(!ctx)return;
+ const {w,h,cell,cols,rows}=st,ox=(w-cols*cell)/2,oy=(h-rows*cell)/2;
+ ctx.clearRect(0,0,w,h);
+ const light=$('stage').dataset.theme==='paper';
+ // Faint pixel-game board. Don't obscure text or the regular timer face.
+ ctx.fillStyle=light?'rgba(24,72,58,.065)':'rgba(149,251,211,.075)';
+ for(let y=1;y<rows-1;y+=2)for(let x=1;x<cols-1;x+=2){
+  if(!snakeBlocked(x,y)){ctx.fillRect(ox+x*cell+cell*.43,oy+y*cell+cell*.43,2,2);}
+ }
+ if(st.apple){const x=ox+(st.apple.x+.5)*cell,y=oy+(st.apple.y+.5)*cell;
+  const bob=Math.sin(now/340)*cell*.07;
+  ctx.save();ctx.translate(x,y+bob);
+  ctx.shadowColor='#ff777f';ctx.shadowBlur=cell*.7;
+  ctx.fillStyle='#ff4d68';ctx.beginPath();ctx.arc(0,cell*.05,cell*.29,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#ff9eac';ctx.beginPath();ctx.arc(-cell*.085,-cell*.06,cell*.08,0,Math.PI*2);ctx.fill();
+  ctx.shadowBlur=0;ctx.strokeStyle='#72e6ae';ctx.lineWidth=Math.max(2,cell*.09);
+  ctx.beginPath();ctx.moveTo(0,-cell*.18);ctx.lineTo(cell*.05,-cell*.38);ctx.stroke();
+  ctx.fillStyle='#69e9a5';ctx.beginPath();ctx.ellipse(cell*.16,-cell*.32,cell*.15,cell*.07,-.5,0,Math.PI*2);ctx.fill();
+  ctx.restore();
+ }
+ const s=st.body;
+ for(let i=s.length-1;i>=0;i--){const p=s[i];
+  const x=ox+p.x*cell,y=oy+p.y*cell,inset=cell*.095,fade=i/Math.max(1,s.length-1);
+  ctx.fillStyle=i===0?'#c1ff96':`hsl(${147-Math.round(fade*36)},${83-Math.round(fade*25)}%,${64-Math.round(fade*20)}%)`;
+  ctx.shadowColor=i===0?'#a8ffa2':'#44efac';ctx.shadowBlur=i===0?cell*.65:cell*.16;
+  ctx.beginPath();ctx.roundRect(x+inset,y+inset,cell-2*inset,cell-2*inset,cell*.21);ctx.fill();
+  ctx.shadowBlur=0;
+  ctx.fillStyle='rgba(255,255,255,.19)';ctx.fillRect(x+cell*.21,y+cell*.18,cell*.21,Math.max(2,cell*.065));
+ }
+ if(s.length){
+  const head=s[0],neck=s[1]||{x:head.x-1,y:head.y};let dx=head.x-neck.x,dy=head.y-neck.y;
+  if(!dx&&!dy)dx=1;
+  const cx=ox+(head.x+.5)*cell,cy=oy+(head.y+.5)*cell;
+  const vertical=dy!==0;
+  ctx.fillStyle='#13392c';
+  for(const t of [-1,1]){
+   const ex=cx+(vertical?t*cell*.19:dx*cell*.21),ey=cy+(vertical?dy*cell*.22:t*cell*.19);
+   ctx.beginPath();ctx.arc(ex,ey,Math.max(1.8,cell*.065),0,Math.PI*2);ctx.fill();
+  }
+ }
+ // Protect date and clock contrast even when the snake passes through the upper-right edge.
+ ctx.clearRect(Math.max(0,w-135),0,135,Math.max(73,cell*2.7));
+ // The snake travels BEHIND schedule cards, warm-ups and status badges, not over their text.
+ const stageRect=$('stage').getBoundingClientRect();
+ for(const id of ['schoolBellPreview','schoolWarmup','timerMessage','routineMini','stage-bottom']){
+  const el=$(id)||(id==='stage-bottom'?document.querySelector('#stage .stage-bottom'):null);if(!el||el.classList.contains('hidden'))continue;
+  const rect=el.getBoundingClientRect();if(rect.width&&rect.height){
+   ctx.clearRect(rect.left-stageRect.left-4,rect.top-stageRect.top-4,rect.width+8,rect.height+8);
+  }
+ }
+}
+function renderSnake(now){
+ const canvas=$('snakeCanvas');if(!canvas)return;
+ if(config.animation!=='snake'||config.reduceMotion||document.hidden||
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  if(snakeState.ctx)snakeState.ctx.clearRect(0,0,snakeState.w,snakeState.h);
+  return;
+ }
+ if(!snakeCanvasSize(canvas))return;
+ const st=snakeState,phase=snakeProgress(now);
+ if(st.phase!==phase.key||phase.pct+0.055<st.progress)snakeNewPhase(phase.key,phase.pct);
+ st.progress=phase.pct;snakeUpdateBody(phase.pct);
+ // Pixel-art pace; the automatic game remains silent and pauses with manual timers.
+ if(phase.moving&&(now-st.lastStep>=225||st.lastStep===0)){
+  snakeStep(phase.pct);st.lastStep=now;
+ }
+ snakePaint(now);
+}
+
 function buildAmbient(){
  const field=$('ambientField');field.replaceChildren();
  for(let i=0;i<15;i++){
@@ -680,7 +836,7 @@ function adjustTime(deltaSec){if(config.mode==='school'){notify('School bells fo
 function advanceStep(diff,fromAuto=false){if(config.mode!=='routine')return;let next=engine.stepIndex+diff;if(next<0||next>=config.steps.length)return;const wasRunning=engine.status==='running';engine.stepIndex=next;engine.remainingMs=routineTimeRemaining(next);engine.phaseTotalMs=Math.max(1,engine.remainingMs);engine.deadlineMs=null;engine.status='idle';engine.warningDone=false;if(fromAuto||wasRunning&&config.autoNext){engine.status='running';engine.deadlineMs=routineClockStep(next)?wallClockStamp(config.steps[next].endTime):Date.now()+engine.remainingMs;if(routineClockStep(next)&&engine.deadlineMs<=Date.now()){engine.status='idle';notify('A clock checkpoint has already passed; adjust it or skip to the next step.')}}renderTimer();storage()}
 function finishTime(){if(engine.status!=='running')return;if(config.mode==='routine'&&engine.stepIndex<config.steps.length-1){soundPlay('finish');advanceStep(1,config.autoNext);return}engine.status='done';engine.remainingMs=0;engine.deadlineMs=null;engine.warningDone=true;soundPlay('finish');releaseAwake();renderTimer();fireCelebration();storage()}
 let lastStorage=0;
-function tick(){const now=Date.now();$('headerTime').textContent=new Date(now).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});if(engine.status==='running'){if(config.mode==='stopwatch'){engine.elapsedMs=now-engine.startedAt}else{const remaining=currentRemaining(now);if(remaining<=0){finishTime()}else if(!engine.warningDone&&config.warningSec>0&&remaining<=config.warningSec*1000){engine.warningDone=true;if(config.warningSound)soundPlay('warning')} }if(now-lastStorage>2000){storage();lastStorage=now}}renderTimer()}
+function tick(){const now=Date.now();$('headerTime').textContent=new Date(now).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});if(engine.status==='running'){if(config.mode==='stopwatch'){engine.elapsedMs=now-engine.startedAt}else{const remaining=currentRemaining(now);if(remaining<=0){finishTime()}else if(!engine.warningDone&&config.warningSec>0&&remaining<=config.warningSec*1000){engine.warningDone=true;if(config.warningSound)soundPlay('warning')} }if(now-lastStorage>2000){storage();lastStorage=now}}renderTimer();renderSnake(now)}
 function selectTab(name){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===name));document.querySelectorAll('.tab-panel').forEach(x=>x.classList.toggle('active',x.dataset.panel===name))}
 function iconFor(name){return /class|start|arrival|welcome/i.test(name)?'☀':/clean|exit/i.test(name)?'✓':/esport|game|match/i.test(name)?'★':/routine|lesson/i.test(name)?'☷':'◷'}
 function saveScene(name,makeDefault=false,overwriteId=null){name=safeText(name.trim(),65);if(!name){notify('Please enter a scene name.');return}const id=overwriteId||`custom-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;const rec={id,name,icon:iconFor(name),config:safeConfig(config)};const ix=scenes.findIndex(s=>s.id===id);if(ix>=0)scenes[ix]=rec;else scenes.push(rec);selectedId=id;dirty=false;if(makeDefault)openingId=id;render();storage();notify(`${ix>=0?'Updated':'Saved'} “${name}”`)}

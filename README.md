@@ -1,6 +1,6 @@
-# ClassTempo — Teaching Day, Upcoming Bells & Clock Routines (v2.7)
+# ClassTempo — Snake Arcade & Teaching Day (v2.8)
 
-A single-file classroom timer for teachers, with a saved NVMS teaching-day profile, arrival-bell and upcoming-bell displays, adjustable text colors, mixed wall-clock and duration routines, and responsive wide/narrow layouts.
+A single-file classroom timer for teachers, with an optional Snake-and-apples background animation, saved NVMS teaching-day profile, arrival and upcoming bells, adjustable text colors, wall-clock/duration routines, and responsive wide/narrow layouts.
 
 ## Installation
 
@@ -10,7 +10,19 @@ A single-file classroom timer for teachers, with a saved NVMS teaching-day profi
 4. Reload ClassTempo, click **School day**, assign the grade taught in each of the seven periods, choose the relevant lunch schedule, and click **Save my day**.
 5. If **Open Class Tempo in School Day mode next time** is checked, the app will return to the automatic school-day view when opened again in this browser.
 
-## New in v2.7
+## New in v2.8 — Snake game background
+
+To enable the new animation, open **Customize → Design → Timer animation** and choose **🐍 Snake & apples · grows with time**.
+
+- A small pixel-art snake travels around the edges of the timer display, chasing and eating apples. It plays silently and cannot interfere with classroom timer controls.
+- As the **current school period advances**, its tail grows steadily. The tail resets when the next period or passing/lunch segment begins. This follows the actual computer-clock time rather than the number of apples eaten.
+- It also works with manual countdowns, clock-time timers, routines and stopwatches. Manual countdowns grow while running and stop moving while paused.
+- Stays behind the timer, date, and bell schedule cards. Runs in wide, narrow, and fullscreen layouts.
+- Optional: existing Calm, Floating Sparkles, Arcade Energy and None animations remain available.
+- **Reduce transitions and visual effects** and the operating system's reduced-motion preference disable the snake. It does not play additional sounds.
+- The choice saves with each timer scene; save or update the scene if you want Snake to load with it next time. For School Day, saved current settings persist in the same browser.
+
+## Previously added in v2.7
 
 - **Arrival bell:** On regular Tuesday–Friday school days, the first bell is at **8:00 AM**, followed by the first class at **8:05 AM**. On Monday late starts, the arrival bell is **9:00 AM**, followed by first period at **9:05 AM**. Before the arrival bell, ClassTempo counts down to that bell rather than 1st-period start. During the five minutes after the arrival bell, it prompts students to head to first period.
 - **Upcoming bells panel:** Located under the countdown/progress display in School Bells mode. It lists upcoming class start times, class end times and lunch transitions. By default, four upcoming events are shown. Choose three, four or six via **Customize → Setup → School bells → Advanced bell settings → How many upcoming bells?** You can also disable the list there.
