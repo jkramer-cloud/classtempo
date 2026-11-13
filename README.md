@@ -1,26 +1,35 @@
-# Class Tempo — School Bells Edition
+# ClassTempo — Teaching Day Edition
 
-An offline-friendly classroom timer, built from the existing Class Tempo CT3 release and extended with an automatic Naches Valley Middle School bell schedule.
+A single-file classroom timer for teachers, updated with a streamlined **School day** mode and a saved Naches Valley Middle School teaching-day profile.
 
 ## Installation
 
-Upload **index.html** to the root of the existing Class Tempo GitHub Pages repository, replacing the previous index.html. No additional files or build steps are needed. Existing browser-saved scenes are retained on the same site/origin. As a precaution, export a backup of your current saved scenes first.
+1. Back up your current `index.html` and any exported ClassTempo scenes.
+2. Upload this archive's `index.html` as the replacement `index.html` in your existing ClassTempo GitHub repository. (Do **not** upload this entire ZIP as a file to the repository.)
+3. Upload `README.md` if you want updated repository documentation.
+4. Reload ClassTempo, click **School day**, assign the grade taught in each of the seven periods, choose the relevant lunch schedule, and click **Save my day**.
+5. If **Open Class Tempo in School Day mode next time** is checked, the app will return to the automatic school-day view when opened again in this browser.
 
-## School bell timer
+## Features
 
-Open **Customize → Setup → Timer type → School bells**. Pick your teaching grade (5, 6, 7, or 8). By default, Class Tempo reads the device's local date and time, uses Monday late-start bells on Mondays and the regular schedule Tuesday–Friday, and shows weekends as no school. You can manually override the weekday schedule.
+- Saved period-by-period assignments for 5th, 6th, 7th, and 8th grades; a planning/prep choice is also included.
+- Automatic Monday late-start schedule; regular Tuesday–Friday schedule; no automatic bells on weekends. Overrides available under **Advanced bell settings**.
+- Lunch schedule automatically follows the grade selected for **period 5** if it is assigned; otherwise it uses the selected lunch-group fallback.
+- 1st period only: a five-minute on-screen checklist with the default prompts **Check in on Closegap**, **Check email**, and **Check grades**. The checklist automatically disappears five minutes after first period begins. It never appears in periods 2–7. Tasks can be edited or the feature disabled in **Edit my day**.
+- Stoplight countdown: green in class, yellow at 2 minutes before the next bell, red during the final 25 seconds. The warning thresholds are adjustable.
+- Passing-period countdowns and optional transition sounds. Sounds are off by default to avoid competing with the school's intercom announcements.
+- Quick switch to an ordinary manual countdown; original timer scenes, routine and clock-target modes, animations, and wide/narrow views retained.
+- Settings and teaching-day profile are stored in the browser. Export and import backups using **Customize → Extras**.
 
-The timer shows the current period or passing interval, the countdown to the next bell, and a next-up label. The stoplight color is green, changes to yellow at 2 minutes, then red at 25 seconds before the bell. Warning thresholds can be adjusted. Bell sounds are off by default, so this will not compete with school announcements. Stoplight colors can optionally be enabled on ordinary countdown timers.
+## Notes
 
-All previous countdown, target-time, stopwatch, routine, saved scene, narrow/wide and visual animation options remain present.
+- The schedule uses the local computer clock. It does **not** listen to the intercom or automatically know about assembly/early-release days or holidays.
+- The school day profile uses one grade assignment per numbered period for Monday–Friday. If your periods change by day, adjust the profile as needed.
+- To transfer a profile to another device or browser, export a backup from **Extras** and import it on the other computer.
+- All processing runs in the browser; no login, server, or external dependencies are required.
 
-## Important timing notes
+## Bell schedule (2026–2027)
 
-- Bell times are from the 2026–2027 Naches Valley Middle School schedule. Monday has late start; Tuesday–Friday follow regular bells. Lunch time varies between grades 5–6 and grades 7–8.
-- The countdown follows the **computer clock**, not the actual school intercom. If the intercom bells run a little early or late, the screens may not match perfectly.
-- Special schedules and unexpected closures are not automatically detected. On special schedule days, use a manual timer or update the schedule.
-- Music recognition is not performed; the 25-second warning is based on bell time.
+**Monday late start:** Periods 1–4 9:05–9:35, 9:40–10:10, 10:15–10:45, 10:50–11:20; period 6 12:55–1:30; period 7 1:35–2:35. For grades 5–6, lunch 11:20–12:10 and period 5 12:15–12:50. For grades 7–8, period 5 11:25–12:10 and lunch 12:10–12:50.
 
-## Current scope
-
-Only the school schedule and stoplight mode have been added to the existing application; the Learning Hub itself has not been modified.
+**Tuesday–Friday:** Periods 1–4 8:05–9:00, 9:05–9:52, 9:57–10:44, 10:49–11:36; period 6 12:55–1:42; period 7 1:47–2:35. For grades 5–6, lunch 11:36–12:20 and period 5 12:24–12:50. For grades 7–8, period 5 11:40–12:20 and lunch 12:20–12:50.
