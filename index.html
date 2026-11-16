@@ -283,7 +283,7 @@ body:not(.compact-layout) .stage:fullscreen .stage-bottom{margin-top:auto}
 .stage[data-reduced="true"] .snake-canvas{display:none!important}
 @media(prefers-reduced-motion:reduce){.snake-canvas{display:none!important}}
 
-/* v2.8 · Second, independent timer: the main school bell timer never stops. */
+/* v2.9 · Second, independent timer: the main school bell timer never stops. */
 .activity-timer{font-family:Arial,Helvetica,sans-serif;color:#f3fbff;position:relative;z-index:3;width:100%;max-width:740px;flex:0 0 auto;background:linear-gradient(125deg,rgba(12,39,61,.93),rgba(17,29,51,.94));border:1px solid rgba(122,213,231,.48);border-radius:17px;box-shadow:0 10px 30px rgba(0,0,0,.14);padding:11px 14px 10px;display:flex;flex-direction:column;gap:8px;letter-spacing:normal}
 .activity-timer-top{display:flex;align-items:center;gap:8px;justify-content:space-between;min-width:0}.activity-timer-heading{color:#a1e6eb;letter-spacing:.12em;font-weight:900;font-size:10px;white-space:nowrap}.activity-timer-heading small{font-size:10px;letter-spacing:0;color:#a8c6d8;font-weight:500;margin-left:7px}.activity-timer-state{background:rgba(141,225,215,.12);color:#aef3db;border:1px solid rgba(128,237,197,.26);font-size:10px;letter-spacing:.06em;font-weight:900;border-radius:999px;padding:4px 9px;white-space:nowrap}
 .activity-timer-main{display:grid;grid-template-columns:minmax(105px,1fr) auto auto;align-items:center;gap:11px}.activity-timer-name{font-size:9px;color:#bbd4e4;letter-spacing:.12em;font-weight:850;display:flex;flex-direction:column;gap:4px;min-width:0}.activity-timer-name input{font-family:Arial,Helvetica,sans-serif;background:rgba(4,15,30,.42);color:#fff;border:1px solid #42637a;border-radius:8px;padding:7px 8px;min-height:35px;font-size:14px;font-weight:800;max-width:100%;letter-spacing:0}.activity-timer-readout{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;min-width:104px}.activity-timer-readout>span:first-child{font-size:clamp(28px,3.5vw,41px);font-variant-numeric:tabular-nums;font-weight:900;letter-spacing:-.04em;line-height:1.05;color:#f4fdff;white-space:nowrap}.activity-timer-sub{font-size:10px;color:#9bd5db;text-align:center;line-height:1.3;min-height:13px}.activity-timer-actions{display:flex;gap:6px;align-items:center}.activity-timer button{font-family:Arial,Helvetica,sans-serif;border:1px solid #46677d;background:#20415a;color:#ebf7ff;font-weight:850;border-radius:8px;cursor:pointer;white-space:nowrap;transition:background .15s,transform .15s}.activity-timer button:hover{background:#315873}.activity-timer button:active{transform:scale(.97)}.activity-timer-start,.activity-timer-reset{padding:9px 10px;font-size:12px;min-height:37px}.activity-timer .activity-timer-start{background:#92eddb;color:#082b39;border-color:#a5f3e8}.activity-timer .activity-timer-start:hover{background:#b6fff2}.activity-timer-track{height:6px;background:#23415a;border-radius:30px;overflow:hidden;width:100%}.activity-timer-track span{height:100%;display:block;width:100%;border-radius:inherit;background:linear-gradient(90deg,#54b9d5,#91efda);transition:width .2s linear}
@@ -295,6 +295,18 @@ body:not(.compact-layout) .stage:not(:fullscreen) .ring{width:clamp(185px,25dvh,
 body.school-mode:not(.compact-layout) .stage:not(:fullscreen) #timerMessage{display:none}
 body:not(.compact-layout) .stage:not(:fullscreen) .school-bell-event{padding:7px 8px}
 @media(max-width:450px){.activity-timer-bottom{gap:7px}.activity-custom{min-width:0}.activity-sound{margin-left:auto}}
+/* v2.9 · A small, persistent opt-in switch leaves the school countdown room to breathe. */
+.activity-timer-toggle-row{position:relative;z-index:3;display:flex;width:100%;max-width:740px;flex:0 0 auto;align-items:center;justify-content:flex-end;gap:10px;min-height:27px;font-family:Arial,Helvetica,sans-serif;letter-spacing:normal}
+.activity-timer-toggle{display:inline-flex;flex:0 0 auto;gap:7px;align-items:center;cursor:pointer;background:rgba(10,32,52,.82);border:1px solid rgba(122,213,231,.4);border-radius:999px;padding:5px 10px;color:#d7f4f6;font-size:11px;font-weight:800;line-height:1.2}
+.activity-timer-toggle:hover{background:rgba(24,59,78,.92);border-color:rgba(162,232,233,.7)}
+.activity-timer-toggle input{appearance:auto;width:15px;height:15px;min-width:15px;margin:0;padding:0;accent-color:#83e9cd;cursor:pointer}
+.activity-timer-toggle-note{color:#bfeadf;font-weight:750;font-size:11px;font-variant-numeric:tabular-nums;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}
+.activity-timer-toggle-note:empty{display:none}
+.activity-timer[hidden]{display:none!important}
+body.compact-layout .activity-timer-toggle-row{max-width:100%;justify-content:flex-end;gap:6px;min-height:26px}
+body.compact-layout .activity-timer-toggle{padding:5px 9px;font-size:10px}
+body.compact-layout .activity-timer-toggle-note{font-size:10px;flex:1 1 auto}
+@media(max-width:370px){.activity-timer-toggle-note{font-size:9px;max-width:105px}}
 </style>
 </head>
 <body>
@@ -347,7 +359,11 @@ body:not(.compact-layout) .stage:not(:fullscreen) .school-bell-event{padding:7px
         <span class="status-message" id="timerMessage" role="status" aria-live="off">Ready when you are</span>
         <div id="routineMini" class="stage-mini-list hidden"></div>
       </div>
-      <section class="activity-timer" id="activityTimerPanel" aria-label="Independent classroom activity countdown">
+      <div class="activity-timer-toggle-row" aria-label="Optional second timer">
+        <span class="activity-timer-toggle-note" id="activityTimerCompactStatus" role="status" aria-live="off"></span>
+        <label class="activity-timer-toggle" for="activityTimerVisible"><input id="activityTimerVisible" type="checkbox" aria-controls="activityTimerPanel"> Show activity timer</label>
+      </div>
+      <section class="activity-timer" id="activityTimerPanel" aria-label="Independent classroom activity countdown" hidden>
         <div class="activity-timer-top"><span class="activity-timer-heading">SECOND TIMER <small>Runs independently of class bells</small></span><span class="activity-timer-state" id="activityTimerState">READY</span></div>
         <div class="activity-timer-main">
           <label class="activity-timer-name">ACTIVITY NAME<input id="activityTimerName" type="text" maxlength="48" value="Reading" aria-label="Activity timer name" spellcheck="false"></label>
@@ -866,6 +882,17 @@ function finishTime(){if(engine.status!=='running')return;if(config.mode==='rout
 /* Independent activity timer is deliberately NOT part of scenes or school-bell settings.
    Its wall-clock deadline survives scene changes, tab changes, and page reloads. */
 const ACTIVITY_STORAGE_KEY='classtempo.activityTimer.v1';
+const ACTIVITY_VISIBILITY_KEY='classtempo.activityTimer.visible.v1';
+let activityTimerVisible=(()=>{try{return localStorage.getItem(ACTIVITY_VISIBILITY_KEY)==='true'}catch(e){return false}})();
+function setActivityTimerVisible(visible){
+ activityTimerVisible=Boolean(visible);
+ $('activityTimerVisible').checked=activityTimerVisible;
+ $('activityTimerPanel').hidden=!activityTimerVisible;
+ $('activityTimerVisible').setAttribute('aria-expanded',String(activityTimerVisible));
+ try{localStorage.setItem(ACTIVITY_VISIBILITY_KEY,String(activityTimerVisible))}catch(e){/* Privacy settings may disable storage. */}
+ renderActivityTimer();
+}
+
 function newActivityTimer(){return {name:'Reading',durationSec:900,remainingMs:900000,deadlineMs:null,status:'idle',chime:true}}
 function cleanActivityTimer(raw){
  const data=raw&&typeof raw==='object'?raw:{};const s=newActivityTimer();
@@ -894,6 +921,12 @@ function renderActivityTimer(now=Date.now()){
  $('activityTimerFill').style.width=pct.toFixed(2)+'%';$('activityTimerProgress').setAttribute('aria-valuenow',String(Math.round(pct)));
  $('activityTimerProgress').setAttribute('aria-valuetext',clockString(ms)+' remaining for '+activityTimer.name);
  $('activityTimerPanel').classList.toggle('is-done',activityTimer.status==='done');$('activityTimerPanel').classList.toggle('is-paused',activityTimer.status==='paused');
+ // Keep an unobtrusive readout when the panel is hidden and an activity is active.
+ const summary=$('activityTimerCompactStatus');
+ summary.textContent=activityTimerVisible||activityTimer.status==='idle'?'':
+   activityTimer.status==='done'?`${activityTimer.name||'Activity'} finished`:
+   `${activityTimer.name||'Activity'} · ${clockString(ms)} ${activityTimer.status==='paused'?'paused':'left'}`;
+
 }
 function beginActivityTimer(seconds=null){
  if(seconds!==null){activityTimer.durationSec=clamp(Math.round(Number(seconds)||900),1,59999);activityTimer.remainingMs=activityTimer.durationSec*1000;activityTimer.status='idle'}
@@ -904,6 +937,9 @@ function beginActivityTimer(seconds=null){
 }
 function resetActivityTimer(){activityTimer.deadlineMs=null;activityTimer.remainingMs=activityTimer.durationSec*1000;activityTimer.status='idle';persistActivityTimer();renderActivityTimer()}
 function installActivityTimer(){
+ $('activityTimerVisible').addEventListener('change',e=>setActivityTimerVisible(e.target.checked));
+ // A new browser starts with the extra timer tucked away; the last choice persists.
+ setActivityTimerVisible(activityTimerVisible);
  $('activityTimerName').value=activityTimer.name;$('activityTimerMinutes').value=Math.floor(activityTimer.durationSec/60);$('activityTimerSeconds').value=activityTimer.durationSec%60;$('activityTimerSound').checked=activityTimer.chime;
  $('activityTimerName').addEventListener('input',e=>{activityTimer.name=safeText(e.target.value,48);persistActivityTimer();renderActivityTimer()});
  $('activityTimerStart').addEventListener('click',()=>beginActivityTimer());$('activityTimerReset').addEventListener('click',resetActivityTimer);
