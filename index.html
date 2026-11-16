@@ -283,31 +283,18 @@ body:not(.compact-layout) .stage:fullscreen .stage-bottom{margin-top:auto}
 .stage[data-reduced="true"] .snake-canvas{display:none!important}
 @media(prefers-reduced-motion:reduce){.snake-canvas{display:none!important}}
 
-/* v3.0 - Scene manager: visible grip and delete action, responsive drop targets. */
-.scene-reorder-tip{color:#96abc2;font-size:10px;line-height:1.45;margin:0 6px 10px}
-.scene-row{position:relative;display:flex;align-items:center;min-width:0;gap:0;border:1px solid transparent;border-radius:12px;transition:background .14s,border-color .14s}
-.scene-row:hover{background:#1b2940}
-.scene-row.active{background:#1d3442;border-color:rgba(120,225,188,.35)}
-.scene-row .scene{flex:1 1 auto;min-width:0;width:auto;min-height:59px;padding:7px 3px 7px 5px;border:0;background:transparent;border-radius:10px;gap:6px}
-.scene-row .scene:hover,.scene-row .scene.active{background:transparent;border-color:transparent}
-.scene-row .scene-icon{width:29px;height:31px;font-size:17px}
-.scene-row .scene-info{min-width:0}
-.scene-row .scene-title{font-size:12px}
-.scene-row .scene-star{font-size:13px;padding:0 1px}
-.scene-actions{display:flex;align-items:center;gap:0;flex:0 0 auto;padding-right:3px}
-.scene-action{display:grid;place-items:center;flex:none;width:28px;height:33px;padding:0;border:0;border-radius:7px;background:transparent;color:#a7bdd4;font-size:16px;line-height:1}
-.scene-action:hover,.scene-action:focus-visible{color:#fff;background:#334760}
-.scene-drag{cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
-.scene-drag:active{cursor:grabbing}
-.scene-delete{font-size:15px;color:#d6aeb2}
-.scene-delete:hover,.scene-delete:focus-visible{background:#56303b;color:#ffe4e8}
-.scene-row.scene-dragging{opacity:.48}
-.scene-row.scene-drop-before::before,.scene-row.scene-drop-after::after{content:"";position:absolute;left:4px;right:4px;height:3px;border-radius:2px;background:#79e7bc;box-shadow:0 0 7px #79e7bc99;pointer-events:none;z-index:2}
-.scene-row.scene-drop-before::before{top:-4px}
-.scene-row.scene-drop-after::after{bottom:-4px}
-@media(max-width:650px){body:not(.compact-layout) .scene-row{flex:0 0 196px;min-width:196px}body:not(.compact-layout) .scene{flex:1 1 auto;min-width:0}}
-body.compact-layout .scene-row{width:100%;flex:0 0 auto}
-body.compact-layout .scene-row .scene{width:auto;min-width:0;flex:1 1 auto}
+/* v2.8 · Second, independent timer: the main school bell timer never stops. */
+.activity-timer{font-family:Arial,Helvetica,sans-serif;color:#f3fbff;position:relative;z-index:3;width:100%;max-width:740px;flex:0 0 auto;background:linear-gradient(125deg,rgba(12,39,61,.93),rgba(17,29,51,.94));border:1px solid rgba(122,213,231,.48);border-radius:17px;box-shadow:0 10px 30px rgba(0,0,0,.14);padding:11px 14px 10px;display:flex;flex-direction:column;gap:8px;letter-spacing:normal}
+.activity-timer-top{display:flex;align-items:center;gap:8px;justify-content:space-between;min-width:0}.activity-timer-heading{color:#a1e6eb;letter-spacing:.12em;font-weight:900;font-size:10px;white-space:nowrap}.activity-timer-heading small{font-size:10px;letter-spacing:0;color:#a8c6d8;font-weight:500;margin-left:7px}.activity-timer-state{background:rgba(141,225,215,.12);color:#aef3db;border:1px solid rgba(128,237,197,.26);font-size:10px;letter-spacing:.06em;font-weight:900;border-radius:999px;padding:4px 9px;white-space:nowrap}
+.activity-timer-main{display:grid;grid-template-columns:minmax(105px,1fr) auto auto;align-items:center;gap:11px}.activity-timer-name{font-size:9px;color:#bbd4e4;letter-spacing:.12em;font-weight:850;display:flex;flex-direction:column;gap:4px;min-width:0}.activity-timer-name input{font-family:Arial,Helvetica,sans-serif;background:rgba(4,15,30,.42);color:#fff;border:1px solid #42637a;border-radius:8px;padding:7px 8px;min-height:35px;font-size:14px;font-weight:800;max-width:100%;letter-spacing:0}.activity-timer-readout{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;min-width:104px}.activity-timer-readout>span:first-child{font-size:clamp(28px,3.5vw,41px);font-variant-numeric:tabular-nums;font-weight:900;letter-spacing:-.04em;line-height:1.05;color:#f4fdff;white-space:nowrap}.activity-timer-sub{font-size:10px;color:#9bd5db;text-align:center;line-height:1.3;min-height:13px}.activity-timer-actions{display:flex;gap:6px;align-items:center}.activity-timer button{font-family:Arial,Helvetica,sans-serif;border:1px solid #46677d;background:#20415a;color:#ebf7ff;font-weight:850;border-radius:8px;cursor:pointer;white-space:nowrap;transition:background .15s,transform .15s}.activity-timer button:hover{background:#315873}.activity-timer button:active{transform:scale(.97)}.activity-timer-start,.activity-timer-reset{padding:9px 10px;font-size:12px;min-height:37px}.activity-timer .activity-timer-start{background:#92eddb;color:#082b39;border-color:#a5f3e8}.activity-timer .activity-timer-start:hover{background:#b6fff2}.activity-timer-track{height:6px;background:#23415a;border-radius:30px;overflow:hidden;width:100%}.activity-timer-track span{height:100%;display:block;width:100%;border-radius:inherit;background:linear-gradient(90deg,#54b9d5,#91efda);transition:width .2s linear}
+.activity-timer-bottom{display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap}.activity-presets{display:flex;align-items:center;gap:5px;flex-wrap:wrap}.activity-presets>span,.activity-custom>label{color:#b3cfdd;font-size:9px;font-weight:850;letter-spacing:.09em;margin-right:2px}.activity-presets button{padding:5px 8px;font-size:11px;min-height:27px}.activity-timer .activity-favorite{border-color:#90e4cc;color:#b6ffed}.activity-custom{display:flex;align-items:center;gap:4px}.activity-custom input{width:44px;min-width:0;max-width:44px;background:#0d2a3f;color:#f4fbff;border:1px solid #45687f;padding:5px 3px;text-align:center;border-radius:7px;font-size:12px;height:28px;font-variant-numeric:tabular-nums}.activity-custom>span{font-size:10px;color:#d0e2eb}.activity-custom button{padding:5px 8px;font-size:11px;min-height:27px}.activity-sound{display:flex;align-items:center;gap:4px;font-size:10px;white-space:nowrap;color:#d3e8f0;cursor:pointer}.activity-sound input{width:14px;height:14px;accent-color:#84ebca;margin:0}.activity-timer.is-done{border-color:#9cdeb5;background:linear-gradient(125deg,rgba(20,65,58,.94),rgba(15,45,48,.96))}.activity-timer.is-done .activity-timer-state{background:#d8ffdf;color:#164d36}.activity-timer.is-done .activity-timer-readout>span:first-child{color:#acffd6}.activity-timer.is-paused .activity-timer-readout>span:first-child{color:#ffe4a8}
+body.compact-layout .activity-timer{padding:10px 10px 9px;gap:8px;border-radius:12px;max-width:100%}body.compact-layout .activity-timer-heading small{display:none}body.compact-layout .activity-timer-main{grid-template-columns:minmax(0,1fr) auto;gap:8px}body.compact-layout .activity-timer-name{grid-column:1/2;grid-row:1}body.compact-layout .activity-timer-readout{grid-column:2/3;grid-row:1;min-width:96px}body.compact-layout .activity-timer-readout>span:first-child{font-size:clamp(25px,7.5vw,35px)}body.compact-layout .activity-timer-actions{grid-column:1/-1;grid-row:2;display:grid;grid-template-columns:1fr 1fr}body.compact-layout .activity-timer-actions button{padding:7px 8px;min-height:32px}body.compact-layout .activity-presets{flex:1 1 100%}body.compact-layout .activity-presets button{flex:1;padding:5px}body.compact-layout .activity-custom{flex:1 1 auto}body.compact-layout .activity-custom input{width:42px}body.compact-layout .activity-sound{margin-left:auto}
+.stage:fullscreen{overflow-y:auto}.stage:fullscreen .activity-timer{max-width:840px}body:not(.compact-layout) .stage:fullscreen .activity-timer{padding:8px 14px;gap:6px}body:not(.compact-layout) .stage:fullscreen .activity-timer-readout>span:first-child{font-size:clamp(29px,3.1vw,39px)}body.compact-layout .stage:fullscreen{height:100dvh;min-height:100dvh;max-height:100dvh;overflow-y:auto;justify-content:flex-start;gap:10px}
+body:not(.compact-layout) .stage:not(:fullscreen){gap:9px;padding:17px 18px}
+body:not(.compact-layout) .stage:not(:fullscreen) .ring{width:clamp(185px,25dvh,235px);height:clamp(185px,25dvh,235px)}
+body.school-mode:not(.compact-layout) .stage:not(:fullscreen) #timerMessage{display:none}
+body:not(.compact-layout) .stage:not(:fullscreen) .school-bell-event{padding:7px 8px}
+@media(max-width:450px){.activity-timer-bottom{gap:7px}.activity-custom{min-width:0}.activity-sound{margin-left:auto}}
 </style>
 </head>
 <body>
@@ -330,8 +317,7 @@ body.compact-layout .scene-row .scene{width:auto;min-width:0;flex:1 1 auto}
   </header>
   <aside class="side" id="scenePanel" aria-label="Saved timer scenes"><button type="button" class="drawer-close btn small" id="closeScenesBtn" aria-label="Close scenes panel">✕ Close</button>
     <div class="sidebar-head"><span class="eyebrow">Your timer scenes</span><button class="btn tiny" id="newSceneBtn" title="Make a new scene">＋ New</button></div>
-    <p class="scene-reorder-tip">Drag the grip to rearrange scenes. Use ↑/↓ keys on the grip, or tap the trash to delete.</p>
-    <div id="sceneList" class="scene-list" aria-label="Saved scenes in custom order"></div>
+    <div id="sceneList" class="scene-list"></div>
     <div class="section-line"></div>
     <button class="btn ghost sidelink" id="saveSceneSide">＋ Save current setup</button>
     <button class="btn ghost sidelink" id="duplicateScene">▣ Duplicate loaded scene</button>
@@ -361,6 +347,20 @@ body.compact-layout .scene-row .scene{width:auto;min-width:0;flex:1 1 auto}
         <span class="status-message" id="timerMessage" role="status" aria-live="off">Ready when you are</span>
         <div id="routineMini" class="stage-mini-list hidden"></div>
       </div>
+      <section class="activity-timer" id="activityTimerPanel" aria-label="Independent classroom activity countdown">
+        <div class="activity-timer-top"><span class="activity-timer-heading">SECOND TIMER <small>Runs independently of class bells</small></span><span class="activity-timer-state" id="activityTimerState">READY</span></div>
+        <div class="activity-timer-main">
+          <label class="activity-timer-name">ACTIVITY NAME<input id="activityTimerName" type="text" maxlength="48" value="Reading" aria-label="Activity timer name" spellcheck="false"></label>
+          <div class="activity-timer-readout" aria-label="Activity countdown"><span id="activityTimerDigits">15:00</span><span class="activity-timer-sub" id="activityTimerSub">Ready to begin</span></div>
+          <div class="activity-timer-actions"><button type="button" class="activity-timer-start" id="activityTimerStart">▶ Start</button><button type="button" class="activity-timer-reset" id="activityTimerReset">↺ Reset</button></div>
+        </div>
+        <div class="activity-timer-track" role="progressbar" id="activityTimerProgress" aria-label="Activity time remaining" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><span id="activityTimerFill"></span></div>
+        <div class="activity-timer-bottom">
+          <div class="activity-presets" role="group" aria-label="Quick-start activity timers"><span>START</span><button type="button" data-activity-min="5">5m</button><button type="button" data-activity-min="10">10m</button><button type="button" data-activity-min="15" class="activity-favorite">15m</button><button type="button" data-activity-min="20">20m</button><button type="button" data-activity-min="30">30m</button></div>
+          <div class="activity-custom"><label for="activityTimerMinutes">CUSTOM</label><input id="activityTimerMinutes" type="number" min="0" max="999" step="1" inputmode="numeric" value="15" aria-label="Custom minutes"><span>m</span><input id="activityTimerSeconds" type="number" min="0" max="59" step="1" inputmode="numeric" value="0" aria-label="Custom seconds"><span>s</span><button id="activityTimerCustom" type="button" title="Start a countdown for this duration">▶ Go</button></div>
+          <label class="activity-sound"><input id="activityTimerSound" type="checkbox" checked> Chime</label>
+        </div>
+      </section>
       <div class="stage-bottom"><button id="prevStep" class="btn side-action hidden" title="Previous step">← Previous</button><button id="startBtn" class="btn primary major">▶ Start</button><button id="resetBtn" class="btn side-action">↺ Reset</button><button id="nextStep" class="btn side-action hidden" title="Next routine step">Next →</button><button id="plusOne" class="btn side-action" title="Add one minute">+1m</button><button id="plusFive" class="btn side-action" title="Add five minutes">+5m</button><button id="lapBtn" class="btn side-action hidden">＋ Lap</button></div>
     </section>
     <section class="quick-panel" aria-label="Quick timers">
@@ -409,8 +409,8 @@ body.compact-layout .scene-row .scene{width:auto;min-width:0;flex:1 1 auto}
       <div class="field"><div class="label">Text and countdown color</div><div class="field-row"><label style="font-size:12px;flex:1" for="fontColorInput">Text color</label><input type="color" id="fontColorInput" value="#f5fcff"><button type="button" class="btn small" id="resetFontColor">Use theme color</button></div><div class="field-help" id="fontColorHint">Uses your theme text color by default. In School Bells mode, the countdown digits still follow the green/yellow/red stoplight.</div></div>
       <label class="toggle"><input type="checkbox" id="showClockInput" checked><span>Show a clock in the corner</span></label>
       <div class="field"><label for="animationInput">Timer animation</label>
-<select id="animationInput"><option value="calm">Calm glow · subtle</option><option value="sparkles">Floating sparkles · playful</option><option value="arcade">Arcade energy · lively</option><option value="snake">🐍 Snake fruit hunt · free roaming</option><option value="off">None · no effects</option></select>
-<div class="field-help">Works in Wide and Narrow. Snake explores the whole display chasing five different fruits. Its tail grows through class, then restarts at the next period. Saved with each scene. Works in Wide and Narrow.</div></div>
+<select id="animationInput"><option value="calm">Calm glow · subtle</option><option value="sparkles">Floating sparkles · playful</option><option value="arcade">Arcade energy · lively</option><option value="snake">🐍 Snake & apples · grows with time</option><option value="off">None · no effects</option></select>
+<div class="field-help">Works in Wide and Narrow. Snake chases apples around the display; its tail grows as the class or timer progresses and starts over at the next period. Saved with each scene. Works in Wide and Narrow.</div></div>
 <label class="toggle"><input type="checkbox" id="reduceMotionInput"><span>Reduce transitions and visual effects</span></label>
       <label class="toggle"><input type="checkbox" id="largeTextInput"><span>Extra-large countdown text</span></label>
     </section>
@@ -510,7 +510,7 @@ function newEngine(){return {status:'idle',remainingMs:0,elapsedMs:0,deadlineMs:
 let scenes=starter.map(s=>({id:s.id,name:s.name,icon:s.icon,config:safeConfig(s.config)}));let selectedId='start-class',openingId='start-class',config=safeConfig(scenes[0].config),engine=newEngine(),dirty=false;
 let modalAction=null,toastHandle=null,audioCtx=null,wakeLock=null;
 function storage(){try{localStorage.setItem(KEY,JSON.stringify({scenes,selectedId,openingId,config,engine,dirty}))}catch(e){/* Browser might block local storage. Export remains available. */}}
-function hydrate(){try{const data=JSON.parse(localStorage.getItem(KEY)||'null');if(!data||!Array.isArray(data.scenes))return;const loaded=data.scenes.slice(0,150).filter(s=>s&&typeof s==='object').map(s=>({id:safeText(s.id,80)||'scene-'+crypto.randomUUID(),name:safeText(s.name,65)||'Unnamed scene',icon:safeText(s.icon,3)||'◴',config:safeConfig(s.config)}));scenes=loaded;openingId=scenes.some(s=>s.id===data.openingId)?data.openingId:(scenes[0]?.id||'');selectedId=scenes.some(s=>s.id===data.selectedId)?data.selectedId:openingId;const openScene=scenes.find(s=>s.id===openingId)||scenes[0];config=safeConfig(openScene?.config||data.config||defaults());selectedId=openScene?.id||'';engine=newEngine();dirty=!openScene}catch(e){console.warn('Unable to restore stored timers',e)}}
+function hydrate(){try{const data=JSON.parse(localStorage.getItem(KEY)||'null');if(!data||!Array.isArray(data.scenes))return;const loaded=data.scenes.slice(0,150).filter(s=>s&&typeof s==='object').map(s=>({id:safeText(s.id,80)||'scene-'+crypto.randomUUID(),name:safeText(s.name,65)||'Unnamed scene',icon:safeText(s.icon,3)||'◴',config:safeConfig(s.config)}));if(loaded.length)scenes=loaded;openingId=scenes.some(s=>s.id===data.openingId)?data.openingId:scenes[0].id;selectedId=scenes.some(s=>s.id===data.selectedId)?data.selectedId:openingId;const openScene=scenes.find(s=>s.id===openingId)||scenes[0];config=safeConfig(openScene.config);selectedId=openScene.id;engine=newEngine();dirty=false}catch(e){console.warn('Unable to restore stored timers',e)}}
 hydrate();
 if(schoolProfile.completed&&schoolProfile.openSchool){config.mode='school'}
 function durationForPhase(){return config.mode==='routine'?routineTimeRemaining(engine.stepIndex):config.durationSec*1000}
@@ -523,83 +523,7 @@ function activeStep(){return config.steps[engine.stepIndex]||config.steps[0]}
 function clockString(ms){let total=Math.max(0,Math.ceil(ms/1000));const hh=Math.floor(total/3600),mm=Math.floor((total%3600)/60),ss=total%60;return hh>0?`${hh}:${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`:`${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`}
 function stopwatchString(ms){const total=Math.max(0,Math.floor(ms/1000));const hh=Math.floor(total/3600),mm=Math.floor(total%3600/60),ss=total%60;return hh>0?`${hh}:${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`:`${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`}
 function durationLabel(c){if(c.mode==='stopwatch')return 'Count up';if(c.mode==='clock'){const [h,m]=c.targetTime.split(':').map(Number);return `Until ${new Date(2026,1,1,h,m).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})}`};if(c.mode==='routine')return `${c.steps.length} steps · ${c.steps.filter(x=>x.kind==='until').length} clock times`;return c.durationSec%60===0?`${c.durationSec/60} min`:`${Math.floor(c.durationSec/60)}m ${c.durationSec%60}s`}
-let scenePointerDrag=null;
-function moveScene(fromId,targetId,place='before'){
- if(!fromId||!targetId||fromId===targetId)return false;
- const from=scenes.findIndex(s=>s.id===fromId);
- if(from<0||!scenes.some(s=>s.id===targetId))return false;
- const [moved]=scenes.splice(from,1);
- const target=scenes.findIndex(s=>s.id===targetId);
- scenes.splice(target+(place==='after'?1:0),0,moved);
- renderScenes();storage();notify('Scene order saved');return true;
-}
-function deleteScene(id){
- const target=scenes.find(s=>s.id===id);
- if(!target)return;
- if(!confirm(`Delete the saved scene “${target.name}”? This cannot be undone unless you have exported a backup.`))return;
- scenes=scenes.filter(s=>s.id!==id);
- if(openingId===id)openingId=scenes[0]?.id||'';
- if(selectedId===id){selectedId='';dirty=true;} // Keep the live timer running, but treat it as unsaved.
- renderScenes();renderInputs();storage();
- notify(`Deleted “${target.name}”`);
-}
-function clearSceneDragMarkers(){
- $('sceneList').querySelectorAll('.scene-row').forEach(row=>row.classList.remove('scene-dragging','scene-drop-before','scene-drop-after'));
-}
-function renderScenes(){
- const list=$('sceneList');list.replaceChildren();
- if(!scenes.length){const empty=document.createElement('p');empty.className='scene-reorder-tip';empty.textContent='No saved scenes. Use “Save current setup” to add one.';list.append(empty);return;}
- scenes.forEach(s=>{
-  const row=document.createElement('div');row.className='scene-row'+(s.id===selectedId?' active':'');row.dataset.sceneId=s.id;
-  const btn=document.createElement('button');btn.type='button';btn.className='scene'+(s.id===selectedId?' active':'');btn.title=`Load ${s.name}`;btn.setAttribute('aria-label',`Load scene: ${s.name}`);
-  const ic=document.createElement('span');ic.className='scene-icon';ic.textContent=s.icon||'◴';
-  const details=document.createElement('span');details.className='scene-info';const a=document.createElement('span');a.className='scene-title';a.textContent=s.name+(selectedId===s.id&&dirty?' •':'');
-  const b=document.createElement('span');b.className='scene-meta';b.textContent=durationLabel(s.config);details.append(a,b);btn.append(ic,details);
-  if(s.id===openingId){const star=document.createElement('span');star.className='scene-star';star.textContent='★';star.title='Opens by default';btn.append(star)}
-  btn.addEventListener('click',()=>{loadScene(s.id);closeDrawer()});
-  const actions=document.createElement('div');actions.className='scene-actions';
-  const handle=document.createElement('button');handle.type='button';handle.className='scene-action scene-drag';handle.textContent='⠿';handle.title=`Drag to reorder ${s.name}; arrow keys also move it`;handle.setAttribute('aria-label',`Reorder ${s.name}: drag or press up/down arrows`);handle.dataset.sceneId=s.id;
-  handle.addEventListener('keydown',e=>{
-   if(e.key!=='ArrowUp'&&e.key!=='ArrowDown')return;
-   e.preventDefault();const at=scenes.findIndex(x=>x.id===s.id),to=at+(e.key==='ArrowUp'?-1:1);
-   if(to<0||to>=scenes.length)return;
-   if(moveScene(s.id,scenes[to].id,e.key==='ArrowUp'?'before':'after')){
-    Array.from($('sceneList').querySelectorAll('.scene-drag')).find(el=>el.dataset.sceneId===s.id)?.focus();
-   }
-  });
-  // Pointer Events work with mouse, pen and touch; no HTML5 desktop-only drag restriction.
-  handle.addEventListener('pointerdown',e=>{
-   if(e.button!==0||scenePointerDrag)return;
-   e.preventDefault();scenePointerDrag={id:s.id,pointerId:e.pointerId,startX:e.clientX,startY:e.clientY,targetId:null,place:null,moved:false};
-   handle.setPointerCapture(e.pointerId);row.classList.add('scene-dragging');
-  });
-  handle.addEventListener('pointermove',e=>{
-   const drag=scenePointerDrag;if(!drag||drag.pointerId!==e.pointerId)return;
-   if(!drag.moved&&Math.hypot(e.clientX-drag.startX,e.clientY-drag.startY)<5)return;
-   drag.moved=true;clearSceneDragMarkers();row.classList.add('scene-dragging');
-   const hit=document.elementFromPoint(e.clientX,e.clientY)?.closest('.scene-row');
-   if(!hit||!list.contains(hit)||hit.dataset.sceneId===drag.id){drag.targetId=null;return;}
-   const rect=hit.getBoundingClientRect();const horizontal=getComputedStyle(list).flexDirection==='row';
-   drag.place=(horizontal?e.clientX<rect.left+rect.width/2:e.clientY<rect.top+rect.height/2)?'before':'after';
-   drag.targetId=hit.dataset.sceneId;hit.classList.add(drag.place==='before'?'scene-drop-before':'scene-drop-after');
-   const side=$('scenePanel');const sideRect=side.getBoundingClientRect();
-   if(e.clientY<sideRect.top+50)side.scrollTop-=10;
-   else if(e.clientY>sideRect.bottom-50)side.scrollTop+=10;
-  });
-  const finishDrag=e=>{
-   const drag=scenePointerDrag;if(!drag||drag.pointerId!==e.pointerId)return;
-   scenePointerDrag=null;clearSceneDragMarkers();
-   if(handle.hasPointerCapture(e.pointerId))handle.releasePointerCapture(e.pointerId);
-   if(drag.moved&&drag.targetId)moveScene(drag.id,drag.targetId,drag.place);
-  };
-  handle.addEventListener('pointerup',finishDrag);
-  handle.addEventListener('pointercancel',finishDrag);
-  const del=document.createElement('button');del.type='button';del.className='scene-action scene-delete';del.innerHTML='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 10v7"/><path d="M14 10v7"/></svg>';del.title=`Delete saved scene: ${s.name}`;del.setAttribute('aria-label',`Delete saved scene: ${s.name}`);
-  del.addEventListener('click',()=>deleteScene(s.id));
-  actions.append(handle,del);row.append(btn,actions);list.append(row);
- });
-}
-
+function renderScenes(){const list=$('sceneList');list.replaceChildren();scenes.forEach(s=>{const btn=document.createElement('button');btn.className='scene'+(s.id===selectedId?' active':'');btn.title=`Load ${s.name}`;const ic=document.createElement('span');ic.className='scene-icon';ic.textContent=s.icon||'◴';const details=document.createElement('span');details.className='scene-info';const a=document.createElement('span');a.className='scene-title';a.textContent=s.name+(selectedId===s.id&&dirty?' •':'');const b=document.createElement('span');b.className='scene-meta';b.textContent=durationLabel(s.config);details.append(a,b);btn.append(ic,details);if(s.id===openingId){const star=document.createElement('span');star.className='scene-star';star.textContent='★';star.title='Opens by default';btn.append(star)}btn.addEventListener('click',()=>{loadScene(s.id);closeDrawer()});list.append(btn)})}
 function loadScene(id){const found=scenes.find(s=>s.id===id);if(!found)return;selectedId=id;config=safeConfig(found.config);dirty=false;resetEngine(false);render();storage();notify(`Loaded “${found.name}”`)}
 function quickTargetValue(){
  // Don't offer an expired target as the default on a new countdown scene.
@@ -632,7 +556,7 @@ function renderRoutineEditor(){
    const b=document.createElement('button');b.className='btn tiny';b.textContent=symbol;b.title=titleText;b.disabled=i+diff<0||i+diff>=config.steps.length;
    b.onclick=()=>{let steps=config.steps.map(s=>({...s}));[steps[i],steps[i+diff]]=[steps[i+diff],steps[i]];updateConfig({steps})};acts.append(b)
   }
-  const del=document.createElement('button');del.className='btn tiny danger';del.innerHTML='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 10v7"/><path d="M14 10v7"/></svg>';del.title='Remove step';del.disabled=config.steps.length===1;
+  const del=document.createElement('button');del.className='btn tiny danger';del.textContent='×';del.title='Remove step';del.disabled=config.steps.length===1;
   del.onclick=()=>{if(config.steps.length===1){notify('Keep at least one step');return}updateConfig({steps:config.steps.filter((_,j)=>j!==i)})};acts.append(del);
   head.append(title,acts);
   const row=document.createElement('div');row.className='step-row';
@@ -750,17 +674,10 @@ function soundPlay(which='finish'){if(config.sound==='silent')return;const ctx=w
 async function screenAwake(){if(!document.fullscreenElement||!('wakeLock'in navigator)||wakeLock)return;try{wakeLock=await navigator.wakeLock.request('screen');wakeLock.addEventListener('release',()=>{wakeLock=null})}catch(e){}}
 function releaseAwake(){if(wakeLock){wakeLock.release().catch(()=>{});wakeLock=null}}
 
-// The Snake background is a quiet, decorative fruit hunt. It never takes input
-// or changes the school bell, countdown, scene, or routine settings.
-const snakeFruitPalette=[
- {name:'apple',color:'#ff526f'},
- {name:'orange',color:'#ffa83e'},
- {name:'pear',color:'#c7e86a'},
- {name:'grapes',color:'#ae8cff'},
- {name:'strawberry',color:'#ff668e'}
-];
+// Optional decorative Snake: no controls, no sounds, no external assets.
+// A canvas ensures the existing title, timer, bell list and controls remain interactive.
 const snakeState={phase:'',progress:0,cols:0,rows:0,cell:0,w:0,h:0,dpr:1,
- body:[],fruit:null,fruitType:0,eaten:0,lastStep:0,ctx:null,waypoint:null,turn:0};
+ body:[],apple:null,route:[],headIndex:0,appleIndex:0,eaten:0,lastStep:0,ctx:null};
 function snakeProgress(now){
  if(config.mode==='school'){
   const date=new Date(now),item=schoolPosition(date);
@@ -777,196 +694,115 @@ function snakeProgress(now){
   pct:engine.status==='done'?1:engine.status==='idle'?0:clamp(1-remainder/total,0,1),
   moving:engine.status==='running'};
 }
-function snakeKey(p){return p.x+','+p.y}
-function snakePlayable(x,y){const s=snakeState;return x>=1&&y>=1&&x<s.cols-1&&y<s.rows-1}
-function snakeGoalLength(pct){
- const s=snakeState,area=(s.cols-2)*(s.rows-2);
- return 4+Math.round(clamp(pct,0,1)*Math.max(4,Math.min(84,Math.floor(area*.22)-4)));
+function snakeBlocked(x,y){
+ const st=snakeState;if(x<1||x>=st.cols-1||y<1||y>=st.rows-1)return true;
+ const nx=(x+.5)/st.cols,ny=(y+.5)/st.rows;
+ return Math.abs(nx-.5)<.265 && Math.abs(ny-.53)<.29;
 }
-// A reachable, winding starter body makes the snake appear appropriately long
-// even if the timer is opened halfway through a period.
-function snakeSeed(pct){
- const s=snakeState,trail=[];
- for(let y=1;y<s.rows-1;y++){
-  if(y%2)for(let x=1;x<s.cols-1;x++)trail.push({x,y});
-  else for(let x=s.cols-2;x>=1;x--)trail.push({x,y});
- }
- const len=Math.max(4,Math.min(trail.length-6,snakeGoalLength(pct)));
- const room=Math.max(1,trail.length-len-3);
- const headIndex=len-1+Math.floor(Math.random()*room);
- s.body=Array.from({length:len},(_,i)=>trail[headIndex-i]);
+// A closed path near the edges ensures the snake can grow throughout a lesson
+// without ever colliding with itself. Apples always appear farther along its path.
+function snakeBuildRoute(){
+ const st=snakeState,left=1,right=st.cols-2;
+ const top=1; // above the large activity heading, never through the title
+ const bottom=Math.max(top+5,st.rows-4); // below the ring, clear of the main countdown
+ const route=[];
+ for(let x=left;x<=right;x++)route.push({x,y:top});
+ for(let y=top+1;y<=bottom;y++)route.push({x:right,y});
+ for(let x=right-1;x>=left;x--)route.push({x,y:bottom});
+ for(let y=bottom-1;y>top;y--)route.push({x:left,y});
+ st.route=route;
 }
-// Find a collision-free, shortest path on the CURRENT screen's grid, not a
-// hard-coded border. Direction priority changes as the snake eats fruit.
-function snakePath(target,allowTail=false){
- const s=snakeState,head=s.body[0];if(!target||!head)return [];
- const blocked=new Set((allowTail?s.body.slice(0,-1):s.body).map(snakeKey));
- blocked.delete(snakeKey(head));
- const dirs=[[1,0],[0,1],[-1,0],[0,-1]];
- const rotate=s.turn%4;dirs.push(...dirs.splice(0,rotate));
- if(s.turn%3===2)dirs.reverse();
- const parents=new Map(),visited=new Set([snakeKey(head)]),queue=[head],goal=snakeKey(target);
- for(let i=0;i<queue.length;i++){
-  const p=queue[i],oldKey=snakeKey(p);
-  if(oldKey===goal){
-   const path=[];let k=oldKey;
-   while(parents.has(k)){const [x,y]=k.split(',').map(Number);path.unshift({x,y});k=parents.get(k)}
-   return path;
-  }
-  for(const [dx,dy] of dirs){
-   const x=p.x+dx,y=p.y+dy,key=x+','+y;
-   if(snakePlayable(x,y)&&!blocked.has(key)&&!visited.has(key)){
-    visited.add(key);parents.set(key,oldKey);queue.push({x,y});
-   }
-  }
- }
- return [];
+function snakeUpdateBody(pct){
+ const st=snakeState,route=st.route;
+ if(!route||!route.length)return;
+ const maxLen=Math.max(4,Math.floor(route.length*.73));
+ const len=Math.max(4,Math.round(4+clamp(pct,0,1)*(maxLen-4)));
+ st.body=Array.from({length:len},(_,i)=>route[(st.headIndex-i+route.length)%route.length]);
 }
-function snakeRandomReachable(minDistance,maxDistance){
- const s=snakeState,head=s.body[0];if(!head)return null;
- const occupied=new Set(s.body.map(snakeKey));
- const picks=[];
- for(let y=1;y<s.rows-1;y++)for(let x=1;x<s.cols-1;x++){
-  const dist=Math.abs(x-head.x)+Math.abs(y-head.y);
-  if(dist>=minDistance&&dist<=maxDistance&&!occupied.has(x+','+y))picks.push({x,y});
- }
- // Check actual reachability, especially near a long tail or in narrow mode.
- for(let attempt=0;attempt<Math.min(48,picks.length);attempt++){
-  const i=Math.floor(Math.random()*picks.length),p=picks[i];picks[i]=picks[picks.length-1];picks.pop();
-  if(snakePath(p).length)return p;
- }
- return null;
-}
-function snakeNewFruit(){
- const s=snakeState;
- // Change fruit artwork every time the snake eats: 5 varieties, no download.
- s.fruitType=s.eaten%snakeFruitPalette.length;
- const width=s.cols-2,height=s.rows-2;
- s.fruit=snakeRandomReachable(7,Math.max(14,Math.round((width+height)*.68)))
-    ||snakeRandomReachable(2,width+height)||null;
- // Occasional detours give zigzag, scenic, and exploratory routes instead of
- // always following the shortest straight-line route to the snack.
- s.waypoint=null;
- if(s.fruit&&s.eaten%3===1){
-  const waypoint=snakeRandomReachable(5,Math.max(8,Math.floor((width+height)*.5)));
-  if(waypoint&&snakeKey(waypoint)!==snakeKey(s.fruit))s.waypoint=waypoint;
- }
+function snakeNewApple(){
+ const st=snakeState;if(!st.route?.length)return;
+ // The apple remains ahead of the head, never hidden in the snake's tail.
+ const gap=7+Math.floor(Math.random()*9);
+ st.appleIndex=(st.headIndex+Math.min(gap,Math.floor(st.route.length*.23)))%st.route.length;
+ st.apple=st.route[st.appleIndex];
 }
 function snakeNewPhase(key,pct){
- const s=snakeState;s.phase=key;s.progress=pct;s.eaten=0;s.turn=Math.floor(Math.random()*4);
- snakeSeed(pct);s.lastStep=0;snakeNewFruit();
+ const st=snakeState;st.phase=key;st.progress=pct;st.eaten=0;
+ snakeBuildRoute();st.headIndex=Math.floor(Math.random()*st.route.length);
+ snakeUpdateBody(pct);st.lastStep=0;snakeNewApple();
 }
 function snakeStep(pct){
- const s=snakeState;
- if(!s.fruit)snakeNewFruit();
- if(!s.fruit){snakeSeed(pct);snakeNewFruit();return;}
- let goal=s.waypoint||s.fruit,path=snakePath(goal);
- if(!path.length&&s.waypoint){s.waypoint=null;goal=s.fruit;path=snakePath(goal)}
- if(!path.length){snakeNewFruit();path=snakePath(s.fruit)}
- // If surrounded, follow the moving tail until a fruit route opens again.
- // Stepping into the tail is legal only when it will disappear this move.
- if(!path.length&&s.body.length>=snakeGoalLength(pct)){
-  path=snakePath(s.body[s.body.length-1],true);
- }
- if(!path.length){snakeSeed(pct);snakeNewFruit();return;}
- const next=path[0];s.body.unshift(next);
- const length=snakeGoalLength(pct);
- while(s.body.length>length)s.body.pop();
- if(s.waypoint&&snakeKey(next)===snakeKey(s.waypoint))s.waypoint=null;
- if(s.fruit&&snakeKey(next)===snakeKey(s.fruit)){
-  s.eaten++;s.turn=(s.turn+1+Math.floor(Math.random()*3))%12;
-  snakeNewFruit();
- }
+ const st=snakeState;if(!st.route?.length)return;
+ st.headIndex=(st.headIndex+1)%st.route.length;
+ snakeUpdateBody(pct);
+ if(st.headIndex===st.appleIndex){st.eaten++;snakeNewApple();}
 }
 function snakeCanvasSize(canvas){
- const s=snakeState,rect=$('stage').getBoundingClientRect();
+ const st=snakeState,rect=$('stage').getBoundingClientRect();
  const w=Math.round(rect.width),h=Math.round(rect.height);
  if(w<150||h<180)return false;
  const cell=Math.max(16,Math.min(27,Math.floor(Math.min(w/17,h/19))));
  const cols=Math.max(10,Math.floor(w/cell)),rows=Math.max(12,Math.floor(h/cell));
  const dpr=Math.min(2,window.devicePixelRatio||1);
- if(s.w!==w||s.h!==h||s.dpr!==dpr){
-  s.w=w;s.h=h;s.cols=cols;s.rows=rows;s.cell=cell;s.dpr=dpr;
+ if(st.w!==w||st.h!==h||st.dpr!==dpr){
+  st.w=w;st.h=h;st.cols=cols;st.rows=rows;st.cell=cell;st.dpr=dpr;
   canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);
-  s.ctx=canvas.getContext('2d');if(!s.ctx)return false;
-  s.ctx.setTransform(dpr,0,0,dpr,0,0);s.phase='';
+  st.ctx=canvas.getContext('2d');if(!st.ctx)return false;
+  st.ctx.setTransform(dpr,0,0,dpr,0,0);st.phase='';
  }
  return true;
 }
-function snakeDrawFruit(ctx,x,y,cell,now){
- const s=snakeState,t=s.fruitType;
- const size=cell*.29,bob=Math.sin(now/330)*cell*.07;
- ctx.save();ctx.translate(x,y+bob);ctx.shadowBlur=cell*.6;
- ctx.shadowColor=snakeFruitPalette[t].color;
- const ellipse=(cx,cy,rx,ry,fill)=>{
-  ctx.fillStyle=fill;ctx.beginPath();ctx.ellipse(cx,cy,rx,ry,0,0,Math.PI*2);ctx.fill();
- };
- if(t===0){ // shiny red apple
-  ellipse(-size*.32,0,size*.77,size*.9,'#ff536e');
-  ellipse(size*.36,0,size*.77,size*.9,'#f63659');
-  ellipse(-size*.52,-size*.45,size*.28,size*.2,'#ffd0cd');
- }else if(t===1){ // orange with a sunlit edge
-  ellipse(0,0,size*1.17,size*1.04,'#ff9b31');
-  ellipse(-size*.33,-size*.24,size*.38,size*.27,'#ffd088');
-  ellipse(size*.35,size*.35,size*.16,size*.13,'#e96c23');
- }else if(t===2){ // pear with its tapering neck
-  ellipse(0,size*.32,size*.96,size*.86,'#afd65a');
-  ellipse(0,-size*.36,size*.54,size*.72,'#d8ef78');
-  ellipse(-size*.36,0,size*.23,size*.35,'#eeffa5');
- }else if(t===3){ // a cluster of purple grapes
-  const grape=[[-.46,-.48],[.15,-.48],[-.7,.1],[-.05,.09],[.59,.09],[-.35,.65],[.28,.67]];
-  for(let i=0;i<grape.length;i++)ellipse(grape[i][0]*size,grape[i][1]*size,size*.38,size*.36,i%2?'#bd91fc':'#8e65e5');
-  ellipse(-size*.48,-size*.62,size*.13,size*.1,'#ebdcff');
- }else{ // strawberry with seeds
-  ctx.fillStyle='#f9416f';ctx.beginPath();ctx.moveTo(-size*1.08,-size*.44);
-  ctx.quadraticCurveTo(0,-size*1.3,size*1.05,-size*.38);
-  ctx.quadraticCurveTo(size*.83,size*.38,0,size*1.24);
-  ctx.quadraticCurveTo(-size*.89,size*.37,-size*1.08,-size*.44);ctx.fill();
-  ctx.shadowBlur=0;ctx.fillStyle='#ffe699';
-  for(const [px,py] of [[-.48,-.2],[.05,-.39],[.52,-.17],[-.32,.34],[.25,.35],[0,.77]]){
-   ctx.fillRect(size*px-1.1,size*py-1,2.3,3);
-  }
- }
- ctx.shadowBlur=0;
- if(t!==3){
-  ctx.strokeStyle='#986a39';ctx.lineWidth=Math.max(1.7,cell*.074);
-  ctx.beginPath();ctx.moveTo(0,-size*.72);ctx.lineTo(size*.1,-size*1.38);ctx.stroke();
- }
- ctx.fillStyle='#68e99a';ctx.beginPath();
- ctx.ellipse(size*.4,-size*1.14,size*.48,size*.19,-.38,0,Math.PI*2);ctx.fill();
- ctx.restore();
-}
 function snakePaint(now){
- const s=snakeState,ctx=s.ctx;if(!ctx)return;
- const {w,h,cell,cols,rows}=s,ox=(w-cols*cell)/2,oy=(h-rows*cell)/2;
+ const st=snakeState,ctx=st.ctx;if(!ctx)return;
+ const {w,h,cell,cols,rows}=st,ox=(w-cols*cell)/2,oy=(h-rows*cell)/2;
  ctx.clearRect(0,0,w,h);
  const light=$('stage').dataset.theme==='paper';
+ // Faint pixel-game board. Don't obscure text or the regular timer face.
  ctx.fillStyle=light?'rgba(24,72,58,.065)':'rgba(149,251,211,.075)';
  for(let y=1;y<rows-1;y+=2)for(let x=1;x<cols-1;x+=2){
-  ctx.fillRect(ox+x*cell+cell*.43,oy+y*cell+cell*.43,2,2);
+  if(!snakeBlocked(x,y)){ctx.fillRect(ox+x*cell+cell*.43,oy+y*cell+cell*.43,2,2);}
  }
- if(s.fruit)snakeDrawFruit(ctx,ox+(s.fruit.x+.5)*cell,oy+(s.fruit.y+.5)*cell,cell,now);
- for(let i=s.body.length-1;i>=0;i--){const p=s.body[i];
-  const x=ox+p.x*cell,y=oy+p.y*cell,inset=cell*.09,fade=i/Math.max(1,s.body.length-1);
+ if(st.apple){const x=ox+(st.apple.x+.5)*cell,y=oy+(st.apple.y+.5)*cell;
+  const bob=Math.sin(now/340)*cell*.07;
+  ctx.save();ctx.translate(x,y+bob);
+  ctx.shadowColor='#ff777f';ctx.shadowBlur=cell*.7;
+  ctx.fillStyle='#ff4d68';ctx.beginPath();ctx.arc(0,cell*.05,cell*.29,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#ff9eac';ctx.beginPath();ctx.arc(-cell*.085,-cell*.06,cell*.08,0,Math.PI*2);ctx.fill();
+  ctx.shadowBlur=0;ctx.strokeStyle='#72e6ae';ctx.lineWidth=Math.max(2,cell*.09);
+  ctx.beginPath();ctx.moveTo(0,-cell*.18);ctx.lineTo(cell*.05,-cell*.38);ctx.stroke();
+  ctx.fillStyle='#69e9a5';ctx.beginPath();ctx.ellipse(cell*.16,-cell*.32,cell*.15,cell*.07,-.5,0,Math.PI*2);ctx.fill();
+  ctx.restore();
+ }
+ const s=st.body;
+ for(let i=s.length-1;i>=0;i--){const p=s[i];
+  const x=ox+p.x*cell,y=oy+p.y*cell,inset=cell*.095,fade=i/Math.max(1,s.length-1);
   ctx.fillStyle=i===0?'#c1ff96':`hsl(${147-Math.round(fade*36)},${83-Math.round(fade*25)}%,${64-Math.round(fade*20)}%)`;
   ctx.shadowColor=i===0?'#a8ffa2':'#44efac';ctx.shadowBlur=i===0?cell*.65:cell*.16;
   ctx.beginPath();ctx.roundRect(x+inset,y+inset,cell-2*inset,cell-2*inset,cell*.21);ctx.fill();
-  ctx.shadowBlur=0;ctx.fillStyle='rgba(255,255,255,.19)';
-  ctx.fillRect(x+cell*.21,y+cell*.18,cell*.21,Math.max(2,cell*.065));
+  ctx.shadowBlur=0;
+  ctx.fillStyle='rgba(255,255,255,.19)';ctx.fillRect(x+cell*.21,y+cell*.18,cell*.21,Math.max(2,cell*.065));
  }
- if(s.body.length){
-  const head=s.body[0],neck=s.body[1]||{x:head.x-1,y:head.y};
-  let dx=head.x-neck.x,dy=head.y-neck.y;if(!dx&&!dy)dx=1;
-  const cx=ox+(head.x+.5)*cell,cy=oy+(head.y+.5)*cell,vertical=dy!==0;
+ if(s.length){
+  const head=s[0],neck=s[1]||{x:head.x-1,y:head.y};let dx=head.x-neck.x,dy=head.y-neck.y;
+  if(!dx&&!dy)dx=1;
+  const cx=ox+(head.x+.5)*cell,cy=oy+(head.y+.5)*cell;
+  const vertical=dy!==0;
   ctx.fillStyle='#13392c';
   for(const t of [-1,1]){
    const ex=cx+(vertical?t*cell*.19:dx*cell*.21),ey=cy+(vertical?dy*cell*.22:t*cell*.19);
    ctx.beginPath();ctx.arc(ex,ey,Math.max(1.8,cell*.065),0,Math.PI*2);ctx.fill();
   }
  }
- // The snake may travel BEHIND the countdown and its ring. The timer's layers
- // remain above this canvas and the clock/date area stays easy to read.
- ctx.clearRect(Math.max(0,w-150),0,150,Math.max(72,cell*2.6));
+ // Protect date and clock contrast even when the snake passes through the upper-right edge.
+ ctx.clearRect(Math.max(0,w-135),0,135,Math.max(73,cell*2.7));
+ // The snake travels BEHIND schedule cards, warm-ups and status badges, not over their text.
+ const stageRect=$('stage').getBoundingClientRect();
+ for(const id of ['schoolBellPreview','schoolWarmup','timerMessage','routineMini','stage-bottom']){
+  const el=$(id)||(id==='stage-bottom'?document.querySelector('#stage .stage-bottom'):null);if(!el||el.classList.contains('hidden'))continue;
+  const rect=el.getBoundingClientRect();if(rect.width&&rect.height){
+   ctx.clearRect(rect.left-stageRect.left-4,rect.top-stageRect.top-4,rect.width+8,rect.height+8);
+  }
+ }
 }
 function renderSnake(now){
  const canvas=$('snakeCanvas');if(!canvas)return;
@@ -976,11 +812,12 @@ function renderSnake(now){
   return;
  }
  if(!snakeCanvasSize(canvas))return;
- const s=snakeState,phase=snakeProgress(now);
- if(s.phase!==phase.key||phase.pct+.055<s.progress||phase.pct>s.progress+.085)snakeNewPhase(phase.key,phase.pct);
- s.progress=phase.pct;
- if(phase.moving&&(now-s.lastStep>=225||s.lastStep===0)){
-  snakeStep(phase.pct);s.lastStep=now;
+ const st=snakeState,phase=snakeProgress(now);
+ if(st.phase!==phase.key||phase.pct+0.055<st.progress)snakeNewPhase(phase.key,phase.pct);
+ st.progress=phase.pct;snakeUpdateBody(phase.pct);
+ // Pixel-art pace; the automatic game remains silent and pauses with manual timers.
+ if(phase.moving&&(now-st.lastStep>=225||st.lastStep===0)){
+  snakeStep(phase.pct);st.lastStep=now;
  }
  snakePaint(now);
 }
@@ -1025,8 +862,60 @@ function pauseTimer(){if(engine.status!=='running')return;const now=Date.now();i
 function adjustTime(deltaSec){if(config.mode==='school'){notify('School bells follow the clock. Switch to Manual to adjust a timer.');return}if(config.mode==='stopwatch'||config.mode==='clock'){notify('Time adjustments are for countdowns and routines.');return}if(engine.status==='done'){resetEngine(false)}const n=Math.max(1000,Math.min(59999000,currentRemaining()+deltaSec*1000));engine.remainingMs=n;if(engine.status==='running')engine.deadlineMs=Date.now()+n;engine.phaseTotalMs=Math.max(engine.phaseTotalMs,n);engine.warningDone=false;renderTimer();storage()}
 function advanceStep(diff,fromAuto=false){if(config.mode!=='routine')return;let next=engine.stepIndex+diff;if(next<0||next>=config.steps.length)return;const wasRunning=engine.status==='running';engine.stepIndex=next;engine.remainingMs=routineTimeRemaining(next);engine.phaseTotalMs=Math.max(1,engine.remainingMs);engine.deadlineMs=null;engine.status='idle';engine.warningDone=false;if(fromAuto||wasRunning&&config.autoNext){engine.status='running';engine.deadlineMs=routineClockStep(next)?wallClockStamp(config.steps[next].endTime):Date.now()+engine.remainingMs;if(routineClockStep(next)&&engine.deadlineMs<=Date.now()){engine.status='idle';notify('A clock checkpoint has already passed; adjust it or skip to the next step.')}}renderTimer();storage()}
 function finishTime(){if(engine.status!=='running')return;if(config.mode==='routine'&&engine.stepIndex<config.steps.length-1){soundPlay('finish');advanceStep(1,config.autoNext);return}engine.status='done';engine.remainingMs=0;engine.deadlineMs=null;engine.warningDone=true;soundPlay('finish');releaseAwake();renderTimer();fireCelebration();storage()}
+
+/* Independent activity timer is deliberately NOT part of scenes or school-bell settings.
+   Its wall-clock deadline survives scene changes, tab changes, and page reloads. */
+const ACTIVITY_STORAGE_KEY='classtempo.activityTimer.v1';
+function newActivityTimer(){return {name:'Reading',durationSec:900,remainingMs:900000,deadlineMs:null,status:'idle',chime:true}}
+function cleanActivityTimer(raw){
+ const data=raw&&typeof raw==='object'?raw:{};const s=newActivityTimer();
+ s.name=safeText(data.name||'Reading',48);s.durationSec=clamp(Math.round(Number(data.durationSec)||900),1,59999);
+ s.remainingMs=clamp(Math.round(Number(data.remainingMs)||s.durationSec*1000),0,59999000);
+ s.status=['idle','running','paused','done'].includes(data.status)?data.status:'idle';
+ s.deadlineMs=Number.isFinite(Number(data.deadlineMs))&&Number(data.deadlineMs)>0?Number(data.deadlineMs):null;
+ s.chime=data.chime!==false;
+ if(s.status==='running'&&s.deadlineMs===null)s.status='paused';
+ if(s.status==='running'&&s.deadlineMs<=Date.now()){s.status='done';s.remainingMs=0;s.deadlineMs=null}
+ if(s.status==='done')s.remainingMs=0;
+ return s;
+}
+let activityTimer=(()=>{try{return cleanActivityTimer(JSON.parse(localStorage.getItem(ACTIVITY_STORAGE_KEY)))}catch(e){return newActivityTimer()}})();
+function persistActivityTimer(){try{localStorage.setItem(ACTIVITY_STORAGE_KEY,JSON.stringify(activityTimer))}catch(e){/* Timer remains fully functional without browser storage. */}}
+function activityTimeRemaining(now=Date.now()){return activityTimer.status==='running'?Math.max(0,activityTimer.deadlineMs-now):activityTimer.remainingMs}
+function activityChime(){if(!activityTimer.chime)return;const ctx=warmAudio();if(!ctx)return;const t=ctx.currentTime+.01;note(659,t,.22,'sine',.048);note(784,t+.22,.3,'sine',.052);note(988,t+.48,.36,'sine',.048)}
+function finishActivityTimer(audible=true){if(activityTimer.status!=='running')return;activityTimer.status='done';activityTimer.remainingMs=0;activityTimer.deadlineMs=null;persistActivityTimer();if(audible)activityChime();notify(`${activityTimer.name||'Activity'} timer complete`)}
+function renderActivityTimer(now=Date.now()){
+ if(activityTimer.status==='running'&&activityTimeRemaining(now)<=0)finishActivityTimer(true);
+ const ms=activityTimeRemaining(now),pct=clamp(100*ms/(activityTimer.durationSec*1000),0,100);
+ const label=activityTimer.status==='running'?'RUNNING':activityTimer.status==='paused'?'PAUSED':activityTimer.status==='done'?'FINISHED':'READY';
+ $('activityTimerDigits').textContent=clockString(ms);$('activityTimerState').textContent=label;
+ $('activityTimerSub').textContent=activityTimer.status==='done'?'Activity complete':activityTimer.status==='running'?'Activity in progress':activityTimer.status==='paused'?'Paused — ready to resume':'Ready to begin';
+ $('activityTimerStart').textContent=activityTimer.status==='running'?'Ⅱ Pause':activityTimer.status==='paused'?'▶ Resume':activityTimer.status==='done'?'↻ Restart':'▶ Start';
+ $('activityTimerFill').style.width=pct.toFixed(2)+'%';$('activityTimerProgress').setAttribute('aria-valuenow',String(Math.round(pct)));
+ $('activityTimerProgress').setAttribute('aria-valuetext',clockString(ms)+' remaining for '+activityTimer.name);
+ $('activityTimerPanel').classList.toggle('is-done',activityTimer.status==='done');$('activityTimerPanel').classList.toggle('is-paused',activityTimer.status==='paused');
+}
+function beginActivityTimer(seconds=null){
+ if(seconds!==null){activityTimer.durationSec=clamp(Math.round(Number(seconds)||900),1,59999);activityTimer.remainingMs=activityTimer.durationSec*1000;activityTimer.status='idle'}
+ else if(activityTimer.status==='done'){activityTimer.remainingMs=activityTimer.durationSec*1000;activityTimer.status='idle'}
+ if(activityTimer.status==='running'){activityTimer.remainingMs=activityTimeRemaining();activityTimer.deadlineMs=null;activityTimer.status='paused'}
+ else{warmAudio();activityTimer.remainingMs=Math.max(1,activityTimer.remainingMs);activityTimer.deadlineMs=Date.now()+activityTimer.remainingMs;activityTimer.status='running'}
+ persistActivityTimer();renderActivityTimer();
+}
+function resetActivityTimer(){activityTimer.deadlineMs=null;activityTimer.remainingMs=activityTimer.durationSec*1000;activityTimer.status='idle';persistActivityTimer();renderActivityTimer()}
+function installActivityTimer(){
+ $('activityTimerName').value=activityTimer.name;$('activityTimerMinutes').value=Math.floor(activityTimer.durationSec/60);$('activityTimerSeconds').value=activityTimer.durationSec%60;$('activityTimerSound').checked=activityTimer.chime;
+ $('activityTimerName').addEventListener('input',e=>{activityTimer.name=safeText(e.target.value,48);persistActivityTimer();renderActivityTimer()});
+ $('activityTimerStart').addEventListener('click',()=>beginActivityTimer());$('activityTimerReset').addEventListener('click',resetActivityTimer);
+ document.querySelectorAll('[data-activity-min]').forEach(b=>b.addEventListener('click',()=>{const min=Number(b.dataset.activityMin);$('activityTimerMinutes').value=min;$('activityTimerSeconds').value=0;beginActivityTimer(min*60)}));
+ $('activityTimerCustom').addEventListener('click',()=>{const mins=clamp(Math.round(Number($('activityTimerMinutes').value)||0),0,999);const secs=clamp(Math.round(Number($('activityTimerSeconds').value)||0),0,59);if(mins*60+secs<1){notify('Enter an activity duration greater than zero');return}beginActivityTimer(mins*60+secs)});
+ for(const id of ['activityTimerMinutes','activityTimerSeconds'])$(id).addEventListener('keydown',e=>{if(e.key==='Enter'){$('activityTimerCustom').click();e.preventDefault()}});
+ $('activityTimerSound').addEventListener('change',e=>{activityTimer.chime=e.target.checked;persistActivityTimer()});
+ renderActivityTimer();
+}
+
 let lastStorage=0;
-function tick(){const now=Date.now();$('headerTime').textContent=new Date(now).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});if(engine.status==='running'){if(config.mode==='stopwatch'){engine.elapsedMs=now-engine.startedAt}else{const remaining=currentRemaining(now);if(remaining<=0){finishTime()}else if(!engine.warningDone&&config.warningSec>0&&remaining<=config.warningSec*1000){engine.warningDone=true;if(config.warningSound)soundPlay('warning')} }if(now-lastStorage>2000){storage();lastStorage=now}}renderTimer();renderSnake(now)}
+function tick(){const now=Date.now();$('headerTime').textContent=new Date(now).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});if(engine.status==='running'){if(config.mode==='stopwatch'){engine.elapsedMs=now-engine.startedAt}else{const remaining=currentRemaining(now);if(remaining<=0){finishTime()}else if(!engine.warningDone&&config.warningSec>0&&remaining<=config.warningSec*1000){engine.warningDone=true;if(config.warningSound)soundPlay('warning')} }if(now-lastStorage>2000){storage();lastStorage=now}}renderTimer();renderActivityTimer(now);renderSnake(now)}
 function selectTab(name){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===name));document.querySelectorAll('.tab-panel').forEach(x=>x.classList.toggle('active',x.dataset.panel===name))}
 function iconFor(name){return /class|start|arrival|welcome/i.test(name)?'☀':/clean|exit/i.test(name)?'✓':/esport|game|match/i.test(name)?'★':/routine|lesson/i.test(name)?'☷':'◷'}
 function saveScene(name,makeDefault=false,overwriteId=null){name=safeText(name.trim(),65);if(!name){notify('Please enter a scene name.');return}const id=overwriteId||`custom-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;const rec={id,name,icon:iconFor(name),config:safeConfig(config)};const ix=scenes.findIndex(s=>s.id===id);if(ix>=0)scenes[ix]=rec;else scenes.push(rec);selectedId=id;dirty=false;if(makeDefault)openingId=id;render();storage();notify(`${ix>=0?'Updated':'Saved'} “${name}”`)}
@@ -1065,7 +954,7 @@ function hook(){
  $('addStepBtn').onclick=()=>updateConfig({steps:[...config.steps,{title:'Next activity',sec:300,kind:'duration'}]});$('addClockStepBtn').onclick=()=>{const d=new Date(Date.now()+15*60000),endTime=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');updateConfig({steps:[...config.steps,{title:'Clock checkpoint',sec:300,kind:'until',endTime}]})};$('startRoutineBtn').onclick=()=>{updateMode('routine');selectTab('setup');notify('Routine ready. Enable auto-advance for unattended transitions, then press Start.')};$('testSoundBtn').onclick=()=>{if(config.sound==='silent'){notify('Silent alert is selected');return}soundPlay('finish')};
  $('setDefaultBtn').onclick=()=>{if(!scenes.some(s=>s.id===selectedId)){notify('Save this timer as a scene first.');saveModal();return}openingId=selectedId;render();storage();notify('Opening scene updated')};
  $('renameBtn').onclick=()=>{const s=scenes.find(s=>s.id===selectedId);if(!s){notify('Save a scene first');return}modalOpen({title:'Rename saved scene',description:'Changes only its name in your saved scenes.',value:s.name,confirm:'Rename',showDefault:false,onConfirm:(name)=>{s.name=safeText(name,65);s.icon=iconFor(name);renderScenes();storage();notify('Scene renamed')}})};
- $('deleteBtn').onclick=()=>{if(!selectedId){notify('Select a saved scene to delete');return}deleteScene(selectedId)};
+ $('deleteBtn').onclick=()=>{const s=scenes.find(s=>s.id===selectedId);if(!s){notify('Select a saved scene to delete');return}if(!confirm(`Delete the saved scene “${s.name}”? This cannot be undone unless you have a backup.`))return;scenes=scenes.filter(x=>x.id!==s.id);if(!scenes.length){scenes=[{id:'start-class',name:'Start of Class',icon:'☀',config:safeConfig(starter[0].config)}]}const next=scenes[0];if(openingId===s.id)openingId=next.id;loadScene(next.id);notify('Deleted saved scene')};
  $('exportBtn').onclick=()=>{const payload={app:'ClassTempo',version:2,exportedAt:new Date().toISOString(),scenes,openingId,schoolProfile};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='classtempo-scenes-'+new Date().toISOString().slice(0,10)+'.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);notify('Scene backup exported')};$('importBtn').onclick=()=>$('fileImport').click();$('fileImport').onchange=async e=>{const file=e.target.files?.[0];if(!file)return;try{if(file.size>2e6)throw new Error('File too large');const d=JSON.parse(await file.text());if(d.app!=='ClassTempo'||!Array.isArray(d.scenes))throw new Error('Not a ClassTempo backup');const imported=d.scenes.slice(0,150).map(x=>({id:`import-${Date.now()}-${Math.random().toString(36).slice(2,9)}`,name:safeText(x.name,65)||'Imported scene',icon:safeText(x.icon,3)||'◴',config:safeConfig(x.config)}));if(!imported.length)throw new Error('No scenes in file');if(!confirm(`Import ${imported.length} scenes? They will be added to your current saved scenes.`))return;scenes.push(...imported);if(d.schoolProfile?.completed&&confirm('This backup includes a teaching-day profile. Restore its grade assignments and opening tasks too?')){schoolProfile=cleanSchoolProfile(d.schoolProfile);saveSchoolProfile()}loadScene(imported[0].id);notify(`Imported ${imported.length} scenes`)}catch(err){notify(`Could not import: ${err.message}`)}finally{e.target.value=''}};
  $('presentBtn').onclick=()=>{closeDrawer();document.body.classList.toggle('presenter');$('presentBtn').textContent=document.body.classList.contains('presenter')?'✎ Edit view':'◫ Present';$('presentBtn').title='Toggle teacher editing panels'};
  $('fullscreenBtn').onclick=toggleFullscreen;
@@ -1074,7 +963,7 @@ function hook(){
  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&document.fullscreenElement&&engine.status==='running')screenAwake()});
 }
 async function toggleFullscreen(){if(document.fullscreenElement){await document.exitFullscreen().catch(()=>{});return}const target=$('stage');if(target.requestFullscreen){try{await target.requestFullscreen()}catch(e){notify('Fullscreen is not available in this browser')}}else notify('Fullscreen is unavailable')}
-buildAmbient();hook();resetEngine(false);render();setInterval(tick,150);tick();if(config.mode==='school'&&!schoolProfile.completed)maybeOpenSetup();
+buildAmbient();hook();installActivityTimer();resetEngine(false);render();setInterval(tick,150);tick();if(config.mode==='school'&&!schoolProfile.completed)maybeOpenSetup();
 })();
 </script>
 </body>

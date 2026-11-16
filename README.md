@@ -1,94 +1,29 @@
-# ClassTempo — Scene Manager, Snake Fruit Hunt & Teaching Day (v3.0)
+# ClassTempo · Dual Classroom Timers
 
-A single-file classroom timer for teachers, with drag-and-drop scene management, an optional roaming Snake fruit-hunt animation, saved NVMS teaching-day profile, arrival and upcoming bells, adjustable text colors, wall-clock/duration routines, and responsive wide/narrow layouts.
+A self-contained, offline-capable classroom timer with automatic school bells and a simultaneous, independent activity timer.
+
+## v2.8 update
+
+The **main countdown** continues to follow the school bell schedule (or the selected manual timer). The new **Second Timer** remains visible under the main countdown and can run at the same time — for example, a 15-minute reading block while the school bell timer counts down the remaining class period.
+
+- Name your activity (the initial name is **Reading**).
+- Tap **15m** to immediately start a 15-minute activity, or choose 5, 10, 20, or 30 minutes.
+- Enter custom minutes/seconds and choose **Go** for another duration.
+- **Pause/Resume** or **Reset** the activity without changing the class bell countdown.
+- Optionally enable/disable the short activity completion chime.
+- The secondary activity timer is available in **School day**, manual, wide, narrow, and fullscreen modes. It maintains time across tab switches, scene changes, and page reloads in the same browser.
+- It is saved separately from teaching-day profiles and classroom scene settings.
 
 ## Installation
 
-1. Back up your current `index.html` and any exported ClassTempo scenes.
-2. Upload this archive's `index.html` as the replacement `index.html` in your existing ClassTempo GitHub repository. (Do **not** upload this entire ZIP as a file to the repository.)
-3. Upload `README.md` if you want updated repository documentation.
-4. Reload ClassTempo, click **School day**, assign the grade taught in each of the seven periods, choose the relevant lunch schedule, and click **Save my day**.
-5. If **Open Class Tempo in School Day mode next time** is checked, the app will return to the automatic school-day view when opened again in this browser.
+Replace the **`index.html`** in your existing ClassTempo GitHub repository with the enclosed file. **Do not remove or replace the rest of your repository.** GitHub Pages will display the update after publishing.
 
-## New in v3.0 — Organize and delete saved scenes
+Optional: upload this `README.md` too.
 
-The saved scene list now has two controls directly on each scene:
+## Existing features retained
 
-- **Grip (⠿):** Drag the handle up or down and release it where you want the scene. The order saves immediately in the current browser and is preserved when the page is reopened. Works with mouse and touch; the handle also supports **Up/Down arrow keys** for keyboard reordering.
-- **Trash icon:** Delete that individual scene without loading it first. A confirmation dialog appears before deletion.
+School bell schedule, Monday late start and regular day presets, personal grade-by-period profile, first-period tasks, next bell previews, stoplight countdown warning, saved scenes, routine steps and wall-clock checkpoints, wide/narrow display, fullscreen, custom styles/animations, manual timers, and scene export/import.
 
-The existing **Customize → Extras → Delete loaded scene** action still works. Deleting a saved scene **does not interrupt the countdown already on screen**; if that scene was selected, the current timer becomes unsaved until you explicitly save it again. You can delete every saved scene and start a fresh scene list later.
+**Note:** The additional 1/D-day bell schedule is not included yet because its times have not been provided.
 
-Scene order is preserved in **Extras → Export backup**, and imported scenes are appended after the existing scenes. The startup (★) scene is still tracked separately by its scene ID; moving it does **not** change which scene opens by default.
-
-**Safety:** Back up your scenes before replacing the repository's `index.html`. Scenes continue to be stored in each browser's local storage; changing browsers or resetting browser storage may remove local saved scenes unless you import a backup.
-
-## Previously added in v2.9 — Roaming Snake & five fruits
-
-Choose **Customize → Design → Timer animation → 🐍 Snake fruit hunt · free roaming**. If Snake was already selected in v2.8, the upgraded movement works automatically; the setting name changes but the saved value is still `snake`.
-
-- The snake now moves across the **whole timer background**, not just around its outside border. It chooses paths toward fruit and sometimes takes short scenic detours; it may pass *behind* the opaque countdown ring. The timer itself remains legible, visible and clickable.
-- Five rotating, locally drawn fruit sprites: **red apple, orange, pear, purple grapes and strawberry**. A new fruit appears after each catch.
-- Its tail grows based on elapsed time in the current period, including when the app is opened partway through class. It restarts with a short tail when the next school period begins.
-- The animation adapts its grid to wide, narrow and fullscreen views; resizing may reposition the decorative snake, but it does not affect the actual timer or bell schedule.
-- It remains silent, consumes no external assets, and respects both Class Tempo's reduced-motion setting and the operating system's reduced-motion setting.
-- Stopwatch, manual countdown, clock-target and mixed routine modes keep their existing functionality. Scene storage, teaching-day grade assignments and bell timings are unchanged.
-
-## Previously added in v2.8 — Snake animation
-
-- The optional Snake animation was introduced to Class Tempo under the **Timer animation** selection in Design. It is a background-only decoration whose length follows timer progress and resets at period transitions.
-- Existing Calm, Floating Sparkles, Arcade Energy, and None animations remain available.
-
-## Previously added in v2.7
-
-- **Arrival bell:** On regular Tuesday–Friday school days, the first bell is at **8:00 AM**, followed by the first class at **8:05 AM**. On Monday late starts, the arrival bell is **9:00 AM**, followed by first period at **9:05 AM**. Before the arrival bell, ClassTempo counts down to that bell rather than 1st-period start. During the five minutes after the arrival bell, it prompts students to head to first period.
-- **Upcoming bells panel:** Located under the countdown/progress display in School Bells mode. It lists upcoming class start times, class end times and lunch transitions. By default, four upcoming events are shown. Choose three, four or six via **Customize → Setup → School bells → Advanced bell settings → How many upcoming bells?** You can also disable the list there.
-- **Readable Arcade font:** Adjusted the spacing and sizes of the Arcade/bold lettering and countdown digits to avoid overlap, including narrow mode.
-- **Font color:** Choose **Customize → Design → Text and countdown color → Text color**. This is saved with your timer scenes. **Use theme color** restores the normal text color. During a stoplight countdown, the countdown digits still use green/yellow/red for visibility.
-- **Numeric date:** The stage clock now shows **MM/DD/YYYY** immediately above the time, in both wide and narrow layouts. The existing "Show a clock in the corner" setting controls both.
-- **Wide fullscreen:** The countdown, bell panel and buttons scale to fit more comfortably on shorter screens. Extra-tall content can scroll instead of getting clipped.
-
-## Features
-
-- Saved period-by-period assignments for 5th, 6th, 7th, and 8th grades; a planning/prep choice is also included.
-- Automatic Monday late-start schedule; regular Tuesday–Friday schedule; no automatic bells on weekends. Overrides available under **Advanced bell settings**.
-- Lunch schedule automatically follows the grade selected for **period 5** if it is assigned; otherwise it uses the selected lunch-group fallback.
-- 1st period only: a five-minute on-screen checklist with the default prompts **Check in on Closegap**, **Check email**, and **Check grades**. The checklist automatically disappears five minutes after first period begins. It never appears in periods 2–7. Tasks can be edited or the feature disabled in **Edit my day**.
-- Stoplight countdown: green in class, yellow at 2 minutes before the next bell, red during the final 25 seconds. The warning thresholds are adjustable.
-- Passing-period countdowns and optional transition sounds. Sounds are off by default to avoid competing with the school's intercom announcements.
-- Quick switch to an ordinary manual countdown; original timer scenes, routine and clock-target modes, animations, and wide/narrow views retained.
-- Settings and teaching-day profile are stored in the browser. Export and import backups using **Customize → Extras**.
-
-## Clock-time checkpoints inside a routine (NEW)
-
-1. Choose **Manual timer**, then **Customize → Routine** (or select the **Routine** timer type in Setup).
-2. Use **+ Timed step** to add an activity that lasts a specified number of minutes, or **Clock-time checkpoint** for an activity that *ends at a particular clock time today*.
-3. You can also change any existing step's **This step ends** selection between a duration and an exact clock time. Use **+ Before** to insert a new step ahead of an existing final time; arrow buttons reorder steps.
-4. For unattended prompts, turn on **Advance automatically** and then select **Use this routine** and press **Start**. The next stage appears when the current stage finishes.
-5. Save the setup as a scene to reuse it. The original `steps` data format is compatible with prior saved scenes and backups.
-
-**Example (illustrative, not a prescribed esports schedule):** Introductions until 3:20 PM → Matches until 4:40 PM → Cleanup until 5:05 PM. You may add a 10-minute feedback step before the 5:05 PM checkpoint without changing the existing end deadline.
-
-- Clock-time deadlines are on the **same local calendar day** and remain tied to the computer's clock, even if you pause or start late; pausing does **not** push back a clock checkpoint.
-- Clock checkpoint times must be in ascending order. The routine editor flags out-of-order checkpoint times.
-- A missed checkpoint cannot automatically replay the past. To catch up, adjust the clock time or use the Next step button.
-- For truly automatic transitions, keep the app open and **Advance automatically** enabled. The browser may limit sounds until you interact with the page.
-
-## Wide-layout fix (NEW)
-
-The wide timer stage now reserves enough vertical room for the title, countdown, status, and controls, rather than compressing them into overlapping rows. Auto layout chooses the narrow arrangement earlier on smaller windows; manually selected Wide remains available. The narrow view is preserved.
-
-## Notes
-
-- The schedule uses the local computer clock. It does **not** listen to the intercom or automatically know about assembly/early-release days or holidays.
-- The school day profile uses one grade assignment per numbered period for Monday–Friday. If your periods change by day, adjust the profile as needed.
-- To transfer a profile to another device or browser, export a backup from **Extras** and import it on the other computer.
-- All processing runs in the browser; no login, server, or external dependencies are required.
-
-## Bell schedule (2026–2027)
-
-**Monday late start:** Periods 1–4 9:05–9:35, 9:40–10:10, 10:15–10:45, 10:50–11:20; period 6 12:55–1:30; period 7 1:35–2:35. For grades 5–6, lunch 11:20–12:10 and period 5 12:15–12:50. For grades 7–8, period 5 11:25–12:10 and lunch 12:10–12:50.
-
-**Tuesday–Friday:** Periods 1–4 8:05–9:00, 9:05–9:52, 9:57–10:44, 10:49–11:36; period 6 12:55–1:42; period 7 1:47–2:35. For grades 5–6, lunch 11:36–12:20 and period 5 12:24–12:50. For grades 7–8, period 5 11:40–12:20 and lunch 12:20–12:50.
-
-**Bell reminders:** These times are based on the supplied 2026–2027 NVMS timetable and the five-minute pre-class bell. Automatic bell timing depends on the computer clock; special assemblies, holidays, and weather changes require an override or manual timer. Bell sounds remain off by default.
+**Storage:** Timer and profile settings are saved in browser local storage. The activity timer itself is not yet included in scene export/import backups; it is a live session timer.
