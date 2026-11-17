@@ -283,7 +283,7 @@ body:not(.compact-layout) .stage:fullscreen .stage-bottom{margin-top:auto}
 .stage[data-reduced="true"] .snake-canvas{display:none!important}
 @media(prefers-reduced-motion:reduce){.snake-canvas{display:none!important}}
 
-/* v2.9 · Second, independent timer: the main school bell timer never stops. */
+/* v2.10 · Second, independent timer: the main school bell timer never stops. */
 .activity-timer{font-family:Arial,Helvetica,sans-serif;color:#f3fbff;position:relative;z-index:3;width:100%;max-width:740px;flex:0 0 auto;background:linear-gradient(125deg,rgba(12,39,61,.93),rgba(17,29,51,.94));border:1px solid rgba(122,213,231,.48);border-radius:17px;box-shadow:0 10px 30px rgba(0,0,0,.14);padding:11px 14px 10px;display:flex;flex-direction:column;gap:8px;letter-spacing:normal}
 .activity-timer-top{display:flex;align-items:center;gap:8px;justify-content:space-between;min-width:0}.activity-timer-heading{color:#a1e6eb;letter-spacing:.12em;font-weight:900;font-size:10px;white-space:nowrap}.activity-timer-heading small{font-size:10px;letter-spacing:0;color:#a8c6d8;font-weight:500;margin-left:7px}.activity-timer-state{background:rgba(141,225,215,.12);color:#aef3db;border:1px solid rgba(128,237,197,.26);font-size:10px;letter-spacing:.06em;font-weight:900;border-radius:999px;padding:4px 9px;white-space:nowrap}
 .activity-timer-main{display:grid;grid-template-columns:minmax(105px,1fr) auto auto;align-items:center;gap:11px}.activity-timer-name{font-size:9px;color:#bbd4e4;letter-spacing:.12em;font-weight:850;display:flex;flex-direction:column;gap:4px;min-width:0}.activity-timer-name input{font-family:Arial,Helvetica,sans-serif;background:rgba(4,15,30,.42);color:#fff;border:1px solid #42637a;border-radius:8px;padding:7px 8px;min-height:35px;font-size:14px;font-weight:800;max-width:100%;letter-spacing:0}.activity-timer-readout{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;min-width:104px}.activity-timer-readout>span:first-child{font-size:clamp(28px,3.5vw,41px);font-variant-numeric:tabular-nums;font-weight:900;letter-spacing:-.04em;line-height:1.05;color:#f4fdff;white-space:nowrap}.activity-timer-sub{font-size:10px;color:#9bd5db;text-align:center;line-height:1.3;min-height:13px}.activity-timer-actions{display:flex;gap:6px;align-items:center}.activity-timer button{font-family:Arial,Helvetica,sans-serif;border:1px solid #46677d;background:#20415a;color:#ebf7ff;font-weight:850;border-radius:8px;cursor:pointer;white-space:nowrap;transition:background .15s,transform .15s}.activity-timer button:hover{background:#315873}.activity-timer button:active{transform:scale(.97)}.activity-timer-start,.activity-timer-reset{padding:9px 10px;font-size:12px;min-height:37px}.activity-timer .activity-timer-start{background:#92eddb;color:#082b39;border-color:#a5f3e8}.activity-timer .activity-timer-start:hover{background:#b6fff2}.activity-timer-track{height:6px;background:#23415a;border-radius:30px;overflow:hidden;width:100%}.activity-timer-track span{height:100%;display:block;width:100%;border-radius:inherit;background:linear-gradient(90deg,#54b9d5,#91efda);transition:width .2s linear}
@@ -295,7 +295,7 @@ body:not(.compact-layout) .stage:not(:fullscreen) .ring{width:clamp(185px,25dvh,
 body.school-mode:not(.compact-layout) .stage:not(:fullscreen) #timerMessage{display:none}
 body:not(.compact-layout) .stage:not(:fullscreen) .school-bell-event{padding:7px 8px}
 @media(max-width:450px){.activity-timer-bottom{gap:7px}.activity-custom{min-width:0}.activity-sound{margin-left:auto}}
-/* v2.9 · A small, persistent opt-in switch leaves the school countdown room to breathe. */
+/* v2.10 · A small, persistent opt-in switch leaves the school countdown room to breathe. */
 .activity-timer-toggle-row{position:relative;z-index:3;display:flex;width:100%;max-width:740px;flex:0 0 auto;align-items:center;justify-content:flex-end;gap:10px;min-height:27px;font-family:Arial,Helvetica,sans-serif;letter-spacing:normal}
 .activity-timer-toggle{display:inline-flex;flex:0 0 auto;gap:7px;align-items:center;cursor:pointer;background:rgba(10,32,52,.82);border:1px solid rgba(122,213,231,.4);border-radius:999px;padding:5px 10px;color:#d7f4f6;font-size:11px;font-weight:800;line-height:1.2}
 .activity-timer-toggle:hover{background:rgba(24,59,78,.92);border-color:rgba(162,232,233,.7)}
@@ -426,7 +426,7 @@ body.compact-layout .activity-timer-toggle-note{font-size:10px;flex:1 1 auto}
       <label class="toggle"><input type="checkbox" id="showClockInput" checked><span>Show a clock in the corner</span></label>
       <div class="field"><label for="animationInput">Timer animation</label>
 <select id="animationInput"><option value="calm">Calm glow · subtle</option><option value="sparkles">Floating sparkles · playful</option><option value="arcade">Arcade energy · lively</option><option value="snake">🐍 Snake & apples · grows with time</option><option value="off">None · no effects</option></select>
-<div class="field-help">Works in Wide and Narrow. Snake chases apples around the display; its tail grows as the class or timer progresses and starts over at the next period. Saved with each scene. Works in Wide and Narrow.</div></div>
+<div class="field-help">Works in Wide and Narrow. Snake follows varied interior routes and collects apples; its tail grows as the class or timer progresses and starts over at the next period. Saved with each scene. Works in Wide and Narrow.</div></div>
 <label class="toggle"><input type="checkbox" id="reduceMotionInput"><span>Reduce transitions and visual effects</span></label>
       <label class="toggle"><input type="checkbox" id="largeTextInput"><span>Extra-large countdown text</span></label>
     </section>
@@ -710,37 +710,75 @@ function snakeProgress(now){
   pct:engine.status==='done'?1:engine.status==='idle'?0:clamp(1-remainder/total,0,1),
   moving:engine.status==='running'};
 }
+// The board is a randomized, closed, collision-free walk through 2×2 tiles.
+// Linking neighboring tile cycles in a spanning tree gives one continuous loop
+// with interior turns, rather than the old four-sided perimeter rectangle.
 function snakeBlocked(x,y){
- const st=snakeState;if(x<1||x>=st.cols-1||y<1||y>=st.rows-1)return true;
- const nx=(x+.5)/st.cols,ny=(y+.5)/st.rows;
- return Math.abs(nx-.5)<.265 && Math.abs(ny-.53)<.29;
+ const st=snakeState;return x<1||x>=st.cols-1||y<1||y>=st.rows-1;
 }
-// A closed path near the edges ensures the snake can grow throughout a lesson
-// without ever colliding with itself. Apples always appear farther along its path.
+function snakeForeground(){
+ const stage=$('stage'),sr=stage.getBoundingClientRect(),out=[];
+ const els=[...stage.querySelectorAll('.stage-kicker,.stage-datetime,.activity,.subtitle,#ring,.time-visual .digits,.time-visual .timer-caption,.time-visual .big-bar,.time-visual .blocks,#schoolBellPreview,#schoolWarmup,#timerMessage,#routineMini,.stage-bottom,.activity-timer-toggle-row,#activityTimerPanel')];
+ for(const el of els){
+  const r=el.getBoundingClientRect();if(!r.width||!r.height||getComputedStyle(el).visibility==='hidden')continue;
+  if(el.id==='ring'){out.push({x:r.left-sr.left-2,y:r.top-sr.top-2,w:r.width+4,h:r.height+4,round:true});continue}
+  // The toggle's full-width row is transparent: mask only its visible children.
+  if(el.classList.contains('activity-timer-toggle-row')){
+   for(const child of el.children){const c=child.getBoundingClientRect();if(c.width&&c.height)out.push({x:c.left-sr.left-3,y:c.top-sr.top-3,w:c.width+6,h:c.height+6});}continue;
+  }
+  out.push({x:r.left-sr.left-3,y:r.top-sr.top-3,w:r.width+6,h:r.height+6});
+ }
+ return out;
+}
+function snakeCellCovered(x,y,masks){
+ const st=snakeState,px=(st.w-st.cols*st.cell)/2+(x+.5)*st.cell,py=(st.h-st.rows*st.cell)/2+(y+.5)*st.cell;
+ return masks.some(r=>r.round?((px-r.x-r.w/2)/(r.w/2))**2+((py-r.y-r.h/2)/(r.h/2))**2<=1:px>=r.x&&px<=r.x+r.w&&py>=r.y&&py<=r.y+r.h);
+}
 function snakeBuildRoute(){
- const st=snakeState,left=1,right=st.cols-2;
- const top=1; // above the large activity heading, never through the title
- const bottom=Math.max(top+5,st.rows-4); // below the ring, clear of the main countdown
- const route=[];
- for(let x=left;x<=right;x++)route.push({x,y:top});
- for(let y=top+1;y<=bottom;y++)route.push({x:right,y});
- for(let x=right-1;x>=left;x--)route.push({x,y:bottom});
- for(let y=bottom-1;y>top;y--)route.push({x:left,y});
- st.route=route;
+ const st=snakeState,tw=Math.floor((st.cols-2)/2),th=Math.floor((st.rows-2)/2);
+ // Alternate the spare margin on odd-sized boards and randomize each new period.
+ const x0=1+((st.cols-2)%2&&Math.random()<.5?1:0),y0=1+((st.rows-2)%2&&Math.random()<.5?1:0);
+ const n=tw*th,adj=new Map(),point=(x,y)=>y*st.cols+x;
+ const cell=(t,dx,dy)=>point(x0+2*(t%tw)+dx,y0+2*Math.floor(t/tw)+dy);
+ const add=(a,b)=>{if(!adj.has(a))adj.set(a,new Set());if(!adj.has(b))adj.set(b,new Set());adj.get(a).add(b);adj.get(b).add(a)};
+ const cut=(a,b)=>{adj.get(a).delete(b);adj.get(b).delete(a)};
+ const neighbors=t=>{const x=t%tw,y=Math.floor(t/tw);return [x>0?t-1:-1,x<tw-1?t+1:-1,y>0?t-tw:-1,y<th-1?t+tw:-1].filter(v=>v>=0)};
+ const masks=snakeForeground(),allowed=new Set(Array.from({length:n},(_,i)=>i));
+ // Remove genuinely hidden tiles, but only when the remaining board stays
+ // connected. Retain bridges if needed so the snake can travel across the stage.
+ const covered=[...allowed].filter(t=>[0,1,2,3].every(i=>{const p=cell(t,i%2,i>>1);return snakeCellCovered(p%st.cols,Math.floor(p/st.cols),masks)}));
+ for(const t of covered){
+  if(allowed.size<=Math.max(4,Math.ceil(n*.38)))break;
+  allowed.delete(t);const first=allowed.values().next().value,seen=new Set([first]),q=[first];
+  for(let i=0;i<q.length;i++)for(const v of neighbors(q[i]))if(allowed.has(v)&&!seen.has(v)){seen.add(v);q.push(v)}
+  if(seen.size!==allowed.size)allowed.add(t);
+ }
+ for(const t of allowed){const a=cell(t,0,0),b=cell(t,1,0),c=cell(t,1,1),d=cell(t,0,1);add(a,b);add(b,c);add(c,d);add(d,a)}
+ function join(u,v){
+  if(v===u-1||v===u+1){const l=Math.min(u,v),r=Math.max(u,v),a=cell(l,1,0),b=cell(l,1,1),c=cell(r,0,0),d=cell(r,0,1);cut(a,b);cut(c,d);add(a,c);add(b,d)}
+  else{const t=Math.min(u,v),b=Math.max(u,v),a=cell(t,0,1),c=cell(t,1,1),d=cell(b,0,0),e=cell(b,1,0);cut(a,c);cut(d,e);add(a,d);add(c,e)}
+ }
+ const tiles=[...allowed],root=tiles[Math.floor(Math.random()*tiles.length)],visited=new Set([root]),frontier=[root];
+ while(frontier.length){const k=Math.floor(Math.random()*frontier.length),u=frontier[k],ns=neighbors(u).filter(v=>allowed.has(v)&&!visited.has(v));if(!ns.length){frontier.splice(k,1);continue}const v=ns[Math.floor(Math.random()*ns.length)];join(u,v);visited.add(v);frontier.push(v)}
+ const first=adj.keys().next().value,route=[];let prev=-1,cur=first;
+ do{route.push({x:cur%st.cols,y:Math.floor(cur/st.cols)});const next=[...adj.get(cur)].find(v=>v!==prev);prev=cur;cur=next}while(cur!==first&&route.length<adj.size);
+ if(Math.random()<.5)route.reverse();st.route=route;
 }
 function snakeUpdateBody(pct){
- const st=snakeState,route=st.route;
- if(!route||!route.length)return;
- const maxLen=Math.max(4,Math.floor(route.length*.73));
+ const st=snakeState,route=st.route;if(!route?.length)return;
+ // Preserve the previous visual scale: an interior route can be hundreds of
+ // cells long, so do not fill 73% of the whole board with the tail.
+ const maxLen=Math.max(4,Math.min(70,Math.floor((2*(st.cols+st.rows-8))*.73),Math.floor(route.length*.73)));
  const len=Math.max(4,Math.round(4+clamp(pct,0,1)*(maxLen-4)));
  st.body=Array.from({length:len},(_,i)=>route[(st.headIndex-i+route.length)%route.length]);
 }
 function snakeNewApple(){
  const st=snakeState;if(!st.route?.length)return;
- // The apple remains ahead of the head, never hidden in the snake's tail.
- const gap=7+Math.floor(Math.random()*9);
- st.appleIndex=(st.headIndex+Math.min(gap,Math.floor(st.route.length*.23)))%st.route.length;
- st.apple=st.route[st.appleIndex];
+ const masks=snakeForeground(),safeGap=Math.max(1,st.route.length-st.body.length),maxGap=Math.min(safeGap,28),choices=[];
+ for(let gap=1;gap<=maxGap;gap++){const p=st.route[(st.headIndex+gap)%st.route.length];if(!snakeCellCovered(p.x,p.y,masks))choices.push(gap)}
+ const preferred=choices.filter(g=>g>=7),pool=preferred.length?preferred:choices;
+ const gap=pool.length?pool[Math.floor(Math.random()*pool.length)]:Math.min(safeGap,7);
+ st.appleIndex=(st.headIndex+gap)%st.route.length;st.apple=st.route[st.appleIndex];
 }
 function snakeNewPhase(key,pct){
  const st=snakeState;st.phase=key;st.progress=pct;st.eaten=0;
@@ -809,16 +847,12 @@ function snakePaint(now){
    ctx.beginPath();ctx.arc(ex,ey,Math.max(1.8,cell*.065),0,Math.PI*2);ctx.fill();
   }
  }
- // Protect date and clock contrast even when the snake passes through the upper-right edge.
- ctx.clearRect(Math.max(0,w-135),0,135,Math.max(73,cell*2.7));
- // The snake travels BEHIND schedule cards, warm-ups and status badges, not over their text.
- const stageRect=$('stage').getBoundingClientRect();
- for(const id of ['schoolBellPreview','schoolWarmup','timerMessage','routineMini','stage-bottom']){
-  const el=$(id)||(id==='stage-bottom'?document.querySelector('#stage .stage-bottom'):null);if(!el||el.classList.contains('hidden'))continue;
-  const rect=el.getBoundingClientRect();if(rect.width&&rect.height){
-   ctx.clearRect(rect.left-stageRect.left-4,rect.top-stageRect.top-4,rect.width+8,rect.height+8);
-  }
+ // Keep the game behind readable foreground elements, including the optional timer.
+ for(const r of snakeForeground()){
+  if(r.round){ctx.save();ctx.globalCompositeOperation='destination-out';ctx.beginPath();ctx.ellipse(r.x+r.w/2,r.y+r.h/2,r.w/2,r.h/2,0,0,Math.PI*2);ctx.fill();ctx.restore()}
+  else ctx.clearRect(r.x,r.y,r.w,r.h);
  }
+
 }
 function renderSnake(now){
  const canvas=$('snakeCanvas');if(!canvas)return;

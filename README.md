@@ -1,6 +1,13 @@
-# ClassTempo · Optional Dual Classroom Timers
+# ClassTempo · Dual Classroom Timers and Interior Snake Animation
 
 A self-contained, offline-capable classroom timer with automatic school bells and a simultaneous, independent activity timer.
+
+## v2.10 update — interior snake animation
+
+- Replaces the old rectangular edge loop with a randomized, connected grid route that travels throughout available interior space.
+- Generates new routes at period/phase changes and canvas resizing; apples appear ahead of the snake, preferably in visible open space.
+- Retains growing-tail behavior, a conservative maximum tail length, reduced-motion support, and silent background animation. The route avoids self-collisions and prioritizes clear areas around the timers and other foreground controls.
+- Retains the optional activity timer and all existing schedule/settings behavior. No saved scenes or storage keys have changed.
 
 ## v2.9 update — show/hide the second timer
 
