@@ -1,3 +1,30 @@
+# Class Tempo v2.11 — Shared School Profile
+
+Class Tempo adds optional subject names and colors to the existing grade-per-period editor. Bell times and school year are in an expandable section. The independent activity timer, saved scenes and snake animation are retained. Export the separate shared profile as well as the regular scene backup.
+
+## Shared School Profile
+
+Both apps store a versioned schedule under `playforge.sharedSchoolProfile.v1` in browser-local storage. Both must be served from the same exact origin (for example `https://jkramer-cloud.github.io`) and run in the same browser profile. Each app must be connected separately. No server, account, or Google login is required. This is not cross-device cloud synchronization.
+
+### Connect once
+1. Export your current app-specific backups first. Upload the replacement `index.html` and `README.md` to each app's existing repository.
+2. Open the app with the schedule you want to keep. Save any edits first. In Class Compass, go to **Settings → Shared School Profile**; in Class Tempo, go to **School Day → Set up / edit my day → Shared School Profile**.
+3. Click **Share my saved schedule** and confirm. This publishes that saved schedule to the browser's shared profile.
+4. Open the other app, go to its Shared School Profile panel, and select **Use shared schedule**. Confirm the selection. Class Compass needs a personal planner with matching school year and term (if specified); demo mode never connects.
+5. Subsequent saved schedule edits sync automatically when the other app is not in an edit dialog. If an edit is open, a pending-update notice is shown. If both apps edited the schedule, neither version is silently overwritten: choose **Use shared schedule** to accept the shared version or **Share my saved schedule** to replace it.
+
+### Shared fields and limits
+- Period count (4–8), subject names, per-period grade assignments or prep, class colors, lunch group, school year, planner term, preset/custom bell times, and supported school-calendar dates. NVMS preset has seven scheduled periods; use custom times for a different period count. Custom times do not insert a separate lunch block automatically. No rotating or 1/D-day schedule is supplied.
+- Only school-calendar dates from the built-in or explicitly imported shared profile are shared. Personal calendar events, teacher/student name fields, assignments, reports, project checkpoints, warm-up tasks, scenes, activity timers, and planner records remain app-specific. Do not include private identifiers in class names. Same-origin storage is not a confidential data vault.
+- A new term/year in Class Compass pauses synchronization until the matching profile is connected or a new saved schedule is intentionally published. There is one active shared profile per browser, not multiple simultaneous users or schedules. A teacher profile may contain mixed per-period grades; the planner preserves those. Only NVMS 2026–27 preset bell times are verified; later years require custom or verified bell times. Calendar warnings are advisory, not official school notices.
+- **Disconnect** preserves the current local copy and stops updates in that app. The other app remains connected to the shared profile until disconnected separately.
+- **Export profile** downloads schedule-only JSON; **Import profile** explicitly activates a shared profile on another browser. Keep each app's regular backup too. Restoring a full app backup disconnects shared sync before restoring the local data. Files opened directly from disk may not share storage; test using the deployed GitHub Pages URLs.
+
+### Validation
+JavaScript syntax, Chromium with simulated same-origin shared storage and storage events, two-way transfer, mixed grades, custom times, colors, pending conflicts, disconnection, reload, and demo isolation tested. Class Compass's existing live bell countdown regression also passed. Browser hosting was blocked in the test environment, so deployed GitHub Pages and real school Chromebook validation remain outstanding. No live repositories were changed.
+
+---
+
 # ClassTempo · Dual Classroom Timers and Interior Snake Animation
 
 A self-contained, offline-capable classroom timer with automatic school bells and a simultaneous, independent activity timer.
