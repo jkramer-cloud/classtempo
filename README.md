@@ -1,67 +1,28 @@
-# Class Tempo v2.11 — Shared School Profile
+# Class Tempo v2.12 — Narrow Mode Mini-Games
 
-Class Tempo adds optional subject names and colors to the existing grade-per-period editor. Bell times and school year are in an expandable section. The independent activity timer, saved scenes and snake animation are retained. Export the separate shared profile as well as the regular scene backup.
+Complete replacement `index.html` based on the published November 18, 2026 Class Tempo source (GitHub blob `3cbdf4873c305c0bd1d9a4746bc6bd35749f487d`). Existing school schedules, shared school profile, timers, scenes, themes and browser-storage keys are retained.
 
-## Shared School Profile
+## Install
 
-Both apps store a versioned schedule under `playforge.sharedSchoolProfile.v1` in browser-local storage. Both must be served from the same exact origin (for example `https://jkramer-cloud.github.io`) and run in the same browser profile. Each app must be connected separately. No server, account, or Google login is required. This is not cross-device cloud synchronization.
+Replace `index.html` in the Class Tempo repository with the included file. No other runtime files, packages, accounts or external downloads are required. Keep other repository files unchanged. This README documents the update; it is optional to upload.
 
-### Connect once
-1. Export your current app-specific backups first. Upload the replacement `index.html` and `README.md` to each app's existing repository.
-2. Open the app with the schedule you want to keep. Save any edits first. In Class Compass, go to **Settings → Shared School Profile**; in Class Tempo, go to **School Day → Set up / edit my day → Shared School Profile**.
-3. Click **Share my saved schedule** and confirm. This publishes that saved schedule to the browser's shared profile.
-4. Open the other app, go to its Shared School Profile panel, and select **Use shared schedule**. Confirm the selection. Class Compass needs a personal planner with matching school year and term (if specified); demo mode never connects.
-5. Subsequent saved schedule edits sync automatically when the other app is not in an edit dialog. If an edit is open, a pending-update notice is shown. If both apps edited the schedule, neither version is silently overwritten: choose **Use shared schedule** to accept the shared version or **Share my saved schedule** to replace it.
+## Use
 
-### Shared fields and limits
-- Period count (4–8), subject names, per-period grade assignments or prep, class colors, lunch group, school year, planner term, preset/custom bell times, and supported school-calendar dates. NVMS preset has seven scheduled periods; use custom times for a different period count. Custom times do not insert a separate lunch block automatically. No rotating or 1/D-day schedule is supplied.
-- Only school-calendar dates from the built-in or explicitly imported shared profile are shared. Personal calendar events, teacher/student name fields, assignments, reports, project checkpoints, warm-up tasks, scenes, activity timers, and planner records remain app-specific. Do not include private identifiers in class names. Same-origin storage is not a confidential data vault.
-- A new term/year in Class Compass pauses synchronization until the matching profile is connected or a new saved schedule is intentionally published. There is one active shared profile per browser, not multiple simultaneous users or schedules. A teacher profile may contain mixed per-period grades; the planner preserves those. Only NVMS 2026–27 preset bell times are verified; later years require custom or verified bell times. Calendar warnings are advisory, not official school notices.
-- **Disconnect** preserves the current local copy and stops updates in that app. The other app remains connected to the shared profile until disconnected separately.
-- **Export profile** downloads schedule-only JSON; **Import profile** explicitly activates a shared profile on another browser. Keep each app's regular backup too. Restoring a full app backup disconnects shared sync before restoring the local data. Files opened directly from disk may not share storage; test using the deployed GitHub Pages URLs.
+1. Choose Narrow (or Auto at a narrow window width).
+2. Check **Enable mini-games** on the timer stage. It is off for a new browser profile.
+3. Select Snake, Checkers or Chess. Uncheck the option to restore the ordinary narrow layout; wide mode is unaffected.
+4. The activity timer moves immediately below the main countdown when mini-games are enabled. If it is running, its countdown also appears in the game panel. The main timer is mirrored there too.
 
-### Validation
-JavaScript syntax, Chromium with simulated same-origin shared storage and storage events, two-way transfer, mixed grades, custom times, colors, pending conflicts, disconnection, reload, and demo isolation tested. Class Compass's existing live bell countdown regression also passed. Browser hosting was blocked in the test environment, so deployed GitHub Pages and real school Chromebook validation remain outstanding. No live repositories were changed.
+### Snake
 
----
+Automatic play seeks randomly placed, weighted fruit using a grid path search. Click the canvas or Play Snake to begin manually. Arrow keys, WASD and the small onscreen arrows work. The game records a high score locally. A collision, Escape, Stop, change of class period, tab becoming hidden or 15 seconds without movement input ends manual play and resets to automatic play. Reduced motion pauses automatic animation. Fruit: apple 10; banana/orange 15; strawberry 20; grapes 25; watermelon 30; pineapple 40; rare golden star 100. Manual play speeds up slightly as score increases.
 
-# ClassTempo · Dual Classroom Timers and Interior Snake Animation
+### Checkers and chess
 
-A self-contained, offline-capable classroom timer with automatic school bells and a simultaneous, independent activity timer.
+Choose Computer or Two players (same device). The computer is a lightweight casual opponent; no online play or difficulty ladder. Checkers uses mandatory captures, chained jumps and kings. Chess supports legal move highlighting, check, checkmate, castling, en passant and promotion. The casual chess implementation automatically declares a draw at three repeated positions or 50 moves without a pawn move or capture rather than requiring a formal claim. Changing games, turning the feature off or leaving the page preserves the two board positions in browser storage. New game asks for confirmation.
 
-## v2.10 update — interior snake animation
+School mode pauses mini-games when outside an active class, lunch or arrival period. A completed manual countdown also pauses them. The two timers remain independent of all game state. Both games and preferences stay on this browser; no network services are used. Contrast switches board squares to more opaque colors for readability.
 
-- Replaces the old rectangular edge loop with a randomized, connected grid route that travels throughout available interior space.
-- Generates new routes at period/phase changes and canvas resizing; apples appear ahead of the snake, preferably in visible open space.
-- Retains growing-tail behavior, a conservative maximum tail length, reduced-motion support, and silent background animation. The route avoids self-collisions and prioritizes clear areas around the timers and other foreground controls.
-- Retains the optional activity timer and all existing schedule/settings behavior. No saved scenes or storage keys have changed.
+## Verification
 
-## v2.9 update — show/hide the second timer
-
-- A small **Show activity timer** checkbox sits beneath the main countdown.
-- It starts **unchecked** on a new browser. The entire second-timer control panel is hidden until you need it, leaving the main countdown more room.
-- Check the box to reveal the existing independent timer; uncheck to collapse it again.
-- Your visibility choice is saved in this browser and restored when you return or refresh.
-- Hiding the activity timer **does not pause or cancel an existing countdown**. If it is running (or paused), a compact one-line status stays alongside the checkbox, so you can still see how much reading/activity time is left. Check it again to access Pause or Reset.
-- The classroom bell countdown remains completely independent.
-- Available in school-day, manual, wide, narrow, and fullscreen layouts.
-
-## Existing second-timer features (from v2.8)
-
-- Editable activity name (initially **Reading**).
-- Quick starts: 5, 10, 15, 20, and 30 minutes.
-- Custom minutes and seconds, plus pause, resume, reset, and an optional completion chime.
-- Timer progress survives scene changes and page reloads in the same browser.
-- Activity-timer state and visibility are stored separately from teaching-day profiles and saved classroom scenes.
-
-## Installation
-
-Replace only the **`index.html`** in the ClassTempo GitHub repository with the file in this ZIP. Do not delete any of your other repository files. Optionally replace `README.md` with this updated file. GitHub Pages updates after publishing.
-
-## Other features retained
-
-School bells, Monday late start / regular day, personal grade-by-period profile, first-period check-in, next bell previews, stoplight countdown, saved scenes, routine steps and wall-clock checkpoints, wide/narrow display, fullscreen, animations, manual timers, and scene import/export.
-
-The additional 1/D-day bell schedule is not included yet because its bell times have not been provided.
-
-**Privacy and storage:** All timer state and display choices live in this browser's local storage. No account is required. Visibility and activity settings are not included in scene export/import backups.
+Chromium smoke tests at a 410px viewport with an in-memory storage test double: enabled/disabled, Snake input, chess and checkers CPU turns, saved board across game switches, running activity timer, relocated timer, and restoring the original placement. JavaScript syntax validation passed. Chess initial move-tree counts 20/400/8902, checkmate, en passant and castling verified; checkers forced chained capture verified. Actual Chromebook performance and long-term browser-storage behavior should be checked after deployment.
