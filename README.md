@@ -1,4 +1,4 @@
-# Class Tempo v2.12 — Narrow Mode Mini-Games
+# Class Tempo v2.13 — Mini-Games in Present View
 
 Complete replacement `index.html` based on the published November 18, 2026 Class Tempo source (GitHub blob `3cbdf4873c305c0bd1d9a4746bc6bd35749f487d`). Existing school schedules, shared school profile, timers, scenes, themes and browser-storage keys are retained.
 
@@ -10,8 +10,9 @@ Replace `index.html` in the Class Tempo repository with the included file. No ot
 
 1. Choose Narrow (or Auto at a narrow window width).
 2. Check **Enable mini-games** on the timer stage. It is off for a new browser profile.
-3. Select Snake, Checkers or Chess. Uncheck the option to restore the ordinary narrow layout; wide mode is unaffected.
-4. The activity timer moves immediately below the main countdown when mini-games are enabled. If it is running, its countdown also appears in the game panel. The main timer is mirrored there too.
+3. In either Edit or Present view, use the lower **None / Activity timer / Mini-games** selector. Choose one optional panel at a time. The feature-enable checkbox is in Edit view only; uncheck it to return to the usual timer-only narrow layout. Wide mode keeps the original activity timer control and does not display games.
+4. Choose Snake, Checkers or Chess inside Mini-games. A running or paused activity timer stays intact when switching panels and is displayed as a compact readout. The main timer is mirrored in the game panel. The chosen panel is remembered locally.
+5. The decorative Snake & fruit theme continues independently, including when a playable game is open. Fruit is drawn at full opacity and preferentially positioned away from controls and panels.
 
 ### Snake
 
@@ -26,3 +27,7 @@ School mode pauses mini-games when outside an active class, lunch or arrival per
 ## Verification
 
 Chromium smoke tests at a 410px viewport with an in-memory storage test double: enabled/disabled, Snake input, chess and checkers CPU turns, saved board across game switches, running activity timer, relocated timer, and restoring the original placement. JavaScript syntax validation passed. Chess initial move-tree counts 20/400/8902, checkmate, en passant and castling verified; checkers forced chained capture verified. Actual Chromebook performance and long-term browser-storage behavior should be checked after deployment.
+
+## v2.13 regression checks
+
+Chromium 410px smoke test: Edit and Present view, all three panel choices, activity timer continuing while hidden, restored game position, legal moves and CPU responses in Present view, manual Snake controls, decorative canvas and unobscured fruit in every panel, and restoring Wide mode. No page errors. Actual Chromebook performance remains to be verified.
